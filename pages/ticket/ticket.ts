@@ -1,13 +1,23 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { NavController } from "ionic-angular";
+import { UserService } from "../../app/service/user.service";
 
 @Component({
-  selector: 'app-ticket',
-  templateUrl: './ticket.html',
-  styleUrls: ['./ticket.css']
+  selector: "app-ticket",
+  templateUrl: "./ticket.html",
+  styleUrls: ["./ticket.css"]
 })
-export class TicketPage{
+export class TicketPage {
+  constructor(public navCtrl: NavController, private service: UserService) {}
 
-  constructor(public navCtrl: NavController) { }
-
+  ionViewDidLoad() {
+    this.service
+      .getUsers()
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
 }

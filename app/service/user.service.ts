@@ -1,5 +1,11 @@
+import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
 
-export class UserService extends BaseService {
-  getUsers() {}
+@Injectable()
+export class UserService {
+  constructor(private base: BaseService) {}
+
+  getUsers() {
+    return this.base.getUrlComponent("users");
+  }
 }
