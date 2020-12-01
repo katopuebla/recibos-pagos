@@ -1,11 +1,27 @@
-<p>
-  ticket works!
-
-  <ion-list>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Note</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+ <ion-list>
     <ion-item *ngFor="let item of users">
-      <h1>{{ item.id }}</h1>
-      <p>{{ item.username }}</p>
-      <p>{{ item.email }}</p>
+      <ion-item-divider>
+        <h2>{{ item.id }}</h2>
+      </ion-item-divider>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-note color="primary">{{ item.username }}</ion-note>
+            </ion-col>
+            <ion-col>
+              <ion-note color="primary">{{ item.email }}</ion-note>
+            </ion-col>
+            <ion-col>
+              <ion-note color="primary">{{ item.email }}</ion-note>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
     </ion-item>
   </ion-list>
-</p>
+</ion-content>
