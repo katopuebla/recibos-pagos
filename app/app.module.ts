@@ -10,10 +10,11 @@ import { TicketPage } from "../pages/ticket/ticket";
 import { TabsPage } from "../pages/tabs/tabs";
 import { BaseService } from "./service/base.service";
 import { UserService } from "./service/user.service";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [MyApp, AboutPage, ContactPage, HomePage, TicketPage, TabsPage],
-  imports: [BrowserModule, IonicModule.forRoot(MyApp)],
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,

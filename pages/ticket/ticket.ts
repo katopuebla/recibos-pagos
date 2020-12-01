@@ -11,13 +11,8 @@ export class TicketPage {
   constructor(public navCtrl: NavController, private service: UserService) {}
 
   ionViewDidLoad() {
-    this.service
-      .getUsers()
-      .then(data => {
-        console.log(data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    this.service.getUsers().subscribe((data: any) => {
+      console.log(data);
+    });
   }
 }
