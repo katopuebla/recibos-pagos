@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
-import { NavController } from "ionic-angular";
+import { LoadingController, NavController } from "ionic-angular";
 import { UserService } from "../../app/service/user.service";
+import { LoadingUtil } from "../../app/utils/loadingUtil";
 import { User } from "../../interface/module";
 
 @Component({
@@ -8,15 +9,29 @@ import { User } from "../../interface/module";
   templateUrl: "./ticket.html",
   styleUrls: ["./ticket.css"]
 })
-export class TicketPage {
+export class TicketPage extends LoadingUtil {
   users: User[];
-  constructor(public navCtrl: NavController, private service: UserService) {}
+
+  constructor(public navCtrl: NavController, private service: UserService) {
+    super();
+  }
 
   ionViewDidLoad() {
+    this.loading.present();
     this.service.getUsers().subscribe((data: User[]) => {
       this.users = data;
+      this.loading.dismiss();
     });
-    this.onSave();
+    // this.onSave();
+  }
+
+  doRefresh(refresher) {
+    console.log("Begin async operation", refresher);
+
+    setTimeout(() => {
+      console.log("Async operation has ended");
+      refresher.complete();
+    }, 2000);
   }
 
   onSave() {
@@ -25,8 +40,10 @@ export class TicketPage {
     user.uername = "kato4";
     user.email = "kato@gmail.com";
     console.log(user);
+    this.loading.present();
     this.service.saveUser(user).subscribe((resp: string) => {
       console.log(resp);
+      this.loading.dismiss();
     });
   }
 }
