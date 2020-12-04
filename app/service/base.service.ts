@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { BodySaving } from "../../interface/module";
 
 @Injectable()
 export class BaseService {
@@ -15,5 +16,17 @@ export class BaseService {
       this.BASE_URL + `?spreadsheetId=${this.SPREAD_SHEET_ID}&sheet=${table}`;
     console.log(url);
     return this._http.get(url, { responseType: "json" });
+  }
+
+  saveEntities(table: string, rows: any) {
+    const url =
+      this.BASE_URL + `?spreadsheetId=${this.SPREAD_SHEET_ID}&sheet=${table}`;
+    console.log(url);
+    let body: BodySaving = {};
+    body.spreadsheet_id = this.SPREAD_SHEET_ID;
+    body.sheet = table;
+    body.rows = rows;
+    console.log(body);
+    return this._http.post(url, body, { responseType: "json" });
   }
 }
