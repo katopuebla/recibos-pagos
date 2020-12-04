@@ -14,19 +14,17 @@ export class BaseService {
   getUrlComponent(table: string) {
     const url =
       this.BASE_URL + `?spreadsheetId=${this.SPREAD_SHEET_ID}&sheet=${table}`;
-    console.log(url);
+    // console.log(url);
     return this._http.get(url, { responseType: "json" });
   }
 
   saveEntities(table: string, rows: any) {
-    const url =
-      this.BASE_URL + `?spreadsheetId=${this.SPREAD_SHEET_ID}&sheet=${table}`;
-    console.log(url);
+    // console.log(this.BASE_URL);
     let body: BodySaving = {};
     body.spreadsheet_id = this.SPREAD_SHEET_ID;
     body.sheet = table;
     body.rows = rows;
-    console.log(body);
-    return this._http.post(url, body, { responseType: "json" });
+    // console.log(JSON.stringify(body));
+    return this._http.post(this.BASE_URL, JSON.stringify(body));
   }
 }

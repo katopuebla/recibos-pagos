@@ -12,9 +12,17 @@ export class UserService {
   }
 
   saveUser(user: User) {
+    let users = this.getBody(user);
+    let body: string[][] = [];
+    body.push(users);
+    return this.base.saveEntities("users", body);
+  }
+
+  private getBody(user: User) {
     let users: string[] = [];
-    var value = `${user.id}, ${user.uername}, ${user.email}`;
-    users.push(value);
-    return this.base.saveEntities("users", users);
+    users.push("" + user.id);
+    users.push(user.uername);
+    users.push(user.email);
+    return users;
   }
 }
