@@ -1,0 +1,18 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>Recibos</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-list>
+		<ion-list-header>
+			Casas
+		</ion-list-header>
+		<a ion-item *ngFor="let item of items" (click)="openModal({charNum: {{item.FOLIO}}})">
+			{{item.CASA}}
+		</a>
+	</ion-list>
+
+</ion-content>

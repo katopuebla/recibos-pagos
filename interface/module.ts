@@ -9,3 +9,24 @@ export interface BodySaving {
   sheet?: string;
   rows?: User[];
 }
+
+export interface Recibo {
+  FOLIO?: string;
+  CASA?: string;
+  NOMBRE?: string;
+  CANTIDAD?: string;
+  CONCEPTO?: string;
+  FECHA?: string;
+  CORREO?: string;
+  INPUT_TIMESTAMP?: string;
+}
+
+export interface ReciboDetalle {
+  FOLIO?: string;
+  CASA?: string;
+  NOMBRE?: string;
+  CONCEPTO?: string;
+  MES?: string;
+  MONTO?: string;
+  INPUT_TIMESTAMP?: string;
+}
