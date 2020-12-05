@@ -6,13 +6,13 @@
 
 <ion-content>
 
-	<ion-list>
-		<ion-list-header>
-			Casas
-		</ion-list-header>
-		<a ion-item *ngFor="let item of items" (click)="openModal({charNum: {{item.FOLIO}}})">
-			{{item.CASA}}
-		</a>
+	<ion-list-header>
+		Casas
+	</ion-list-header>
+	<ion-list inset>
+		<button ion-item *ngFor="let item of items" (click)="openModal({casa: item.CASA})">
+      {{ item.CASA }} - {{ item.NOMBRE.substr(0, 15) }}
+    </button>
 	</ion-list>
 
 </ion-content>

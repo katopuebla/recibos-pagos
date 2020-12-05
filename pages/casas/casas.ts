@@ -14,7 +14,7 @@ import { Recibo, ReciboDetalle } from "../../interface/module";
 @Component({
   templateUrl: "casas.html"
 })
-export class BasicPage extends LoadingUtil {
+export class CasasPage extends LoadingUtil {
   items: Recibo[];
 
   constructor(
@@ -44,7 +44,7 @@ export class BasicPage extends LoadingUtil {
   }
 
   openModal(characterNum) {
-    let modal = this.modalCtrl.create(CasasPage, characterNum);
+    let modal = this.modalCtrl.create(CasasDetailPage, characterNum);
     modal.present();
   }
 }
@@ -54,8 +54,9 @@ export class BasicPage extends LoadingUtil {
   templateUrl: "./casas-detail.html",
   styleUrls: ["./casas.css"]
 })
-export class CasasPage extends LoadingUtil {
+export class CasasDetailPage extends LoadingUtil {
   items: ReciboDetalle[];
+  name: string;
 
   constructor(
     public platform: Platform,
@@ -69,22 +70,30 @@ export class CasasPage extends LoadingUtil {
   }
 
   ionViewDidLoad() {
+    this.name = this.params.get("casa");
     this.getdata();
   }
 
   doRefresh(refresher) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
-      this.items = data;
+      this.items = data.filter(value => value.CASA == this.name);
+      this.items.sort((a, b) => (a.MES > b.MES ? -1 : 1));
       refresher.complete();
     });
   }
 
   getdata() {
+    console.log(this.params.get("casa"));
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
-      this.items = data;
+      this.items = data.filter(value => value.CASA == this.name);
+      this.items.sort((a, b) => (a.MES > b.MES ? -1 : 1));
       this.getDismiss();
     });
     this.getPresent();
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 
   onSave() {

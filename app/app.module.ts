@@ -12,7 +12,9 @@ import { BaseService } from "./service/base.service";
 import { UserService } from "./service/user.service";
 import { HttpClientModule } from "@angular/common/http";
 import { CasasService } from "./service/casas.service";
-import { BasicPage } from "../pages/casas/casas";
+import { CasasDetailPage } from "../pages/casas/casas";
+import { GroupByPipePipe } from './utils/group-by-pipe.pipe';
+import { FolioComponent } from "../pages/folio/folio.component";
 
 @NgModule({
   declarations: [
@@ -20,9 +22,11 @@ import { BasicPage } from "../pages/casas/casas";
     AboutPage,
     ContactPage,
     HomePage,
-    BasicPage,
     CasasPage,
-    TabsPage
+    CasasDetailPage,
+    TabsPage,
+    GroupByPipePipe,
+    FolioComponent
   ],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
@@ -31,9 +35,10 @@ import { BasicPage } from "../pages/casas/casas";
     AboutPage,
     ContactPage,
     HomePage,
-    BasicPage,
     CasasPage,
-    TabsPage
+    CasasDetailPage,
+    TabsPage,
+    FolioComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

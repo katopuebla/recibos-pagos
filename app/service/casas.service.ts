@@ -8,7 +8,7 @@ export class CasasService {
   constructor(private base: BaseService) {}
 
   getFullData() {
-    return this.base.getEntities("Recibos");
+    return this.base.getEntities("Casas");
   }
 
   getFullDataDetail() {
