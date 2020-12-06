@@ -7,13 +7,13 @@ import {
   Platform,
   ViewController
 } from "ionic-angular";
-import { RecibosService } from "../../app/service/recibos.service";
-import { LoadingUtil } from "../../app/utils/loadingUtil";
+import { RecibosService } from "../../service/recibos.service";
+import { LoadingUtil } from "../../utils/loadingUtil";
 import { Recibo, ReciboDetalle } from "../../interface/recibos";
 
 @Component({
   selector: "app-casas",
-  templateUrl: "casas.html"
+  templateUrl: "casas.component.html"
 })
 export class CasasComponent extends LoadingUtil {
   items: Recibo[];
@@ -53,7 +53,7 @@ export class CasasComponent extends LoadingUtil {
   }
 
   openModal(characterNum) {
-    let modal = this.modalCtrl.create(CasasDetailPage, characterNum);
+    let modal = this.modalCtrl.create(CasasDetailComponent, characterNum);
     modal.present();
   }
 
@@ -76,10 +76,10 @@ export class CasasComponent extends LoadingUtil {
 
 @Component({
   selector: "app-casas-detail",
-  templateUrl: "./casas-detail.html",
-  styleUrls: ["./casas.css"]
+  templateUrl: "./casas-detail.component.html",
+  styleUrls: ["./casas.component.css"]
 })
-export class CasasDetailPage extends LoadingUtil {
+export class CasasDetailComponent extends LoadingUtil {
   items: ReciboDetalle[];
   name: string;
 
@@ -119,19 +119,5 @@ export class CasasDetailPage extends LoadingUtil {
 
   dismiss() {
     this.viewCtrl.dismiss();
-  }
-
-  onSave() {
-    /*  let item: Casa = {};
-    item.id = 4;
-    item.uername = "kato4";
-    item.email = "kato@gmail.com";
-    console.log(item);
-    this.service.saveUser(item).subscribe(async (resp: string) => {
-      console.log(resp);
-      this.getDismiss();
-      this.getdata();
-    });
-    this.getPresent();*/
   }
 }

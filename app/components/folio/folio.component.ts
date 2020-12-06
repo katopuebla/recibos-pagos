@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { LoadingController, NavController } from "ionic-angular";
-import { RecibosService } from "../../app/service/recibos.service";
-import { LoadingUtil } from "../../app/utils/loadingUtil";
+import { RecibosService } from "../../service/recibos.service";
+import { LoadingUtil } from "../../utils/loadingUtil";
 import { ReciboDetalle } from "../../interface/recibos";
 
 @Component({

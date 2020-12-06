@@ -19,22 +19,25 @@
 </ion-header>
 
 <ion-content>
+	<ion-fab right bottom>
+		<button ion-fab><ion-icon name="add"></ion-icon></button>
+	</ion-fab>
 	<ion-refresher (ionRefresh)="doRefresh($event)">
 		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
 			refreshingText="Refreshing..."></ion-refresher-content>
 	</ion-refresher>
 	<div [ngSwitch]="option">
-		<!--Camera selection stuff-->
+		<!--Casa selection stuff-->
 		<div *ngSwitchCase="'Casa'">
 			<br>
 			<app-casas>casa</app-casas>
 		</div>
-		<!--Bookmark selection stuff-->
+		<!--Folio selection stuff-->
 		<div *ngSwitchCase="'Folio'">
 			<br/>
 			<app-folio>folio</app-folio>
 		</div>
-		<!--Alarm selection stuff-->
+		<!--Mes selection stuff-->
 		<div *ngSwitchCase="'Mes'">
 			<br>
 			<app-mes>mes</app-mes>

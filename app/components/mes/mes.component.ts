@@ -7,12 +7,12 @@ import {
   Platform,
   ViewController
 } from "ionic-angular";
-import { RecibosService } from "../../app/service/recibos.service";
-import { LoadingUtil } from "../../app/utils/loadingUtil";
+import { RecibosService } from "../../service/recibos.service";
+import { LoadingUtil } from "../../utils/loadingUtil";
 import { ReciboDetalle } from "../../interface/recibos";
 
 @Component({
-  selector: "page-mes",
+  selector: "app-mes",
   templateUrl: "./mes.component.html"
 })
 export class MesComponent extends LoadingUtil implements OnInit {
@@ -73,7 +73,7 @@ export class MesDetailComponent extends LoadingUtil {
     super(loadingCtrl);
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.items = this.params.get("detail");
     this.itemsBackup = this.items.slice();
 
