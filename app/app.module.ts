@@ -2,10 +2,10 @@ import { NgModule, ErrorHandler } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
 import { MyApp } from "./app.component";
-import { MesComponent } from "../components/mes/mes.component";
-import { MesDetailComponent } from "../components/mes/mes.component";
+import { MesComponent } from "./components/mes/mes.component";
+import { MesDetailComponent } from "./components/mes/mes.component";
 import { GastosComponent } from "../pages/gastos/gastos.component";
-import { FolioComponent } from "../components/folio/folio.component";
+import { FolioComponent } from "./components/folio/folio.component";
 import { CasasComponent } from "./components/casas/casas.component";
 import { CasasDetailComponent } from "./components/casas/casas.component";
 
@@ -20,6 +20,8 @@ import { GroupByPipePipe } from "./utils/group-by-pipe.pipe";
 import { OrderByPipePipe } from "./utils/order-by.pipe";
 import { GastosService } from "./service/gastos.service";
 import { RecibosPage } from "../pages/recibos/recibos.page";
+import { AddRecibosComponent } from "./components/add-recibos/add-recibos.component";
+import { AddGastosComponent } from "./components/add-gastos/add-gastos.component";
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { RecibosPage } from "../pages/recibos/recibos.page";
     GroupByPipePipe,
     OrderByPipePipe,
     GastosComponent,
-    FolioComponent
+    FolioComponent,
+    AddRecibosComponent,
+    AddGastosComponent
   ],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   //exports: [ ],
@@ -51,7 +55,9 @@ import { RecibosPage } from "../pages/recibos/recibos.page";
     GastosComponent,
     FolioComponent,
     MesComponent,
-    MesDetailComponent
+    MesDetailComponent,
+    AddRecibosComponent,
+    AddGastosComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

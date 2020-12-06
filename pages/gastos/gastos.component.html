@@ -4,6 +4,10 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>
+  <!-- Botton Add -->
+  <ion-fab right bottom>
+		<button ion-fab (click)="openModal({new: 'holas'})"><ion-icon name="add"></ion-icon></button>
+	</ion-fab>
 	<ion-list-header>
 		<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 	</ion-list-header>

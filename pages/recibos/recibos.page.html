@@ -1,7 +1,7 @@
 <ion-header>
-	<ion-navbar no-border-bottom>
+	<!--<ion-navbar no-border-bottom>
 		<ion-title>Recibos</ion-title>
-	</ion-navbar>
+	</ion-navbar>-->
 
 	<ion-toolbar no-border-top>
 		<ion-segment [(ngModel)]="option">
@@ -20,7 +20,7 @@
 
 <ion-content>
 	<ion-fab right bottom>
-		<button ion-fab><ion-icon name="add"></ion-icon></button>
+		<button ion-fab (click)="openModal({new: 'holas'})"><ion-icon name="add"></ion-icon></button>
 	</ion-fab>
 	<ion-refresher (ionRefresh)="doRefresh($event)">
 		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"

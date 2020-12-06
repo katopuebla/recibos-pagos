@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { LoadingController, NavController } from "ionic-angular";
+import { LoadingController, ModalController, NavController } from "ionic-angular";
+import { AddGastosComponent } from "../../app/components/add-gastos/add-gastos.component";
 import { GastosService } from "../../app/service/gastos.service";
 import { LoadingUtil } from "../../app/utils/loadingUtil";
 import { GastosDetalle } from "../../interface/gastos";
@@ -14,6 +15,7 @@ export class GastosComponent extends LoadingUtil implements OnInit {
   itemsBackup: any[];
 
   constructor(
+    public modalCtrl: ModalController,
     public navCtrl: NavController,
     private service: GastosService,
     public loadingCtrl: LoadingController
@@ -60,5 +62,10 @@ export class GastosComponent extends LoadingUtil implements OnInit {
         );
       });
     }
+  }
+
+  openModal(characterNum) {
+    let modal = this.modalCtrl.create(AddGastosComponent, characterNum);
+    modal.present();
   }
 }
