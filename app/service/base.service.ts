@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { BodySaving } from "../../interface/module";
+import { BodySaving } from "../../interface/recibos";
 
 @Injectable()
 export class BaseService {

@@ -1,12 +1,83 @@
 <ion-header>
-	<ion-navbar>
+	<ion-navbar no-border-bottom>
 		<ion-title>Casas</ion-title>
 	</ion-navbar>
+
+	<ion-toolbar no-border-top>
+		<ion-segment [(ngModel)]="option">
+			<ion-segment-button value="Casa">
+				Puppies
+			</ion-segment-button>
+			<ion-segment-button value="Folio">
+				Folio
+			</ion-segment-button>
+			<ion-segment-button value="Mes">
+				Mes
+			</ion-segment-button>
+		</ion-segment>
+	</ion-toolbar>
 </ion-header>
 
-<ion-content>
+<div [ngSwitch]="option">
+	<ion-list *ngSwitchCase="'Casa'">
+		<ion-item>
+			<ion-thumbnail item-start>
+				<img src="assets/img/thumbnail-puppy-1.jpg">
+        </ion-thumbnail>
+				<h2>Ruby</h2>
+		</ion-item>
+		<ion-item>
+			<ion-thumbnail item-start>
+				<img src="assets/img/thumbnail-puppy-2.jpg">
+        </ion-thumbnail>
+				<h2>Oscar</h2>
+		</ion-item>
+		<ion-item>
+			<ion-thumbnail item-start>
+				<img src="assets/img/thumbnail-puppy-4.jpg">
+        </ion-thumbnail>
+				<h2>Zoey</h2>
+		</ion-item>
+		<ion-item>
+			<ion-thumbnail item-start>
+				<img src="assets/img/thumbnail-puppy-3.jpg">
+        </ion-thumbnail>
+				<h2>Otto</h2>
+		</ion-item>
+	</ion-list>
 
-<!-- Mini -->
+	<ion-list *ngSwitchCase="'Folio'">
+		<app-folio>folio</app-folio>
+	</ion-list>
+
+	<ion-list *ngSwitchCase="'ducklings'">
+		<ion-item>
+			<ion-thumbnail item-start>
+				<img src="assets/img/thumbnail-duckling-1.jpg">
+        </ion-thumbnail>
+				<h2>Daffy</h2>
+		</ion-item>
+		<ion-item>
+			<ion-thumbnail item-start>
+				<img src="assets/img/thumbnail-duckling-2.jpg">
+        </ion-thumbnail>
+				<h2>Huey</h2>
+		</ion-item>
+		<ion-item>
+			<ion-thumbnail item-start>
+				<img src="assets/img/thumbnail-duckling-3.jpg">
+        </ion-thumbnail>
+				<h2>Dewey</h2>
+		</ion-item>
+		<ion-item>
+			<ion-thumbnail item-start>
+				<img src="assets/img/thumbnail-duckling-4.jpg">
+        </ion-thumbnail>
+				<h2>Louie</h2>
+		</ion-item>
+	</ion-list>
+</div>
+<!--<ion-content>
 <ion-fab right bottom>
   <button ion-fab><ion-icon name="add"></ion-icon></button>
 </ion-fab>
@@ -19,4 +90,4 @@
     </button>
 	</ion-list>
 
-</ion-content>
+</ion-content>-->

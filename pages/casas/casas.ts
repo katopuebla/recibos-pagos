@@ -15,6 +15,8 @@ import { Recibo, ReciboDetalle } from "../../interface/recibos";
   templateUrl: "casas.html"
 })
 export class CasasPage extends LoadingUtil {
+  option: string = "Casa";
+  isAndroid: boolean = false;
   items: Recibo[];
   itemsBackup: Recibo[];
 
