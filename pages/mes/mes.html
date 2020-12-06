@@ -1,0 +1,19 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>
+			Mes
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list-header>
+		MES
+	</ion-list-header>
+	<ion-list inset>
+		<button ion-item *ngFor="let item of items | groupBy:'MES':'reverse'" (click)="openModal({detail: item.details})">
+      {{ item.header | date: 'MMM.yy' }}
+    </button>
+	</ion-list>
+
+</ion-content>

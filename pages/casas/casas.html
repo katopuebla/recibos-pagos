@@ -1,13 +1,13 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>Recibos</ion-title>
+		<ion-title>Casas</ion-title>
 	</ion-navbar>
 </ion-header>
 
 <ion-content>
 
 	<ion-list-header>
-		Casas
+		<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 	</ion-list-header>
 	<ion-list inset>
 		<button ion-item *ngFor="let item of items" (click)="openModal({casa: item.CASA})">

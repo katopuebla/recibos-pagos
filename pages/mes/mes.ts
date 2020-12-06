@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   LoadingController,
   ModalController,
@@ -9,70 +9,61 @@ import {
 } from "ionic-angular";
 import { CasasService } from "../../app/service/casas.service";
 import { LoadingUtil } from "../../app/utils/loadingUtil";
-import { Recibo, ReciboDetalle } from "../../interface/module";
+import { ReciboDetalle } from "../../interface/module";
 
 @Component({
-  templateUrl: "casas.html"
+  selector: "page-mes",
+  templateUrl: "mes.html"
 })
-export class CasasPage extends LoadingUtil {
-  items: Recibo[];
-  itemsBackup: Recibo[];
+export class MesPage extends LoadingUtil implements OnInit {
+  items: ReciboDetalle[];
 
   constructor(
     public modalCtrl: ModalController,
+    public navCtrl: NavController,
     private service: CasasService,
     public loadingCtrl: LoadingController
   ) {
     super(loadingCtrl);
   }
+
   ionViewDidLoad() {
     this.getdata();
   }
 
+  ngOnInit() {}
+
   doRefresh(refresher) {
-    this.service.getFullData().subscribe((data: any[]) => {
+    this.service.getFullDataDetail().subscribe((data: any[]) => {
       this.items = data;
-      this.itemsBackup = this.items.slice();
       refresher.complete();
+      this.items.sort((a, b) => (a.MES > b.MES ? -1 : 1));
     });
   }
 
   getdata() {
-    this.service.getFullData().subscribe(async (data: any[]) => {
+    this.service.getFullDataDetail().subscribe(async (data: any[]) => {
       this.items = data;
-      this.itemsBackup = this.items.slice();
       this.getDismiss();
+      this.items.sort((a, b) => (a.MES > b.MES ? -1 : 1));
     });
     this.getPresent();
   }
 
   openModal(characterNum) {
-    let modal = this.modalCtrl.create(CasasDetailPage, characterNum);
+    let modal = this.modalCtrl.create(MesDetailPage, characterNum);
     modal.present();
-  }
-
-  getItems(ev: any) {
-    // Reset items back to all of the items
-    this.items = this.itemsBackup.slice();
-    // set val to the value of the searchbar
-    const val = ev.target.value;
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != "") {
-      this.items = this.items.filter(item => {
-        return item.CASA.toLowerCase().indexOf(val.toLowerCase()) > -1;
-      });
-    }
   }
 }
 
 @Component({
-  selector: "app-casas-detail",
-  templateUrl: "./casas-detail.html",
-  styleUrls: ["./casas.css"]
+  selector: "app-mes-detail",
+  templateUrl: "./mes-detail.html"
 })
-export class CasasDetailPage extends LoadingUtil {
-  items: ReciboDetalle[];
-  name: string;
+export class MesDetailPage extends LoadingUtil {
+  items: any[];
+  itemsBackup: any[];
+  title: string;
 
   constructor(
     public platform: Platform,
@@ -86,10 +77,13 @@ export class CasasDetailPage extends LoadingUtil {
   }
 
   ionViewDidLoad() {
-    this.name = this.params.get("casa");
-    this.getdata();
-  }
+    this.items = this.params.get("detail");
+    this.itemsBackup = this.items.slice();
 
+    this.title = this.items[0].MES;
+    // this.getdata();
+  }
+  /*
   doRefresh(refresher) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
       this.items = data.filter(value => value.CASA == this.name);
@@ -106,23 +100,23 @@ export class CasasDetailPage extends LoadingUtil {
       this.getDismiss();
     });
     this.getPresent();
+  }*/
+
+   getItems(ev: any) {
+    // Reset items back to all of the items
+   this.items = this.itemsBackup.slice();
+   console.log('this.items',this.items)
+    // set val to the value of the searchbar
+    const val = ev.target.value;
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.items = this.items.filter((item) => {
+        return (item.CASA.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
-  }
-
-  onSave() {
-    /*  let item: Casa = {};
-    item.id = 4;
-    item.uername = "kato4";
-    item.email = "kato@gmail.com";
-    console.log(item);
-    this.service.saveUser(item).subscribe(async (resp: string) => {
-      console.log(resp);
-      this.getDismiss();
-      this.getdata();
-    });
-    this.getPresent();*/
   }
 }

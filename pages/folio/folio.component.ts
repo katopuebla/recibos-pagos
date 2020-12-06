@@ -11,6 +11,7 @@ import { ReciboDetalle } from "../../interface/module";
 })
 export class FolioComponent extends LoadingUtil implements OnInit {
   items: ReciboDetalle[];
+  itemsBackup: any[];
 
   constructor(
     public navCtrl: NavController,
@@ -24,23 +25,36 @@ export class FolioComponent extends LoadingUtil implements OnInit {
     this.getdata();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   doRefresh(refresher) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
       this.items = data;
+      this.itemsBackup = this.items.slice();
       refresher.complete();
-      this.items.sort((a, b) => (a.FOLIO > b.FOLIO ? -1 : 1));
     });
   }
 
   getdata() {
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
       this.items = data;
+      this.itemsBackup = this.items.slice();
       this.getDismiss();
-      this.items.sort((a, b) => (a.FOLIO > b.FOLIO ? -1 : 1));
     });
     this.getPresent();
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    this.items = this.itemsBackup.slice();
+    console.log("this.items", this.items);
+    // set val to the value of the searchbar
+    const val = ev.target.value;
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != "") {
+      this.items = this.items.filter(item => {
+        return item.FOLIO == val;
+      });
+    }
   }
 }

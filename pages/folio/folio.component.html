@@ -1,19 +1,19 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>Recibos</ion-title>
+		<ion-title>Folio</ion-title>
 	</ion-navbar>
 </ion-header>
 <ion-content>
 	<ion-list-header>
-		Folio
+   	<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 	</ion-list-header>
 	<ion-refresher (ionRefresh)="doRefresh($event)">
 		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
 			refreshingText="Refreshing..."></ion-refresher-content>
 	</ion-refresher>
-	<ion-item-group *ngFor="let item of items | groupBy: 'FOLIO' ">
+	<ion-item-group *ngFor="let item of items | groupBy:'FOLIO' ">
 		<ion-item-divider color="light">
-			{{  item.value }}
+			{{  item.header }}
 		</ion-item-divider>
 		<ion-item *ngFor="let detail of item.details">
 			<ion-grid>

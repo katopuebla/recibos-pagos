@@ -9,3 +9,10 @@
 <!-- Initialize Firebase -->
 <script src="/__/firebase/init.js"></script>
 <ion-app></ion-app>
+<script>
+	if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(() => console.log('service worker installed'))
+      .catch(err => console.log('Error', err));
+  }
+</script>

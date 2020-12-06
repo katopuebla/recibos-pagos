@@ -4,29 +4,39 @@ import { Pipe, PipeTransform } from "@angular/core";
   name: "groupBy"
 })
 export class GroupByPipePipe implements PipeTransform {
-  transform(collection: Array<any>, property: string): Array<any> {
-    // prevents the application from breaking if the array of objects doesn't exist yet
+  transform(
+    collection: Array<any>,
+    property: string,
+    orderType: string = "asc"
+  ): Array<any> {
     if (!collection) {
       return null;
     }
-    /*
+    //console.log('collect', collection)
     let groupedCollection = collection.reduce((previous, current) => {
-      previous[current[property]] = [...(previous[current[property]] || []), current];
+      previous[current[property]] = [
+        ...(previous[current[property]] || []),
+        current
+      ];
       return previous;
     }, {});
-*/
-    const groupedCollection = collection.reduce((previous, current) => {
-      if (!previous[current[property]]) {
-        previous[current[property]] = [current];
-      } else {
-        previous[current[property]].push(current);
-      }
-      return previous;
-    }, {});
-    var objects = Object.keys(groupedCollection).map(value => ({
-      value,
-      details: groupedCollection[value]
+    var objects = Object.keys(groupedCollection).map(header => ({
+      header,
+      details: groupedCollection[header]
     }));
-    return objects;
+    //console.log('objects',objects )
+    let sortedCollection = objects.sort((a, b) => {
+      if (isNaN(+a.header)) {
+        // returns true if NaN, otherwise false
+        return 0 - (a.header > b.header ? -1 : 1);
+      } else {
+        return 0 - (a > b ? -1 : 1);
+      }
+    });
+    if (orderType == "desc" || orderType == "DESC" || orderType == "reverse") {
+      sortedCollection.reverse();
+    }
+    //console.log('sorted',sortedCollection )
+    return sortedCollection;
   }
 }
