@@ -7,9 +7,9 @@ import {
   Platform,
   ViewController
 } from "ionic-angular";
-import { CasasService } from "../../app/service/casas.service";
+import { RecibosService } from "../../app/service/recibos.service";
 import { LoadingUtil } from "../../app/utils/loadingUtil";
-import { Recibo, ReciboDetalle } from "../../interface/module";
+import { Recibo, ReciboDetalle } from "../../interface/recibos";
 
 @Component({
   templateUrl: "casas.html"
@@ -20,7 +20,7 @@ export class CasasPage extends LoadingUtil {
 
   constructor(
     public modalCtrl: ModalController,
-    private service: CasasService,
+    private service: RecibosService,
     public loadingCtrl: LoadingController
   ) {
     super(loadingCtrl);
@@ -59,7 +59,10 @@ export class CasasPage extends LoadingUtil {
     // if the value is an empty string don't filter the items
     if (val && val.trim() != "") {
       this.items = this.items.filter(item => {
-        return item.CASA.toLowerCase().indexOf(val.toLowerCase()) > -1;
+        return (
+          item.CASA.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          item.NOMBRE.toLowerCase().indexOf(val.toLowerCase()) > -1
+        );
       });
     }
   }
@@ -79,7 +82,7 @@ export class CasasDetailPage extends LoadingUtil {
     public params: NavParams,
     public viewCtrl: ViewController,
     public navCtrl: NavController,
-    private service: CasasService,
+    private service: RecibosService,
     public loadingCtrl: LoadingController
   ) {
     super(loadingCtrl);

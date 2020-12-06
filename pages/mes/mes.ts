@@ -7,9 +7,9 @@ import {
   Platform,
   ViewController
 } from "ionic-angular";
-import { CasasService } from "../../app/service/casas.service";
+import { RecibosService } from "../../app/service/recibos.service";
 import { LoadingUtil } from "../../app/utils/loadingUtil";
-import { ReciboDetalle } from "../../interface/module";
+import { ReciboDetalle } from "../../interface/recibos";
 
 @Component({
   selector: "page-mes",
@@ -21,7 +21,7 @@ export class MesPage extends LoadingUtil implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     public navCtrl: NavController,
-    private service: CasasService,
+    private service: RecibosService,
     public loadingCtrl: LoadingController
   ) {
     super(loadingCtrl);
@@ -70,7 +70,6 @@ export class MesDetailPage extends LoadingUtil {
     public params: NavParams,
     public viewCtrl: ViewController,
     public navCtrl: NavController,
-    private service: CasasService,
     public loadingCtrl: LoadingController
   ) {
     super(loadingCtrl);
@@ -83,36 +82,18 @@ export class MesDetailPage extends LoadingUtil {
     this.title = this.items[0].MES;
     // this.getdata();
   }
-  /*
-  doRefresh(refresher) {
-    this.service.getFullDataDetail().subscribe((data: any[]) => {
-      this.items = data.filter(value => value.CASA == this.name);
-      this.items.sort((a, b) => (a.MES > b.MES ? -1 : 1));
-      refresher.complete();
-    });
-  }
-
-  getdata() {
-    console.log(this.params.get("casa"));
-    this.service.getFullDataDetail().subscribe(async (data: any[]) => {
-      this.items = data.filter(value => value.CASA == this.name);
-      this.items.sort((a, b) => (a.MES > b.MES ? -1 : 1));
-      this.getDismiss();
-    });
-    this.getPresent();
-  }*/
-
-   getItems(ev: any) {
+  
+  getItems(ev: any) {
     // Reset items back to all of the items
-   this.items = this.itemsBackup.slice();
-   console.log('this.items',this.items)
+    this.items = this.itemsBackup.slice();
+    console.log("this.items", this.items);
     // set val to the value of the searchbar
     const val = ev.target.value;
     // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.items = this.items.filter((item) => {
-        return (item.CASA.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
+    if (val && val.trim() != "") {
+      this.items = this.items.filter(item => {
+        return item.CASA.toLowerCase().indexOf(val.toLowerCase()) > -1;
+      });
     }
   }
 

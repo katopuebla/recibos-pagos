@@ -1,21 +1,21 @@
 import { Component, OnInit } from "@angular/core";
 import { LoadingController, NavController } from "ionic-angular";
-import { RecibosService } from "../../app/service/recibos.service";
+import { GastosService } from "../../app/service/gastos.service";
 import { LoadingUtil } from "../../app/utils/loadingUtil";
-import { ReciboDetalle } from "../../interface/recibos";
+import { GastosDetalle } from "../../interface/gastos";
 
 @Component({
-  selector: "app-folio",
-  templateUrl: "./folio.component.html",
-  styleUrls: ["./folio.component.css"]
+  selector: "app-gastos",
+  templateUrl: "./gastos.component.html",
+  styleUrls: ["./gastos.component.css"]
 })
-export class FolioComponent extends LoadingUtil implements OnInit {
-  items: ReciboDetalle[];
+export class GastosComponent extends LoadingUtil implements OnInit {
+  items: GastosDetalle[];
   itemsBackup: any[];
 
   constructor(
     public navCtrl: NavController,
-    private service: RecibosService,
+    private service: GastosService,
     public loadingCtrl: LoadingController
   ) {
     super(loadingCtrl);
@@ -38,7 +38,7 @@ export class FolioComponent extends LoadingUtil implements OnInit {
   getdata() {
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
       this.items = data;
-      this.itemsBackup = this.items.slice();
+      this.itemsBackup = this.items;
       this.getDismiss();
     });
     this.getPresent();
@@ -46,14 +46,18 @@ export class FolioComponent extends LoadingUtil implements OnInit {
 
   getItems(ev: any) {
     // Reset items back to all of the items
-    this.items = this.itemsBackup.slice();
-    console.log("this.items", this.items);
+    console.log(this.items);
+    this.items = this.itemsBackup;
+    // console.log("this.items", this.items);
     // set val to the value of the searchbar
     const val = ev.target.value;
     // if the value is an empty string don't filter the items
     if (val && val.trim() != "") {
       this.items = this.items.filter(item => {
-        return item.FOLIO == val;
+        return (
+          item.Categoria.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          item.Nombre.toLowerCase().indexOf(val.toLowerCase()) > -1
+        );
       });
     }
   }

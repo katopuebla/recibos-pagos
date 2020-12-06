@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { User } from "../../interface/module";
+import { User } from "../../interface/recibos";
 import { BaseService } from "./base.service";
 
 @Injectable()
-export class CasasService {
-  constructor(private base: BaseService) {}
+export class RecibosService {
+  SPREAD_SHEET_ID = "1io4aQ7pdM0shvePwssrC7xSIwoVqEfWYlvgsXV5oKoo";
+  constructor(private base: BaseService) {
+    base.setSpreadSheetId(this.SPREAD_SHEET_ID);
+  }
 
   getFullData() {
     return this.base.getEntities("Casas");

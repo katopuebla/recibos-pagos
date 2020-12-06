@@ -7,9 +7,13 @@ import { BodySaving } from "../../interface/module";
 export class BaseService {
   BASE_URL =
     "https://script.google.com/macros/s/AKfycbycpIYrWv113Jd3yNGlGZ8RPEJLQSDsTVfdZ8cT9AdWR9fwm44/exec";
-  SPREAD_SHEET_ID = "1io4aQ7pdM0shvePwssrC7xSIwoVqEfWYlvgsXV5oKoo";
+  SPREAD_SHEET_ID: string;
 
   constructor(private _http: HttpClient) {}
+
+  setSpreadSheetId(id: string) {
+    this.SPREAD_SHEET_ID = id;
+  }
 
   getEntities(table: string) {
     const url =
