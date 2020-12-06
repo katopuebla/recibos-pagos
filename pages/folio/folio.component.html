@@ -1,34 +1,21 @@
-<!--<ion-header>
-	<ion-navbar>
-		<ion-title>Folio</ion-title>
-	</ion-navbar>
-</ion-header>
-<ion-content>-->
-	<ion-list-header>
-   	<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-	</ion-list-header>
-	<ion-refresher (ionRefresh)="doRefresh($event)">
-		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
-			refreshingText="Refreshing..."></ion-refresher-content>
-	</ion-refresher>
-	<ion-item-group *ngFor="let item of items | groupBy:'FOLIO' ">
-		<ion-item-divider color="light">
-			{{  item.header }}
-		</ion-item-divider>
-		<ion-item *ngFor="let detail of item.details">
-			<ion-grid>
-				<ion-row>
-					<ion-col>
-						<ion-note color="primary">{{ detail.MES | date: 'MMM.yy' }}</ion-note>
-					</ion-col>
-					<ion-col>
-						<ion-note color="primary">{{ detail.CONCEPTO }}</ion-note>
-					</ion-col>
-					<ion-col>
-						<ion-note color="primary">{{ detail.MONTO | currency }}</ion-note>
-					</ion-col>
-				</ion-row>
-			</ion-grid>
-		</ion-item>
-	</ion-item-group>
-<!--</ion-content>-->
+<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+<ion-item-group *ngFor="let item of items | groupBy:'FOLIO' ">
+	<ion-item-divider color="light">
+		{{  item.header }}
+	</ion-item-divider>
+	<ion-item *ngFor="let detail of item.details">
+		<ion-grid>
+			<ion-row>
+				<ion-col>
+					<ion-note color="primary">{{ detail.MES | date: 'MMM.yy' }}</ion-note>
+				</ion-col>
+				<ion-col>
+					<ion-note color="primary">{{ detail.CONCEPTO }}</ion-note>
+				</ion-col>
+				<ion-col>
+					<ion-note color="primary">{{ detail.MONTO | currency }}</ion-note>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-item>
+</ion-item-group>

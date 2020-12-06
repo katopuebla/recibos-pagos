@@ -12,11 +12,10 @@ import { LoadingUtil } from "../../app/utils/loadingUtil";
 import { Recibo, ReciboDetalle } from "../../interface/recibos";
 
 @Component({
+  selector: "app-casas",
   templateUrl: "casas.html"
 })
-export class CasasPage extends LoadingUtil {
-  option: string = "Casa";
-  isAndroid: boolean = false;
+export class CasasComponent extends LoadingUtil {
   items: Recibo[];
   itemsBackup: Recibo[];
 
@@ -27,7 +26,12 @@ export class CasasPage extends LoadingUtil {
   ) {
     super(loadingCtrl);
   }
-  ionViewDidLoad() {
+
+  /*ionViewDidLoad() {
+    this.getdata();
+  }*/
+
+  ngOnInit() {
     this.getdata();
   }
 

@@ -13,9 +13,9 @@ import { ReciboDetalle } from "../../interface/recibos";
 
 @Component({
   selector: "page-mes",
-  templateUrl: "mes.html"
+  templateUrl: "./mes.component.html"
 })
-export class MesPage extends LoadingUtil implements OnInit {
+export class MesComponent extends LoadingUtil implements OnInit {
   items: ReciboDetalle[];
 
   constructor(
@@ -27,11 +27,9 @@ export class MesPage extends LoadingUtil implements OnInit {
     super(loadingCtrl);
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.getdata();
   }
-
-  ngOnInit() {}
 
   doRefresh(refresher) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
@@ -51,16 +49,16 @@ export class MesPage extends LoadingUtil implements OnInit {
   }
 
   openModal(characterNum) {
-    let modal = this.modalCtrl.create(MesDetailPage, characterNum);
+    let modal = this.modalCtrl.create(MesDetailComponent, characterNum);
     modal.present();
   }
 }
 
 @Component({
   selector: "app-mes-detail",
-  templateUrl: "./mes-detail.html"
+  templateUrl: "./mes-detail.component.html"
 })
-export class MesDetailPage extends LoadingUtil {
+export class MesDetailComponent extends LoadingUtil {
   items: any[];
   itemsBackup: any[];
   title: string;
@@ -82,7 +80,7 @@ export class MesDetailPage extends LoadingUtil {
     this.title = this.items[0].MES;
     // this.getdata();
   }
-  
+
   getItems(ev: any) {
     // Reset items back to all of the items
     this.items = this.itemsBackup.slice();

@@ -1,0 +1,43 @@
+<ion-header>
+	<ion-navbar no-border-bottom>
+		<ion-title>Recibos</ion-title>
+	</ion-navbar>
+
+	<ion-toolbar no-border-top>
+		<ion-segment [(ngModel)]="option">
+			<ion-segment-button value="Casa">
+				Casa
+			</ion-segment-button>
+			<ion-segment-button value="Folio">
+				Folio
+			</ion-segment-button>
+			<ion-segment-button value="Mes">
+				Mes
+			</ion-segment-button>
+		</ion-segment>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+			refreshingText="Refreshing..."></ion-refresher-content>
+	</ion-refresher>
+	<div [ngSwitch]="option">
+		<!--Camera selection stuff-->
+		<div *ngSwitchCase="'Casa'">
+			<br>
+			<app-casas>casa</app-casas>
+		</div>
+		<!--Bookmark selection stuff-->
+		<div *ngSwitchCase="'Folio'">
+			<br/>
+			<app-folio>folio</app-folio>
+		</div>
+		<!--Alarm selection stuff-->
+		<div *ngSwitchCase="'Mes'">
+			<br>
+			<app-mes>mes</app-mes>
+		</div>
+	</div>
+	<ion-content>

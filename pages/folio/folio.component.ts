@@ -25,7 +25,9 @@ export class FolioComponent extends LoadingUtil implements OnInit {
     this.getdata();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getdata();
+  }
 
   doRefresh(refresher) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
