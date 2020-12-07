@@ -21,9 +21,9 @@ export class FolioComponent extends LoadingUtil implements OnInit {
     super(loadingCtrl);
   }
 
-  ionViewDidLoad() {
+  /*ionViewDidLoad() {
     this.getdata();
-  }
+  }*/
 
   ngOnInit() {
     this.getdata();

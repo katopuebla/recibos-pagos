@@ -7,7 +7,7 @@ export class LoadingUtil {
 
   getPresent() {
     this.loading = this.loadingCtrl.create({
-      content: "Please wait..."
+      content: "Por favor estpere..."
     });
     this.loading.present();
   }

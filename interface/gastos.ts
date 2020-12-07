@@ -5,3 +5,9 @@ export interface GastosDetalle {
   Monto?: string;
   Commentario?: string;
 }
+
+export interface CategoriaDef {
+  Categoria?: string;
+  Tipo?: string;
+  Persona?: string;
+}

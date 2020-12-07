@@ -1,6 +1,6 @@
 <ion-header>
 	<ion-toolbar>
-		<ion-title>Detalle de {{title | date: 'MMM.yy' }}</ion-title>
+		<ion-title>Agregar Recibos</ion-title>
 		<ion-buttons start>
 			<button ion-button (click)="dismiss()">
         <ion-icon name="close" ></ion-icon>
@@ -10,5 +10,53 @@
 </ion-header>
 
 <ion-content padding>
-	<h2>ejemplo</h2>
+	<form [formGroup]="fields" (ngSubmit)="onSave()">
+		<ion-item>
+			<ion-label>Folio</ion-label>
+			<ion-input type="number" [(ngModel)]="item.FOLIO" formControlName="folio" placeholder="Folio">
+			</ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label>Fecha</ion-label>
+			<ion-datetime [(ngModel)]="item.FECHA" displayFormat="DD/MMM/YYYY" formControlName="fecha"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label>Casa</ion-label>
+			<ion-select [(ngModel)]="item.CASA" formControlName="casa">
+				<ion-option *ngFor="let casa of casas" [value]="casa.CASA">{{casa.CASA}}--{{casa.NOMBRE}}
+				</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item>
+			<ion-label>Nombre</ion-label>
+			<ion-input type="text" [(ngModel)]="item.NOMBRE" formControlName="nombre" placeholder="Nombre">
+			</ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label>Email</ion-label>
+			<ion-input type="email" [(ngModel)]="item.CORREO" formControlName="email" placeholder="email">
+			</ion-input>
+		</ion-item>
+     <ion-item>
+			<ion-label>Cantidad</ion-label>
+			<ion-input type="number" [(ngModel)]="item.CANTIDAD" formControlName="cantidad" placeholder="cantidad">
+			</ion-input>
+		</ion-item>
+    <!-- Detail -->
+    <ion-item>
+			<ion-label>Concepto</ion-label>
+			<ion-input type="text" [(ngModel)]="item.CONCEPTO" formControlName="concepto" placeholder="Concepto">
+			</ion-input>
+		</ion-item>
+    <!--<ion-item>
+			<ion-label>Mes</ion-label>
+			<ion-datetime [(ngModel)]="item.MES" displayFormat="DD/MMM/YYYY" ></ion-datetime>
+		</ion-item>
+    <ion-item>
+			<ion-label>Monto</ion-label>
+			<ion-input type="number" [(ngModel)]="item.MONTO"  placeholder="Monto">
+			</ion-input>
+		</ion-item>-->
+		<button ion-button type="submit" [disabled]="!fields.valid">Agregar</button>
+	</form>
 </ion-content>

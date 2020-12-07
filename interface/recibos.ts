@@ -30,3 +30,10 @@ export interface ReciboDetalle {
   MONTO?: string;
   INPUT_TIMESTAMP?: string;
 }
+
+export interface Casa {
+  CASA?: string;
+  NOMBRE?: string;
+  EMAIL?: string
+  EMAIL_CCP?: string;
+}

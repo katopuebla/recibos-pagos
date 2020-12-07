@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { CategoriaDef, GastosDetalle } from "../../interface/gastos";
 import { BaseService } from "./base.service";
 
 @Injectable()
@@ -8,26 +9,29 @@ export class GastosService {
     base.setSpreadSheetId(this.SPREAD_SHEET_ID);
   }
 
-  /* getFullData() {
-    return this.base.getEntities("Casas");
-  }*/
+  getCategoriaDef() {
+    return this.base.getEntities("CategoriaDef");
+  }
 
   getFullDataDetail() {
     return this.base.getEntities("GastosDetalle");
   }
-  /*
-  saveUser(user: User) {
-    let users = this.getBody(user);
+
+  save(_entity: GastosDetalle) {
+    let entities = this.getBody(_entity);
     let body: string[][] = [];
-    body.push(users);
-    return this.base.saveEntities("users", body);
+    body.push(entities);
+    return this.base.saveEntities("GastosDetalle", body);
   }
 
-  private getBody(user: User) {
-    let users: string[] = [];
-    users.push("" + user.id);
-    users.push(user.uername);
-    users.push(user.email);
-    return users;
-  }*/
+  private getBody(_entity: GastosDetalle) {
+    let entities: string[] = [];
+    entities.push(_entity.Categoria);
+    entities.push(_entity.Nombre);
+    entities.push(_entity.Fecha);
+    entities.push("" + _entity.Monto);
+    entities.push(_entity.Commentario);
+    entities.push(new Date().toLocaleString());
+    return entities;
+  }
 }
