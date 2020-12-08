@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import {
   FormArray,
@@ -101,30 +102,21 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     }
   }
 
-  removeInputField(i: number): void {
-    const control = <FormArray>this.fields.controls.conceptos;
-    control.removeAt(i);
-  }
-
-  addNewInputField(): void {
-    const control = <FormArray>this.fields.controls.conceptos;
-    control.push(this.frmConceptos());
-  }
-
   onSave(_recibo: any) {
     this.fillEvent(_recibo);
     this.service.save(this.item).subscribe(
       resp => {
-        console.log(resp);
+        console.log("resp save item", resp);
         this.service.saveDetail(this.itemDetail).subscribe(
           resp => {
+            console.log("resp save itemDetail", resp);
             this.meesageToast("Se guardo exitosamente");
             this.getDismiss();
             this.dismiss();
           },
           err => {
             this.meesageToast("No se pudo guardar el dato");
-            console.log("Error: ", err);
+            console.log("Error Detail: ", err);
             this.getDismiss();
           }
         );
@@ -141,6 +133,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
   fillEvent(_recibo: any) {
     console.log("event", _recibo);
     this.item.FOLIO = _recibo.folio;
+    let fecha = new Date(_recibo.fecha);
     this.item.FECHA = _recibo.fecha;
     this.item.CASA = _recibo.casa;
     this.item.NOMBRE = _recibo.nombre;
@@ -164,6 +157,16 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       });
     }
     console.log("this.itemDetail", this.itemDetail);
+  }
+
+  removeInputField(i: number): void {
+    const control = <FormArray>this.fields.controls.conceptos;
+    control.removeAt(i);
+  }
+
+  addNewInputField(): void {
+    const control = <FormArray>this.fields.controls.conceptos;
+    control.push(this.frmConceptos());
   }
 
   meesageToast(_message: string) {

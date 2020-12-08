@@ -24,8 +24,8 @@
 		<ion-item>
 			<ion-label floating>Casa</ion-label>
 			<ion-select id="casa" [(ngModel)]="item.CASA" formControlName="casa" (ionChange)="onChangeCasa($event)">
-				<ion-option *ngFor="let casa of casas" [value]="casa.CASA">{{casa.CASA}}--{{casa.NOMBRE}}
-				</ion-option>
+				<ion-option *ngFor="let casa of casas" [value]="casa">{{casa.CASA}}--{{casa.NOMBRE}}
+				</ion--option>
 			</ion-select>
 		</ion-item>
 		<ion-item>

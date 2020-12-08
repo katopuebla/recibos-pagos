@@ -32,11 +32,13 @@ export class RecibosService {
     return this.base.saveEntities("Recibos", body);
   }
 
-  saveDetail(_entity: ReciboDetalle[]) {
-    let entities = this.getBodyDetrail(_entity);
-    let body: string[][] = [];
-    body.push(entities);
-    return this.base.saveEntities("RecibossDetalle", body);
+  saveDetail(_entities: ReciboDetalle[]) {
+    console.log("_entities", _entities);
+    let entitiesDetail = this.getBodyDetrail(_entities);
+    // let body: string[][] = [];
+    // body.push(entitiesDetail);
+    console.log("body: ", entitiesDetail);
+    return this.base.saveEntities("RecibosDetalle", entitiesDetail);
   }
 
   private getBody(_entity: Recibo) {
@@ -52,10 +54,12 @@ export class RecibosService {
     return entities;
   }
 
-  private getBodyDetrail(_entity: ReciboDetalle[]) {
-    let entities: string[] = [];
-    if (_entity) {
-      _entity.forEach(data => {
+  private getBodyDetrail(_entities: ReciboDetalle[]) {
+    let entitiesDetail: string[][] = [];
+    if (_entities) {
+      console.log("_entities Detail", _entities);
+      _entities.forEach(data => {
+        let entities: string[] = [];
         entities.push("" + data.FOLIO);
         entities.push(data.CASA);
         entities.push(data.NOMBRE);
@@ -63,8 +67,10 @@ export class RecibosService {
         entities.push(data.MES);
         entities.push(data.MONTO);
         entities.push(new Date().toLocaleString());
+        entitiesDetail.push(entities);
       });
     }
-    return entities;
+    console.log("_entities Detail return ", entitiesDetail);
+    return entitiesDetail;
   }
 }
