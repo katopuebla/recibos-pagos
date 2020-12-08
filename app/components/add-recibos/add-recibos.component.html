@@ -50,7 +50,7 @@
 					<ion-item-divider color="light">Conceptos #{{ i + 1 }}</ion-item-divider>
 					<ion-item>
 						<ion-label floating>Concepto:</ion-label>
-						<ion-select id="concepto" formControlName="concepto">
+						<ion-select interface="popover" id="concepto" formControlName="concepto">
 							<ion-option *ngFor="let row of conceptos" [value]="row.CONCEPTO">
 								{{row.CONCEPTO}}
 							</ion-option>

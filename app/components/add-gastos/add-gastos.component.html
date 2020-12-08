@@ -13,7 +13,7 @@
 	<form [formGroup]="fields" (ngSubmit)="onSave()">
 		<ion-item>
 			<ion-label>Categoria</ion-label>
-			<ion-select [(ngModel)]="item.Categoria" formControlName="categoria" placeholder="Seleciona categoria">
+			<ion-select interface="popover" [(ngModel)]="item.Categoria" formControlName="categoria" placeholder="Seleciona categoria">
 				<ion-option *ngFor="let categoria of categorias" [value]="categoria.Categoria">{{categoria.Categoria}}
 				</ion-option>
 			</ion-select>
