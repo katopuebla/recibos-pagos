@@ -18,11 +18,11 @@
 		</ion-item>
 		<ion-item>
 			<ion-label>Fecha</ion-label>
-			<ion-datetime [(ngModel)]="item.FECHA" displayFormat="DD/MMM/YYYY" formControlName="fecha"></ion-datetime>
+			<ion-datetime displayFormat="DD/MMM/YYYY" [(ngModel)]="item.FECHA" formControlName="fecha" monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"></ion-datetime>
 		</ion-item>
 		<ion-item>
 			<ion-label>Casa</ion-label>
-			<ion-select [(ngModel)]="item.CASA" formControlName="casa">
+			<ion-select [(ngModel)]="item.CASA" formControlName="casa" (ionChange)="onChangeCasa($event)">
 				<ion-option *ngFor="let casa of casas" [value]="casa.CASA">{{casa.CASA}}--{{casa.NOMBRE}}
 				</ion-option>
 			</ion-select>
@@ -37,18 +37,18 @@
 			<ion-input type="email" [(ngModel)]="item.CORREO" formControlName="email" placeholder="email">
 			</ion-input>
 		</ion-item>
-     <ion-item>
+		<ion-item>
 			<ion-label>Cantidad</ion-label>
 			<ion-input type="number" [(ngModel)]="item.CANTIDAD" formControlName="cantidad" placeholder="cantidad">
 			</ion-input>
 		</ion-item>
-    <!-- Detail -->
-    <ion-item>
+		<!-- Detail -->
+		<ion-item>
 			<ion-label>Concepto</ion-label>
 			<ion-input type="text" [(ngModel)]="item.CONCEPTO" formControlName="concepto" placeholder="Concepto">
 			</ion-input>
 		</ion-item>
-    <!--<ion-item>
+		<!--<ion-item>
 			<ion-label>Mes</ion-label>
 			<ion-datetime [(ngModel)]="item.MES" displayFormat="DD/MMM/YYYY" ></ion-datetime>
 		</ion-item>

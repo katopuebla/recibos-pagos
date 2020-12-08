@@ -11,7 +11,7 @@ export interface BodySaving {
 }
 
 export interface Recibo {
-  FOLIO?: string;
+  FOLIO?: number;
   CASA?: string;
   NOMBRE?: string;
   CANTIDAD?: string;
@@ -34,6 +34,6 @@ export interface ReciboDetalle {
 export interface Casa {
   CASA?: string;
   NOMBRE?: string;
-  EMAIL?: string
+  EMAIL?: string;
   EMAIL_CCP?: string;
 }

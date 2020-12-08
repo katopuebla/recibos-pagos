@@ -17,6 +17,10 @@ export class RecibosService {
     return this.base.getEntities("RecibosDetalle");
   }
 
+  getRecibos() {
+    return this.base.getEntities("Recibos");
+  }
+
   save(_entity: Recibo) {
     let entities = this.getBody(_entity);
     let body: string[][] = [];

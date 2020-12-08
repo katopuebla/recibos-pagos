@@ -18,6 +18,10 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
   item: Recibo = {};
   itemDetail: ReciboDetalle = {};
   casas: Casa[];
+  casa: Casa;
+  date = new Date(); // Or the date you'd like converted. 
+  today: string = new Date(this.date.getTime() - (this.date.getTimezoneOffset() * 60000)).toISOString(); 
+  
   private fields: FormGroup;
 
   constructor(
@@ -40,11 +44,32 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
   }
 
   ngOnInit() {
+    this.getMaxFolio();
+    this.item.FECHA = this.today;
+    console.log("fecha", this.today);
+    this.initCasas();
+  }
+
+  getMaxFolio() {
+    this.service.getRecibos().subscribe((resp: Recibo[]) => {
+      this.item.FOLIO = Math.max(...resp.map(row => row.FOLIO)) + 1;
+    });
+  }
+
+  initCasas() {
     this.service.getFullData().subscribe((resp: Casa[]) => {
       this.casas = resp || [];
       this.getDismiss();
     });
     this.getPresent();
+  }
+
+  onChangeCasa(_casa: any) {
+    if (_casa) {
+      this.casa = this.casas.find(data => data.CASA === _casa);
+      this.item.NOMBRE = this.casa.NOMBRE;
+      this.item.CORREO = this.casa.EMAIL;
+    }
   }
 
   onSave() {
