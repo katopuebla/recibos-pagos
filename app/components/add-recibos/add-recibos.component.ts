@@ -1,11 +1,22 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from "@angular/forms";
 import {
   LoadingController,
   ToastController,
   ViewController
 } from "ionic-angular";
-import { Casa, Recibo, ReciboDetalle } from "../../../interface/recibos";
+import {
+  Casa,
+  Concepto,
+  Recibo,
+  ReciboDetalle
+} from "../../../interface/recibos";
 import { RecibosService } from "../../service/recibos.service";
 import { LoadingUtil } from "../../utils/loadingUtil";
 
@@ -16,12 +27,17 @@ import { LoadingUtil } from "../../utils/loadingUtil";
 })
 export class AddRecibosComponent extends LoadingUtil implements OnInit {
   item: Recibo = {};
-  itemDetail: ReciboDetalle = {};
+  itemDetail: ReciboDetalle[] = [];
   casas: Casa[];
   casa: Casa;
-  date = new Date(); // Or the date you'd like converted. 
-  today: string = new Date(this.date.getTime() - (this.date.getTimezoneOffset() * 60000)).toISOString(); 
-  
+  conceptos: Concepto[] = [];
+  data: boolean;
+
+  date = new Date(); // Or the date you'd like converted.
+  today: string = new Date(
+    this.date.getTime() - this.date.getTimezoneOffset() * 60000
+  ).toISOString();
+
   private fields: FormGroup;
 
   constructor(
@@ -39,15 +55,23 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       fecha: ["", Validators.required],
       email: ["", Validators.required],
       cantidad: ["", Validators.required],
-      concepto: [""]
+      conceptos: this.formBuilder.array([this.frmConceptos()])
+    });
+  }
+
+  frmConceptos(): FormGroup {
+    return this.formBuilder.group({
+      concepto: ["", Validators.required],
+      mes: ["", Validators.required],
+      monto: ["", Validators.required]
     });
   }
 
   ngOnInit() {
     this.getMaxFolio();
     this.item.FECHA = this.today;
-    console.log("fecha", this.today);
-    this.initCasas();
+    //this.itemDetail[0].MES = this.today;
+    this.inittial();
   }
 
   getMaxFolio() {
@@ -56,10 +80,15 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     });
   }
 
-  initCasas() {
+  inittial() {
     this.service.getFullData().subscribe((resp: Casa[]) => {
       this.casas = resp || [];
       this.getDismiss();
+    });
+    this.service.getConceptos().subscribe((resp: any[]) => {
+      this.conceptos = resp || [];
+      // console.log(this.conceptos);
+      // this.getDismiss();
     });
     this.getPresent();
   }
@@ -72,12 +101,33 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     }
   }
 
-  onSave() {
+  removeInputField(i: number): void {
+    const control = <FormArray>this.fields.controls.conceptos;
+    control.removeAt(i);
+  }
+
+  addNewInputField(): void {
+    const control = <FormArray>this.fields.controls.conceptos;
+    control.push(this.frmConceptos());
+  }
+
+  onSave(_recibo: any) {
+    this.fillEvent(_recibo);
     this.service.save(this.item).subscribe(
       resp => {
-        this.meesageToast("Se guardo exitosamente");
-        this.getDismiss();
-        this.dismiss();
+        console.log(resp);
+        this.service.saveDetail(this.itemDetail).subscribe(
+          resp => {
+            this.meesageToast("Se guardo exitosamente");
+            this.getDismiss();
+            this.dismiss();
+          },
+          err => {
+            this.meesageToast("No se pudo guardar el dato");
+            console.log("Error: ", err);
+            this.getDismiss();
+          }
+        );
       },
       err => {
         this.meesageToast("No se pudo guardar el dato");
@@ -86,6 +136,34 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       }
     );
     this.getPresent();
+  }
+
+  fillEvent(_recibo: any) {
+    console.log("event", _recibo);
+    this.item.FOLIO = _recibo.folio;
+    this.item.FECHA = _recibo.fecha;
+    this.item.CASA = _recibo.casa;
+    this.item.NOMBRE = _recibo.nombre;
+    this.item.CORREO = _recibo.email;
+    this.item.CANTIDAD = _recibo.cantidad;
+    console.log("this.item", this.item);
+    var conceptos = _recibo.conceptos;
+    this.itemDetail = [];
+    if (conceptos) {
+      console.log("conceptos", conceptos);
+      conceptos.forEach(data => {
+        var detail: ReciboDetalle = {};
+        detail.FOLIO = _recibo.folio;
+        detail.CASA = _recibo.casa;
+        detail.NOMBRE = _recibo.nombre;
+        detail.CONCEPTO = data.concepto;
+        detail.MES = data.mes;
+        detail.MONTO = data.monto;
+        console.log("detail", detail);
+        this.itemDetail.push(detail);
+      });
+    }
+    console.log("this.itemDetail", this.itemDetail);
   }
 
   meesageToast(_message: string) {

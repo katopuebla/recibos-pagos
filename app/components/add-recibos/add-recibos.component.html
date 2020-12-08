@@ -10,53 +10,85 @@
 </ion-header>
 
 <ion-content padding>
-	<form [formGroup]="fields" (ngSubmit)="onSave()">
+	<form [formGroup]="fields" (ngSubmit)="onSave(fields.value)">
 		<ion-item>
-			<ion-label>Folio</ion-label>
-			<ion-input type="number" [(ngModel)]="item.FOLIO" formControlName="folio" placeholder="Folio">
+			<ion-label floating>Folio</ion-label>
+			<ion-input id="folio" type="number" id="folio" [(ngModel)]="item.FOLIO" formControlName="folio">
 			</ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-label>Fecha</ion-label>
-			<ion-datetime displayFormat="DD/MMM/YYYY" [(ngModel)]="item.FECHA" formControlName="fecha" monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"></ion-datetime>
+			<ion-label floating>Fecha</ion-label>
+			<ion-datetime id="fecha" displayFormat="DD/MMM/YYYY" [(ngModel)]="item.FECHA" formControlName="fecha"
+				monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"></ion-datetime>
 		</ion-item>
 		<ion-item>
-			<ion-label>Casa</ion-label>
-			<ion-select [(ngModel)]="item.CASA" formControlName="casa" (ionChange)="onChangeCasa($event)">
+			<ion-label floating>Casa</ion-label>
+			<ion-select id="casa" [(ngModel)]="item.CASA" formControlName="casa" (ionChange)="onChangeCasa($event)">
 				<ion-option *ngFor="let casa of casas" [value]="casa.CASA">{{casa.CASA}}--{{casa.NOMBRE}}
 				</ion-option>
 			</ion-select>
 		</ion-item>
 		<ion-item>
-			<ion-label>Nombre</ion-label>
-			<ion-input type="text" [(ngModel)]="item.NOMBRE" formControlName="nombre" placeholder="Nombre">
+			<ion-label floating>Nombre</ion-label>
+			<ion-input id="nombre" type="text" [(ngModel)]="item.NOMBRE" formControlName="nombre" placeholder="Nombre">
 			</ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-label>Email</ion-label>
-			<ion-input type="email" [(ngModel)]="item.CORREO" formControlName="email" placeholder="email">
+			<ion-label floating>Email</ion-label>
+			<ion-input id="email" type="email" [(ngModel)]="item.CORREO" formControlName="email">
 			</ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-label>Cantidad</ion-label>
-			<ion-input type="number" [(ngModel)]="item.CANTIDAD" formControlName="cantidad" placeholder="cantidad">
+			<ion-label floating>Cantidad</ion-label>
+			<ion-input id="cantidad" type="number" [(ngModel)]="item.CANTIDAD" formControlName="cantidad">
 			</ion-input>
 		</ion-item>
 		<!-- Detail -->
-		<ion-item>
-			<ion-label>Concepto</ion-label>
-			<ion-input type="text" [(ngModel)]="item.CONCEPTO" formControlName="concepto" placeholder="Concepto">
-			</ion-input>
-		</ion-item>
-		<!--<ion-item>
-			<ion-label>Mes</ion-label>
-			<ion-datetime [(ngModel)]="item.MES" displayFormat="DD/MMM/YYYY" ></ion-datetime>
-		</ion-item>
-    <ion-item>
-			<ion-label>Monto</ion-label>
-			<ion-input type="number" [(ngModel)]="item.MONTO"  placeholder="Monto">
-			</ion-input>
-		</ion-item>-->
-		<button ion-button type="submit" [disabled]="!fields.valid">Agregar</button>
+		<div formArrayName="conceptos" margin-bottom>
+			<section [formGroupName]="i" *ngFor="let control of fields.controls.conceptos.controls; let i = index">
+				<ion-item-group>
+					<ion-item-divider color="light">Conceptos #{{ i + 1 }}</ion-item-divider>
+					<ion-item>
+						<ion-label floating>Concepto:</ion-label>
+						<ion-select id="concepto" formControlName="concepto">
+							<ion-option *ngFor="let row of conceptos" [value]="row.CONCEPTO">
+								{{row.CONCEPTO}}
+							</ion-option>
+						</ion-select>
+					</ion-item>
+					<ion-item>
+						<ion-label floating>Mes:</ion-label>
+						<!-- <ion-input type="date" maxlength="50" formControlName="mes"></ion-input> -->
+						<ion-datetime id="mes" displayFormat="MMM.YYYY" formControlName="mes"
+							monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"></ion-datetime>
+					</ion-item>
+					<ion-item>
+						<ion-label floating>Monto:</ion-label>
+						<ion-input id="monto" type="number" maxlength="50" formControlName="monto"></ion-input>
+					</ion-item>
+					<!-- Allow generated input field to be removed -->
+					<span
+                     float-right
+                     ion-button
+                     icon-left
+                     clear
+                     *ngIf="fields.controls.conceptos.length > 1"
+                     (click)="removeInputField(i)">
+                     <ion-icon name="close"></ion-icon>
+                     Remove
+                  </span>
+				</ion-item-group>
+			</section>
+		</div>
+		<!-- Allow new input field to be generated/added -->
+		<span
+            ion-button
+            float-left
+            icon-left
+            clear
+            (click)="addNewInputField()">
+               <ion-icon name="add"></ion-icon>
+         </span>
+		<button ion-button type="submit" [disabled]="!fields.valid" >Agregar</button>
 	</form>
 </ion-content>

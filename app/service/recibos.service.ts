@@ -21,6 +21,10 @@ export class RecibosService {
     return this.base.getEntities("Recibos");
   }
 
+  getConceptos() {
+    return this.base.getEntities("ConceptoDef");
+  }
+
   save(_entity: Recibo) {
     let entities = this.getBody(_entity);
     let body: string[][] = [];
@@ -28,7 +32,7 @@ export class RecibosService {
     return this.base.saveEntities("Recibos", body);
   }
 
-  saveDetail(_entity: ReciboDetalle) {
+  saveDetail(_entity: ReciboDetalle[]) {
     let entities = this.getBodyDetrail(_entity);
     let body: string[][] = [];
     body.push(entities);
@@ -37,7 +41,7 @@ export class RecibosService {
 
   private getBody(_entity: Recibo) {
     let entities: string[] = [];
-    entities.push(_entity.FOLIO);
+    entities.push("" + _entity.FOLIO);
     entities.push(_entity.CASA);
     entities.push(_entity.NOMBRE);
     entities.push(_entity.CANTIDAD);
@@ -48,15 +52,19 @@ export class RecibosService {
     return entities;
   }
 
-  private getBodyDetrail(_entity: ReciboDetalle) {
+  private getBodyDetrail(_entity: ReciboDetalle[]) {
     let entities: string[] = [];
-    entities.push(_entity.FOLIO);
-    entities.push(_entity.CASA);
-    entities.push(_entity.NOMBRE);
-    entities.push(_entity.CONCEPTO);
-    entities.push(_entity.MES);
-    entities.push(_entity.MONTO);
-    entities.push(new Date().toLocaleString());
+    if (_entity) {
+      _entity.forEach(data => {
+        entities.push("" + data.FOLIO);
+        entities.push(data.CASA);
+        entities.push(data.NOMBRE);
+        entities.push(data.CONCEPTO);
+        entities.push(data.MES);
+        entities.push(data.MONTO);
+        entities.push(new Date().toLocaleString());
+      });
+    }
     return entities;
   }
 }

@@ -22,13 +22,19 @@ export interface Recibo {
 }
 
 export interface ReciboDetalle {
-  FOLIO?: string;
+  FOLIO?: number;
   CASA?: string;
   NOMBRE?: string;
   CONCEPTO?: string;
   MES?: string;
   MONTO?: string;
   INPUT_TIMESTAMP?: string;
+}
+
+export interface Concepto {
+  CONCEPTO?: string;
+  MES?: string;
+  MONTO?: string;
 }
 
 export interface Casa {
