@@ -4,7 +4,8 @@ import { BaseService } from "./base.service";
 
 @Injectable()
 export class GastosService {
-  SPREAD_SHEET_ID = "1EvUSuqgS03fbq09SiRtoTXV5KwBgqoVXIH2QPbw5J1c";
+  //SPREAD_SHEET_ID = "1EvUSuqgS03fbq09SiRtoTXV5KwBgqoVXIH2QPbw5J1c";
+  SPREAD_SHEET_ID = "1Xr7srXe0XEvpTR6Xp7FuecpsCSNZYua1cG-SLP7DgjU";
   constructor(private base: BaseService) {
     base.setSpreadSheetId(this.SPREAD_SHEET_ID);
   }

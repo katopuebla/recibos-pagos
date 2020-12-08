@@ -4,7 +4,8 @@ import { BaseService } from "./base.service";
 
 @Injectable()
 export class RecibosService {
-  SPREAD_SHEET_ID = "1io4aQ7pdM0shvePwssrC7xSIwoVqEfWYlvgsXV5oKoo";
+  // SPREAD_SHEET_ID = "1io4aQ7pdM0shvePwssrC7xSIwoVqEfWYlvgsXV5oKoo";
+  SPREAD_SHEET_ID = "1YxCDsSTdWWkaV6unC3jH9J-aY16KqY8pCZmf28K2j7E";
   constructor(private base: BaseService) {
     base.setSpreadSheetId(this.SPREAD_SHEET_ID);
   }
