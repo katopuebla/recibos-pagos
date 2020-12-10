@@ -1,4 +1,3 @@
-import { DatePipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import {
   FormArray,
@@ -104,26 +103,19 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
 
   onSave(_recibo: any) {
     this.fillEvent(_recibo);
-    this.service.save(this.item).subscribe(
+    this.service.save(this.item, this.itemDetail).subscribe(
       resp => {
         console.log("resp save item", resp);
-        this.service.saveDetail(this.itemDetail).subscribe(
-          resp => {
-            console.log("resp save itemDetail", resp);
-            this.meesageToast("Se guardo exitosamente");
-            this.getDismiss();
-            this.dismiss();
-          },
-          err => {
-            this.meesageToast("No se pudo guardar el dato");
-            console.log("Error Detail: ", err);
-            this.getDismiss();
-          }
-        );
+        this.meesageToast("Se guardo exitosamente");
+        this.dismiss();
       },
       err => {
+        console.log("Error Detail: ", err);
         this.meesageToast("No se pudo guardar el dato");
-        console.log("Error: ", err);
+      },
+      /* )
+      .add(() => {*/
+      () => {
         this.getDismiss();
       }
     );

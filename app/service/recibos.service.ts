@@ -26,14 +26,20 @@ export class RecibosService {
     return this.base.getEntities("ConceptoDef");
   }
 
-  save(_entity: Recibo) {
+  save(_entity: Recibo, _entities: ReciboDetalle[]) {
+    return this.saveHeader(_entity).map(resp => {
+      console.log(resp); //this.saveDetail(_entities);
+    });
+  }
+
+  private saveHeader(_entity: Recibo) {
     let entities = this.getBody(_entity);
     let body: string[][] = [];
     body.push(entities);
     return this.base.saveEntities("Recibos", body);
   }
 
-  saveDetail(_entities: ReciboDetalle[]) {
+  private saveDetail(_entities: ReciboDetalle[]) {
     console.log("_entities", _entities);
     let entitiesDetail = this.getBodyDetrail(_entities);
     // let body: string[][] = [];
