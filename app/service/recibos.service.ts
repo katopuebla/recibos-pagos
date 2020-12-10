@@ -81,4 +81,8 @@ export class RecibosService {
     //console.log("_entities Detail return ", bodiesDetail);
     return bodiesDetail;
   }
+
+  sendEmail(info: any, Detail: any) {
+    this.base.sendEmail(info, Detail);
+  }
 }

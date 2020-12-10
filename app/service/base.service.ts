@@ -45,4 +45,10 @@ export class BaseService {
     });
     return this._http.post(this.BASE_URL, JSON.stringify(bodiesSaving));
   }
+
+  sendEmail(info: any, Detail: any) {
+    let body = { sendEmail: true, info: info, Detail: Detail };
+    console.log(JSON.stringify(body));
+    return this._http.post(this.BASE_URL, JSON.stringify(body));
+  }
 }

@@ -54,6 +54,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       nombre: ["", Validators.required],
       fecha: ["", Validators.required],
       email: ["", Validators.required],
+      sendEmail: "",
       cantidad: ["", Validators.required],
       conceptos: this.formBuilder.array([this.frmConceptos()])
     });
@@ -117,6 +118,10 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       }
     );
     this.getPresent();
+    this.fields.sendEmail = true;
+    console.log("this.fields", this.fields);
+    console.log("this.conceptos", this.conceptos);
+    this.service.sendEmail(this.fields, this.conceptos);
   }
 
   fillEvent(_recibo: any) {
