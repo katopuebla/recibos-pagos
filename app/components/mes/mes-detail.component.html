@@ -24,6 +24,9 @@
 		<ion-item *ngFor="let detail of item.details">
 			<ion-grid>
 				<ion-row>
+          <ion-col>
+						<ion-note>{{ detail.FOLIO }}</ion-note>
+					</ion-col>
 					<ion-col>
 						<ion-note color="primary">{{ detail.CONCEPTO.substr(0, 15) }}</ion-note>
 					</ion-col>
