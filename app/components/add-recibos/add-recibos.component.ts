@@ -110,8 +110,13 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       resp => {
         // console.log("resp save item", resp);
         if (this.sendEmail) {
-          let date = new Date(_recibo.fecha);
+          let fecha = new Date(_recibo.fecha);
+          let date = new Date(
+            fecha.getTime() + this.date.getTimezoneOffset() * 60000
+          ); //add 1 day
+          console.log(_recibo.fecha);
           _recibo.fecha = date.toLocaleDateString();
+          console.log(_recibo.fecha);
           this.service.sendEmail(_recibo, _recibo.conceptos).subscribe(
             resp => {
               console.log("resp save item", resp);
