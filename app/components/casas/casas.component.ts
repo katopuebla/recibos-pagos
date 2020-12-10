@@ -18,6 +18,7 @@ import { Recibo, ReciboDetalle } from "../../interface/recibos";
 export class CasasComponent extends LoadingUtil {
   items: Recibo[];
   itemsBackup: Recibo[];
+  itemDetails: ReciboDetalle[];
 
   constructor(
     public modalCtrl: ModalController,
@@ -115,6 +116,13 @@ export class CasasDetailComponent extends LoadingUtil {
       this.getDismiss();
     });
     this.getPresent();
+  }
+
+  sumMonto(array, Id) {
+    var values = array.filter(element => element.MES == Id);
+    return values.reduce((sum, currentValue) => {
+      return sum + currentValue.MONTO;
+    }, 0);
   }
 
   dismiss() {
