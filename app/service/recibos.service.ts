@@ -1,5 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Recibo, ReciboDetalle, User } from "../../interface/recibos";
+import {
+  BodyTables,
+  Recibo,
+  ReciboDetalle,
+  User
+} from "../../interface/recibos";
 import { BaseService } from "./base.service";
 
 @Injectable()
@@ -27,28 +32,23 @@ export class RecibosService {
   }
 
   save(_entity: Recibo, _entities: ReciboDetalle[]) {
-    return this.saveHeader(_entity).map(resp => {
-      console.log(resp); //this.saveDetail(_entities);
-    });
-  }
-
-  private saveHeader(_entity: Recibo) {
-    let entities = this.getBody(_entity);
-    let body: string[][] = [];
-    body.push(entities);
-    return this.base.saveEntities("Recibos", body);
-  }
-
-  private saveDetail(_entities: ReciboDetalle[]) {
-    console.log("_entities", _entities);
-    let entitiesDetail = this.getBodyDetrail(_entities);
-    // let body: string[][] = [];
-    // body.push(entitiesDetail);
-    console.log("body: ", entitiesDetail);
-    return this.base.saveEntities("RecibosDetalle", entitiesDetail);
+    let reciboBodies: BodyTables[] = [];
+    let reciboBody: BodyTables = {};
+    //header
+    reciboBody.table = "Recibos";
+    reciboBody.rows = this.getBody(_entity);
+    reciboBodies.push(reciboBody);
+    // Detail
+    reciboBody = {};
+    reciboBody.table = "RecibosDetalle";
+    reciboBody.rows = this.getBodyDetrail(_entities);
+    reciboBodies.push(reciboBody);
+    //run service
+    return this.base.saveEntitiesArray(reciboBodies);
   }
 
   private getBody(_entity: Recibo) {
+    let body: string[][] = [];
     let entities: string[] = [];
     entities.push("" + _entity.FOLIO);
     entities.push(_entity.CASA);
@@ -58,13 +58,14 @@ export class RecibosService {
     entities.push(_entity.FECHA);
     entities.push(_entity.CORREO);
     entities.push(new Date().toLocaleString());
-    return entities;
+    body.push(entities);
+    return body;
   }
 
   private getBodyDetrail(_entities: ReciboDetalle[]) {
-    let entitiesDetail: string[][] = [];
+    let bodiesDetail: string[][] = [];
     if (_entities) {
-      console.log("_entities Detail", _entities);
+      // console.log("_entities Detail", _entities);
       _entities.forEach(data => {
         let entities: string[] = [];
         entities.push("" + data.FOLIO);
@@ -74,10 +75,10 @@ export class RecibosService {
         entities.push(data.MES);
         entities.push(data.MONTO);
         entities.push(new Date().toLocaleString());
-        entitiesDetail.push(entities);
+        bodiesDetail.push(entities);
       });
     }
-    console.log("_entities Detail return ", entitiesDetail);
-    return entitiesDetail;
+    //console.log("_entities Detail return ", bodiesDetail);
+    return bodiesDetail;
   }
 }

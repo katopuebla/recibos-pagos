@@ -7,7 +7,16 @@ export interface User {
 export interface BodySaving {
   spreadsheet_id?: string;
   sheet?: string;
-  rows?: User[];
+  rows?: any[][];
+}
+
+export interface BodiesSaving {
+  tables?: BodySaving[];
+}
+
+export interface BodyTables {
+  table?: string;
+  rows?: string[][];
 }
 
 export interface Recibo {

@@ -105,17 +105,14 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.fillEvent(_recibo);
     this.service.save(this.item, this.itemDetail).subscribe(
       resp => {
-        console.log("resp save item", resp);
+        // console.log("resp save item", resp);
         this.meesageToast("Se guardo exitosamente");
+        this.getDismiss();
         this.dismiss();
       },
       err => {
-        console.log("Error Detail: ", err);
+        //console.log("Error Detail: ", err);
         this.meesageToast("No se pudo guardar el dato");
-      },
-      /* )
-      .add(() => {*/
-      () => {
         this.getDismiss();
       }
     );
@@ -123,7 +120,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
   }
 
   fillEvent(_recibo: any) {
-    console.log("event", _recibo);
+    // console.log("event", _recibo);
     this.item.FOLIO = _recibo.folio;
     let fecha = new Date(_recibo.fecha);
     this.item.FECHA = _recibo.fecha;
@@ -131,11 +128,11 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.item.NOMBRE = _recibo.nombre;
     this.item.CORREO = _recibo.email;
     this.item.CANTIDAD = _recibo.cantidad;
-    console.log("this.item", this.item);
+    // console.log("this.item", this.item);
     var conceptos = _recibo.conceptos;
     this.itemDetail = [];
     if (conceptos) {
-      console.log("conceptos", conceptos);
+      //console.log("conceptos", conceptos);
       conceptos.forEach(data => {
         var detail: ReciboDetalle = {};
         detail.FOLIO = _recibo.folio;
@@ -144,11 +141,11 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
         detail.CONCEPTO = data.concepto;
         detail.MES = data.mes;
         detail.MONTO = data.monto;
-        console.log("detail", detail);
+        //console.log("detail", detail);
         this.itemDetail.push(detail);
       });
     }
-    console.log("this.itemDetail", this.itemDetail);
+    // console.log("this.itemDetail", this.itemDetail);
   }
 
   removeInputField(i: number): void {
