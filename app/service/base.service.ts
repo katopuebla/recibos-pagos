@@ -46,9 +46,18 @@ export class BaseService {
     return this._http.post(this.BASE_URL, JSON.stringify(bodiesSaving));
   }
 
-  sendEmail(info: any, Detail: any) {
-    let body = { sendEmail: true, info: info, Detail: Detail };
-    console.log(JSON.stringify(body));
-    return this._http.post(this.BASE_URL, JSON.stringify(body));
+  sendEmail(_info: any, _Detail: any[]) {
+    let bodySend: SendEmail = {};
+    bodySend.sendEmail = true;
+    bodySend.info = _info;
+    bodySend.Detail = _Detail;
+    console.log(bodySend);
+    return this._http.post(this.BASE_URL, JSON.stringify(bodySend));
   }
+}
+
+export interface SendEmail {
+  sendEmail?: boolean;
+  info?: any;
+  Detail?: any[];
 }

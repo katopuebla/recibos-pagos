@@ -82,7 +82,7 @@ export class RecibosService {
     return bodiesDetail;
   }
 
-  sendEmail(info: any, Detail: any) {
-    this.base.sendEmail(info, Detail);
+  sendEmail(info: any, Detail: any[]) {
+    return this.base.sendEmail(info, Detail);
   }
 }

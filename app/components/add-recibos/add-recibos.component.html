@@ -23,7 +23,8 @@
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Casa</ion-label>
-			<ion-select id="casa" interface="popover" [(ngModel)]="item.CASA" formControlName="casa" (ionChange)="onChangeCasa($event)">
+			<ion-select id="casa" interface="popover" [(ngModel)]="item.CASA" formControlName="casa"
+				(ionChange)="onChangeCasa($event)">
 				<ion-option *ngFor="let casa of casas" [value]="casa.CASA">{{casa.CASA}}--{{casa.NOMBRE}}
 				</ion-option>
 			</ion-select>
@@ -37,8 +38,8 @@
 			<ion-label floating>Email</ion-label>
 			<ion-input id="email" type="email" [(ngModel)]="item.CORREO" formControlName="email">
 			</ion-input>
-      <ion-input id="sendEmail" type="checkbox" [(ngModel)]="item.SENDEMAIL" formControlName="sendEmail">
-			</ion-input>
+			<ion-checkbox id="sendEmail" item-right secondary formControlName="sendEmail" [(ngModel)]="sendEmail" color="green">
+			</ion-checkbox>
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Cantidad</ion-label>

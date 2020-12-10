@@ -32,6 +32,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
   casa: Casa;
   conceptos: Concepto[] = [];
   data: boolean;
+  sendEmail: boolean = false;
 
   date = new Date(); // Or the date you'd like converted.
   today: string = new Date(
@@ -99,6 +100,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       this.casa = this.casas.find(data => data.CASA === _casa);
       this.item.NOMBRE = this.casa.NOMBRE;
       this.item.CORREO = this.casa.EMAIL;
+      this.sendEmail = true;
     }
   }
 
@@ -107,6 +109,19 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.service.save(this.item, this.itemDetail).subscribe(
       resp => {
         // console.log("resp save item", resp);
+        if (this.sendEmail) {
+          let date = new Date(_recibo.fecha);
+          _recibo.fecha = date.toLocaleDateString();
+          this.service.sendEmail(_recibo, _recibo.conceptos).subscribe(
+            resp => {
+              console.log("resp save item", resp);
+              this.meesageToast("correo enviado");
+            },
+            err => {
+              console.log("Error email: ", err);
+            }
+          );
+        }
         this.meesageToast("Se guardo exitosamente");
         this.getDismiss();
         this.dismiss();
@@ -118,10 +133,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       }
     );
     this.getPresent();
-    this.fields.sendEmail = true;
-    console.log("this.fields", this.fields);
-    console.log("this.conceptos", this.conceptos);
-    this.service.sendEmail(this.fields, this.conceptos);
+    _recibo.sendEmail = true;
   }
 
   fillEvent(_recibo: any) {
