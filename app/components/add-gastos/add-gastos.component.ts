@@ -17,9 +17,11 @@ import { LoadingUtil } from "../../utils/loadingUtil";
 export class AddGastosComponent extends LoadingUtil implements OnInit {
   item: GastosDetalle = {};
   categorias: CategoriaDef[];
-   date = new Date(); // Or the date you'd like converted. 
-  today: string = new Date(this.date.getTime() - (this.date.getTimezoneOffset() * 60000)).toISOString(); 
-  
+  date = new Date(); // Or the date you'd like converted.
+  today: string = new Date(
+    this.date.getTime() - this.date.getTimezoneOffset() * 60000
+  ).toISOString();
+
   private fields: FormGroup;
 
   constructor(
@@ -42,8 +44,8 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     console.log(this.fields.value);
   }
   ngOnInit() {
-   this.initCategorias();
-   this.item.Fecha = this.today;
+    this.initCategorias();
+    this.item.Fecha = this.today;
   }
 
   initCategorias() {
@@ -52,6 +54,14 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       this.getDismiss();
     });
     this.getPresent();
+  }
+
+  onChange(_categoria: any) {
+    if (_categoria) {
+      let categoria: CategoriaDef;
+      categoria = this.categorias.find(data => data.Categoria === _categoria);
+      this.item.Nombre = categoria.Persona;
+    }
   }
   onSave() {
     this.service.save(this.item).subscribe(
