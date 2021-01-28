@@ -64,6 +64,8 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     }
   }
   onSave() {
+    let fecha = new Date(this.item.Fecha);
+    this.item.Fecha = fecha.toLocaleString();
     this.service.save(this.item).subscribe(
       resp => {
         this.meesageToast("Se guardo exitosamente");
