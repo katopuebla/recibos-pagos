@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalController } from "ionic-angular";
 import { AddRecibosComponent } from "../../app/components/add-recibos/add-recibos.component";
-import { ComprobanteCasaComponent } from "./comprobante-casa/comprobante-casa.component";
 
 @Component({
   selector: "app-recibos",
@@ -23,7 +22,7 @@ export class RecibosPage implements OnInit {
       modal = this.modalCtrl.create(AddRecibosComponent, characterNum);
     } else if (characterNum.new == "PicTicket") {
       console.log('characterNum');
-      modal = this.modalCtrl.create(ComprobanteCasaComponent, characterNum);
+      modal = this.modalCtrl.create(AddRecibosComponent, characterNum);
     }
     modal.present();
   }
