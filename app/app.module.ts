@@ -24,7 +24,6 @@ import { GastosService } from "./service/gastos.service";
 import { RecibosPage } from "../pages/recibos/recibos.page";
 import { AddRecibosComponent } from "./components/add-recibos/add-recibos.component";
 import { AddGastosComponent } from "./components/add-gastos/add-gastos.component";
-import { ComprobanteCasaComponent } from "../pages/recibos/comprobante-casa/comprobante-casa.component";
 
 import { Clipboard } from "@ionic-native/clipboard";
 
@@ -46,8 +45,7 @@ import { Clipboard } from "@ionic-native/clipboard";
     GastosComponent,
     FolioComponent,
     AddRecibosComponent,
-    AddGastosComponent,
-    ComprobanteCasaComponent
+    AddGastosComponent
   ],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   //exports: [ ],
@@ -67,8 +65,7 @@ import { Clipboard } from "@ionic-native/clipboard";
     MesesComponent,
     MesesDetailComponent,
     AddRecibosComponent,
-    AddGastosComponent,
-    ComprobanteCasaComponent
+    AddGastosComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
