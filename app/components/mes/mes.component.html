@@ -1,5 +1,14 @@
+<!--<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+			refreshingText="Refreshing..."></ion-refresher-content>
+	</ion-refresher>-->
+<ion-list-header>
+	<ion-searchbar (ionInput)="getItems($event)" placeholder="Pagos del mes de {{title | date: 'MMM.yy' }}">
+	</ion-searchbar>
+</ion-list-header>
 <ion-list inset>
-	<button ion-item *ngFor="let item of items | groupBy:'MES':'reverse'" (click)="openModal({detail: item.details})">
-      {{ item.header | date: 'MMM.yy' }}
+	<button ion-item *ngFor="let item of items | groupBy:'CASA'" (click)="openModal({detail: item.details})">
+      {{  item.header }} - {{ item.details[0].NOMBRE.substr(0, 15) }} : {{ sumMonto(item.details, item.header) | currency }}
+     <ion-badge *ngIf="item.details.length <= 1" color="secondary">{{item.details.length }} pago</ion-badge>
+     <ion-badge *ngIf="item.details.length > 1" color="secondary" >{{item.details.length }} pagos</ion-badge>
     </button>
 </ion-list>

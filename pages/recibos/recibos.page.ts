@@ -8,7 +8,7 @@ import { AddRecibosComponent } from "../../app/components/add-recibos/add-recibo
   styleUrls: ["./recibos.page.css"]
 })
 export class RecibosPage implements OnInit {
-  option: string = "Casa";
+  option: string = "Mes";
   isAndroid: boolean = false;
 
   constructor(public modalCtrl: ModalController) {}
@@ -19,5 +19,4 @@ export class RecibosPage implements OnInit {
     let modal = this.modalCtrl.create(AddRecibosComponent, characterNum);
     modal.present();
   }
-
 }

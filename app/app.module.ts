@@ -4,6 +4,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
 import { MyApp } from "./app.component";
 import { MesComponent } from "./components/mes/mes.component";
 import { MesDetailComponent } from "./components/mes/mes.component";
+import { MesesComponent } from "./components/meses/meses.component";
+import { MesesDetailComponent } from "./components/meses/meses.component";
 import { GastosComponent } from "../pages/gastos/gastos.component";
 import { FolioComponent } from "./components/folio/folio.component";
 import { CasasComponent } from "./components/casas/casas.component";
@@ -28,6 +30,8 @@ import { AddGastosComponent } from "./components/add-gastos/add-gastos.component
     MyApp,
     MesComponent,
     MesDetailComponent,
+    MesesComponent,
+    MesesDetailComponent,
     ContactPage,
     HomePage,
     CasasComponent,
@@ -39,7 +43,8 @@ import { AddGastosComponent } from "./components/add-gastos/add-gastos.component
     GastosComponent,
     FolioComponent,
     AddRecibosComponent,
-    AddGastosComponent
+    AddGastosComponent,
+    MesesComponent
   ],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   //exports: [ ],
@@ -56,6 +61,8 @@ import { AddGastosComponent } from "./components/add-gastos/add-gastos.component
     FolioComponent,
     MesComponent,
     MesDetailComponent,
+    MesesComponent,
+    MesesDetailComponent,
     AddRecibosComponent,
     AddGastosComponent
   ],

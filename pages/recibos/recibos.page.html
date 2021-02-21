@@ -5,14 +5,17 @@
 
 	<ion-toolbar no-border-top>
 		<ion-segment [(ngModel)]="option">
+			<ion-segment-button value="Mes">
+				Mes
+			</ion-segment-button>
+			<ion-segment-button value="Meses">
+				Meses
+			</ion-segment-button>
 			<ion-segment-button value="Casa">
 				Casa
 			</ion-segment-button>
 			<ion-segment-button value="Folio">
 				Folio
-			</ion-segment-button>
-			<ion-segment-button value="Mes">
-				Mes
 			</ion-segment-button>
 		</ion-segment>
 	</ion-toolbar>
@@ -27,6 +30,16 @@
 			refreshingText="Refrescando..."></ion-refresher-content>
 	</ion-refresher>
 	<div [ngSwitch]="option">
+		<!--Mes selection stuff-->
+		<div *ngSwitchCase="'Mes'">
+			<br>
+			<app-mes>mes</app-mes>
+		</div>
+		<!--Mes selection stuff-->
+		<div *ngSwitchCase="'Meses'">
+			<br>
+			<app-meses>meses</app-meses>
+		</div>
 		<!--Casa selection stuff-->
 		<div *ngSwitchCase="'Casa'">
 			<br>
@@ -36,11 +49,6 @@
 		<div *ngSwitchCase="'Folio'">
 			<br/>
 			<app-folio>folio</app-folio>
-		</div>
-		<!--Mes selection stuff-->
-		<div *ngSwitchCase="'Mes'">
-			<br>
-			<app-mes>mes</app-mes>
 		</div>
 	</div>
 	<ion-content>

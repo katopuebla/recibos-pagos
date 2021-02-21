@@ -12,13 +12,12 @@ import { RecibosService } from "../../service/recibos.service";
 import { Funtions } from "../../utils/funtions";
 
 @Component({
-  selector: "app-mes",
-  templateUrl: "./mes.component.html"
+  selector: "app-meses",
+  templateUrl: "./meses.component.html",
+  styleUrls: ["./meses.component.css"]
 })
-export class MesComponent extends Funtions implements OnInit {
+export class MesesComponent extends Funtions implements OnInit {
   items: ReciboDetalle[];
-  title: string;
-itemsBackup: ReciboDetalle[];
 
   constructor(
     public modalCtrl: ModalController,
@@ -35,53 +34,32 @@ itemsBackup: ReciboDetalle[];
 
   doRefresh(refresher) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
-      this.items = data.find(
-        mes => new Date(mes.header).getMonth() == new Date().getMonth()
-      );
+      this.items = data;
       refresher.complete();
+      this.items.sort((a, b) => (a.MES > b.MES ? -1 : 1));
     });
   }
 
   getdata() {
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
-      let today = new Date().getMonth();
-      this.items = data.filter(mes => {
-        return new Date(mes.MES).getMonth() === today;
-      });
+      this.items = data;
       this.getDismiss();
-      this.items.sort((a, b) => (a.CASA > b.CASA ? 1 : -1));
-      this.itemsBackup = this.items.slice();
-      this.title = this.items[0].MES;
+      this.items.sort((a, b) => (a.MES > b.MES ? -1 : 1));
     });
     this.getPresent();
   }
 
-  getItems(ev: any) {
-    // Reset items back to all of the items
-    this.items = this.itemsBackup.slice();
-    console.log("this.items", this.items);
-    // set val to the value of the searchbar
-    const val = ev.target.value;
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != "") {
-      this.items = this.items.filter(item => {
-        return item.CASA.toLowerCase().indexOf(val.toLowerCase()) > -1;
-      });
-    }
-  }
-
-  openModal(detail) {
-    console.log("detail", detail);
-    let modal = this.modalCtrl.create(MesDetailComponent, detail);
+  openModal(characterNum) {
+    let modal = this.modalCtrl.create(MesesDetailComponent, characterNum);
     modal.present();
   }
 }
 
 @Component({
-  selector: "app-mes-detail",
-  templateUrl: "./mes-detail.component.html"
+  selector: "app-meses-detail",
+  templateUrl: "./meses-detail.component.html"
 })
-export class MesDetailComponent extends Funtions {
+export class MesesDetailComponent extends Funtions {
   items: any[];
   itemsBackup: any[];
   title: string;
@@ -99,6 +77,7 @@ export class MesDetailComponent extends Funtions {
   ngOnInit() {
     this.items = this.params.get("detail");
     this.itemsBackup = this.items.slice();
+
     this.title = this.items[0].MES;
     // this.getdata();
   }
