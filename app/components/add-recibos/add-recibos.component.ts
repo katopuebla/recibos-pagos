@@ -97,7 +97,10 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
 
   onChangeCasa(_casa: any) {
     if (_casa) {
-      this.casa = this.casas.find(data => {if (data.CASA === _casa.CASA && data.NOMBRE === _casa.NOMBRE) return data} );
+      this.casa = this.casas.find(data => {
+        if (data.CASA === _casa.CASA && data.NOMBRE === _casa.NOMBRE)
+          return data;
+      });
       this.item.NOMBRE = this.casa.NOMBRE;
       this.item.CORREO = this.casa.EMAIL;
       this.sendEmail = true;
@@ -146,7 +149,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.item.FOLIO = _recibo.folio;
     let fecha = new Date(_recibo.fecha);
     this.item.FECHA = _recibo.fecha;
-    this.item.CASA = _recibo.casa;
+    this.item.CASA = _recibo.casa.CASA;
     this.item.NOMBRE = _recibo.nombre;
     this.item.CORREO = _recibo.email;
     this.item.CANTIDAD = _recibo.cantidad;

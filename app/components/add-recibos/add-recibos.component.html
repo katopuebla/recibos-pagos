@@ -27,8 +27,8 @@
 				(ionChange)="onChangeCasa($event)">
 				<ion-option *ngFor="let casa of casas" [value]="casa">{{casa.CASA}}--{{casa.NOMBRE}}
 				</ion-option>
-        <ion-option >	</ion-option>
-         <ion-option ></ion-option>
+				<ion-option> </ion-option>
+				<ion-option></ion-option>
 			</ion-select>
 		</ion-item>
 		<ion-item>
@@ -40,7 +40,8 @@
 			<ion-label floating>Email</ion-label>
 			<ion-input id="email" type="email" [(ngModel)]="item.CORREO" formControlName="email">
 			</ion-input>
-			<ion-checkbox id="sendEmail" item-right secondary formControlName="sendEmail" [(ngModel)]="sendEmail" color="green">
+			<ion-checkbox id="sendEmail" item-right secondary formControlName="sendEmail" [(ngModel)]="sendEmail"
+				color="green">
 			</ion-checkbox>
 		</ion-item>
 		<ion-item>
