@@ -97,7 +97,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
 
   onChangeCasa(_casa: any) {
     if (_casa) {
-      this.casa = this.casas.find(data => data.CASA === _casa);
+      this.casa = this.casas.find(data => {if (data.CASA === _casa.CASA && data.NOMBRE === _casa.NOMBRE) return data} );
       this.item.NOMBRE = this.casa.NOMBRE;
       this.item.CORREO = this.casa.EMAIL;
       this.sendEmail = true;
