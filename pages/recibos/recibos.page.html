@@ -25,10 +25,6 @@
 	<ion-fab right bottom>
 		<button ion-fab (click)="openModal({new: 'Add'})"><ion-icon name="add"></ion-icon></button>
 	</ion-fab>
-	<ion-refresher (ionRefresh)="doRefresh($event)">
-		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
-			refreshingText="Refrescando..."></ion-refresher-content>
-	</ion-refresher>
 	<div [ngSwitch]="option">
 		<!--Mes selection stuff-->
 		<div *ngSwitchCase="'Mes'">
