@@ -161,7 +161,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       conceptos.forEach(data => {
         var detail: ReciboDetalle = {};
         detail.FOLIO = _recibo.folio;
-        detail.CASA = _recibo.casa;
+        detail.CASA = _recibo.casa.CASA;
         detail.NOMBRE = _recibo.nombre;
         detail.CONCEPTO = data.concepto;
         detail.MES = data.mes;
