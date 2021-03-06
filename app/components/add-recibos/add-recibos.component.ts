@@ -108,6 +108,8 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
   }
 
   onSave(_recibo: any) {
+    let _casa = _recibo.casa;
+    _recibo.casa = _casa.CASA;
     this.fillEvent(_recibo);
     this.service.save(this.item, this.itemDetail).subscribe(
       resp => {
@@ -149,7 +151,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.item.FOLIO = _recibo.folio;
     let fecha = new Date(_recibo.fecha);
     this.item.FECHA = _recibo.fecha;
-    this.item.CASA = _recibo.casa.CASA;
+    this.item.CASA = _recibo.casa;
     this.item.NOMBRE = _recibo.nombre;
     this.item.CORREO = _recibo.email;
     this.item.CANTIDAD = _recibo.cantidad;
@@ -161,7 +163,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       conceptos.forEach(data => {
         var detail: ReciboDetalle = {};
         detail.FOLIO = _recibo.folio;
-        detail.CASA = _recibo.casa.CASA;
+        detail.CASA = _recibo.casa;
         detail.NOMBRE = _recibo.nombre;
         detail.CONCEPTO = data.concepto;
         detail.MES = data.mes;
