@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 
-import { MesPage } from "../mes/mes";
 import { ContactPage } from "../contact/contact";
 import { HomePage } from "../home/home";
 import { GastosComponent } from "../gastos/gastos.component";

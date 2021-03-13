@@ -5,11 +5,13 @@ import { HomePage } from "../../pages/home/home";
 
 const ROUTERS: Routes = [
   {
-    path: '', component: HomePage,
+    path: "",
+    loadChilden: () =>
+      import("./pages/tabs/tabs.module").then(m => m.TabsModule)
   }
 ];
 @NgModule({
-  imports: [CommonModule],
-  declarations: []
+  imports: [CommonModule, RouterModule.forRoot(ROUTERS)],
+  exports: [RouterModule]
 })
-export class RoutingModule {}
+export class AppRoutingModule {}

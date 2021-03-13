@@ -2,7 +2,6 @@ import { NgModule, ErrorHandler } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
 import { MyApp } from "./app.component";
-import { MesComponent } from "./components/mes/mes.component";
 import { MesDetailComponent } from "./components/mes/mes.component";
 import { MesesComponent } from "./components/meses/meses.component";
 import { MesesDetailComponent } from "./components/meses/meses.component";
@@ -26,11 +25,12 @@ import { AddRecibosComponent } from "./components/add-recibos/add-recibos.compon
 import { AddGastosComponent } from "./components/add-gastos/add-gastos.component";
 
 import { Clipboard } from "@ionic-native/clipboard";
+import { AppRoutingModule } from "./routing.module";
 
 @NgModule({
   declarations: [
     MyApp,
-    MesComponent,
+    AppRoutingModule,
     MesDetailComponent,
     MesesComponent,
     MesesDetailComponent,
@@ -60,7 +60,6 @@ import { Clipboard } from "@ionic-native/clipboard";
     RecibosPage,
     GastosComponent,
     FolioComponent,
-    MesComponent,
     MesDetailComponent,
     MesesComponent,
     MesesDetailComponent,
