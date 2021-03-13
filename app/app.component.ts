@@ -7,7 +7,7 @@ import { TabsPage } from "../pages/tabs/tabs";
   templateUrl: "app.html"
 })
 export class MyApp {
-  rootPage: any = "TabsPage";
+  rootPage: string = "tabs-page";
 
   constructor(platform: Platform) {
     platform.ready().then(() => {

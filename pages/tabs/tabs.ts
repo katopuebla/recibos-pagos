@@ -6,7 +6,7 @@ import { GastosComponent } from "../gastos/gastos.component";
 import { RecibosPage } from "../recibos/recibos.page";
 import { IonicPage } from "ionic-angular";
 
-@IonicPage()
+@IonicPage({ name: "tabs-page" })
 @Component({
   templateUrl: "tabs.html"
 })
