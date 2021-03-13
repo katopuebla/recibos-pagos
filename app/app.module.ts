@@ -2,7 +2,6 @@ import { NgModule, ErrorHandler } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
 import { MyApp } from "./app.component";
-import { MesDetailComponent } from "./components/mes/mes.component";
 import { MesesComponent } from "./components/meses/meses.component";
 import { MesesDetailComponent } from "./components/meses/meses.component";
 import { GastosComponent } from "../pages/gastos/gastos.component";
@@ -11,7 +10,6 @@ import { CasasComponent } from "./components/casas/casas.component";
 import { CasasDetailComponent } from "./components/casas/casas.component";
 
 import { ContactPage } from "../pages/contact/contact";
-import { HomePage } from "../pages/home/home";
 import { TabsPage } from "../pages/tabs/tabs";
 import { BaseService } from "./service/base.service";
 import { UserService } from "./service/user.service";
@@ -20,26 +18,24 @@ import { RecibosService } from "./service/recibos.service";
 import { GroupByPipePipe } from "./utils/group-by-pipe.pipe";
 import { OrderByPipePipe } from "./utils/order-by.pipe";
 import { GastosService } from "./service/gastos.service";
-import { RecibosPage } from "../pages/recibos/recibos.page";
 import { AddRecibosComponent } from "./components/add-recibos/add-recibos.component";
 import { AddGastosComponent } from "./components/add-gastos/add-gastos.component";
 
-import { Clipboard } from "@ionic-native/clipboard";
-import { AppRoutingModule } from "./routing.module";
+//import { Clipboard } from "@ionic-native/clipboard";
+import { HomePage } from "../pages/home/home";
+//import { AppRoutingModule } from "./routing.module";
 
 @NgModule({
   declarations: [
     MyApp,
-    AppRoutingModule,
-    MesDetailComponent,
+    // AppRoutingModule,
+    HomePage,
     MesesComponent,
     MesesDetailComponent,
     ContactPage,
-    HomePage,
     CasasComponent,
     CasasDetailComponent,
     TabsPage,
-    RecibosPage,
     GroupByPipePipe,
     OrderByPipePipe,
     GastosComponent,
@@ -52,15 +48,13 @@ import { AppRoutingModule } from "./routing.module";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    ContactPage,
     HomePage,
+    ContactPage,
     CasasComponent,
     CasasDetailComponent,
     TabsPage,
-    RecibosPage,
     GastosComponent,
     FolioComponent,
-    MesDetailComponent,
     MesesComponent,
     MesesDetailComponent,
     AddRecibosComponent,
