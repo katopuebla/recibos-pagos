@@ -1,13 +1,12 @@
 import { Component } from "@angular/core";
 import { Platform } from "ionic-angular";
-
 import { TabsPage } from "../pages/tabs/tabs";
 
 @Component({
   templateUrl: "app.html"
 })
 export class MyApp {
-  rootPage: string = "tabs-page";
+  rootPage: string = "tabs";
 
   constructor(platform: Platform) {
     platform.ready().then(() => {

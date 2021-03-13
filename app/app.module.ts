@@ -1,6 +1,11 @@
 import { NgModule, ErrorHandler } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
+import {
+  IonicApp,
+  IonicModule,
+  IonicErrorHandler,
+  IonicPageModule
+} from "ionic-angular";
 import { MyApp } from "./app.component";
 import { MesesComponent } from "./components/meses/meses.component";
 import { MesesDetailComponent } from "./components/meses/meses.component";
@@ -10,7 +15,7 @@ import { CasasComponent } from "./components/casas/casas.component";
 import { CasasDetailComponent } from "./components/casas/casas.component";
 
 import { ContactPage } from "../pages/contact/contact";
-//import { TabsPage } from "../pages/tabs/tabs";
+import { TabsPage } from "../pages/tabs/tabs";
 import { BaseService } from "./service/base.service";
 import { UserService } from "./service/user.service";
 import { HttpClientModule } from "@angular/common/http";
@@ -22,20 +27,20 @@ import { AddRecibosComponent } from "./components/add-recibos/add-recibos.compon
 import { AddGastosComponent } from "./components/add-gastos/add-gastos.component";
 
 //import { Clipboard } from "@ionic-native/clipboard";
-//import { HomePage } from "../pages/home/home";
+import { HomePage } from "../pages/home/home";
 //import { AppRoutingModule } from "./routing.module";
 
 @NgModule({
   declarations: [
     MyApp,
     // AppRoutingModule,
-   // HomePage,
+    HomePage,
     MesesComponent,
     MesesDetailComponent,
     ContactPage,
     CasasComponent,
     CasasDetailComponent,
-    //TabsPage,
+    TabsPage,
     GroupByPipePipe,
     OrderByPipePipe,
     GastosComponent,
@@ -43,16 +48,21 @@ import { AddGastosComponent } from "./components/add-gastos/add-gastos.component
     AddRecibosComponent,
     AddGastosComponent
   ],
-  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    IonicPageModule,
+    IonicModule.forRoot(MyApp)
+  ],
   //exports: [ ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-   // HomePage,
+    HomePage,
     ContactPage,
     CasasComponent,
     CasasDetailComponent,
-    //TabsPage,
+    TabsPage,
     GastosComponent,
     FolioComponent,
     MesesComponent,
