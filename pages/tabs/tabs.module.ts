@@ -1,11 +1,10 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { TabsPage } from "../tabs";
-import { HomePage } from "../home/home";
+import { IonicPageModule } from "ionic-angular";
+import { TabsPage } from "./tabs";
 
 @NgModule({
-  declarations: [TabsPage, HomePage],
-  imports: [CommonModule, IonicPageModule.forChild(TabsPage)],
+  declarations: [TabsPage],
+  imports: [IonicPageModule.forChild(TabsPage)],
   exports: [TabsPage]
 })
 export class TabsModule {}

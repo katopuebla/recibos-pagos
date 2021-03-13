@@ -10,7 +10,7 @@ import { CasasComponent } from "./components/casas/casas.component";
 import { CasasDetailComponent } from "./components/casas/casas.component";
 
 import { ContactPage } from "../pages/contact/contact";
-import { TabsPage } from "../pages/tabs/tabs";
+//import { TabsPage } from "../pages/tabs/tabs";
 import { BaseService } from "./service/base.service";
 import { UserService } from "./service/user.service";
 import { HttpClientModule } from "@angular/common/http";
@@ -22,20 +22,20 @@ import { AddRecibosComponent } from "./components/add-recibos/add-recibos.compon
 import { AddGastosComponent } from "./components/add-gastos/add-gastos.component";
 
 //import { Clipboard } from "@ionic-native/clipboard";
-import { HomePage } from "../pages/home/home";
+//import { HomePage } from "../pages/home/home";
 //import { AppRoutingModule } from "./routing.module";
 
 @NgModule({
   declarations: [
     MyApp,
     // AppRoutingModule,
-    HomePage,
+   // HomePage,
     MesesComponent,
     MesesDetailComponent,
     ContactPage,
     CasasComponent,
     CasasDetailComponent,
-    TabsPage,
+    //TabsPage,
     GroupByPipePipe,
     OrderByPipePipe,
     GastosComponent,
@@ -48,11 +48,11 @@ import { HomePage } from "../pages/home/home";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
+   // HomePage,
     ContactPage,
     CasasComponent,
     CasasDetailComponent,
-    TabsPage,
+    //TabsPage,
     GastosComponent,
     FolioComponent,
     MesesComponent,

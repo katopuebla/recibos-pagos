@@ -13,6 +13,9 @@ export class HomePage {
     public modalCtrl: ModalController
   ) {}
 
+  ngOnInit() {
+    this.navCtrl.push(AboutComponent);
+  }
   ionViewDidLoad() {
     console.log("ionViewDidLoad");
   }
