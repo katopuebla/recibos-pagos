@@ -1,14 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { LoadingController, ModalController, NavController } from "ionic-angular";
-import { AddGastosComponent } from "../../app/components/add-gastos/add-gastos.component";
-import { GastosService } from "../../app/service/gastos.service";
-import { LoadingUtil } from "../../app/utils/loadingUtil";
-import { GastosDetalle } from "../../interface/gastos";
+import { Component, OnInit } from '@angular/core';
+import {
+  IonicPage,
+  LoadingController,
+  ModalController,
+  NavController
+} from 'ionic-angular';
+import { AddGastosComponent } from '../../app/components/add-gastos/add-gastos.component';
+import { GastosService } from '../../app/service/gastos.service';
+import { LoadingUtil } from '../../app/utils/loadingUtil';
+import { GastosDetalle } from '../../interface/gastos';
 
+@IonicPage()
 @Component({
-  selector: "app-gastos",
-  templateUrl: "./gastos.component.html",
-  styleUrls: ["./gastos.component.css"]
+  selector: 'app-gastos',
+  templateUrl: './gastos.component.html',
+  styleUrls: ['./gastos.component.css']
 })
 export class GastosComponent extends LoadingUtil implements OnInit {
   items: GastosDetalle[];
@@ -54,7 +60,7 @@ export class GastosComponent extends LoadingUtil implements OnInit {
     // set val to the value of the searchbar
     const val = ev.target.value;
     // if the value is an empty string don't filter the items
-    if (val && val.trim() != "") {
+    if (val && val.trim() != '') {
       this.items = this.items.filter(item => {
         return (
           item.Categoria.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
