@@ -16,7 +16,7 @@ import { CasasComponent } from './components/casas/casas.component';
 import { CasasDetailComponent } from './components/casas/casas.component';
 
 import { ContactPage } from '../pages/contact/contact';
-import { TabsPage } from '../pages/tabs/tabs';
+//import { TabsPage } from '../pages/tabs/tabs';
 import { BaseService } from './service/base.service';
 import { UserService } from './service/user.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -28,21 +28,22 @@ import { AddRecibosComponent } from './components/add-recibos/add-recibos.compon
 import { AddGastosComponent } from './components/add-gastos/add-gastos.component';
 
 //import { Clipboard } from "@ionic-native/clipboard";
-import { HomePage } from '../pages/home/home';
+//import { HomePage } from '../pages/home/home';
 //import { AboutComponent } from '../pages/about/about.component';
 import { RecibosPage } from '../pages/recibos/recibos.page';
+import { HomePageModule } from '../pages/home/home.module';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
+    //    HomePage,
     //MesComponent,
     //MesesComponent,
     //MesesDetailComponent,
     //ContactPage,
     //CasasComponent,
     //CasasDetailComponent,
-    TabsPage,
+    //   TabsPage,
     //RecibosPage,
     GroupByPipePipe,
     OrderByPipePipe
@@ -52,21 +53,16 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
     //AddGastosComponent,
     //AboutComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    IonicPageModule,
-    IonicModule.forRoot(MyApp)
-  ],
-  //exports: [ ],
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
+  exports: [],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage,
+    MyApp
+    //   HomePage,
     //ContactPage,
     //CasasComponent,
     //CasasDetailComponent,
-    TabsPage
+    //   TabsPage
     //RecibosPage,
     //GastosComponent,
     //FolioComponent,
