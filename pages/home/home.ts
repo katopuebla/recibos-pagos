@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, ModalController, NavController } from 'ionic-angular';
 import { AddRecibosComponent } from '../../app/components/add-recibos/add-recibos.component';
-import { AboutComponent } from '../about/about.component';
+//import { AboutComponent } from '../about/about.component';
 
 @IonicPage()
 @Component({
@@ -27,6 +27,6 @@ export class HomePage {
   }
 
   navegationAbout() {
-    this.navCtrl.push(AboutComponent);
+    this.navCtrl.push('AboutComponent');
   }
 }

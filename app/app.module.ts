@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { StatusBar } from '@ionic-native/status-bar';
+//import { StatusBar } from '@ionic-native/status-bar';
 //import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { MesComponent } from './components/mes/mes.component';
@@ -27,7 +27,7 @@ import { AddGastosComponent } from './components/add-gastos/add-gastos.component
 
 //import { Clipboard } from "@ionic-native/clipboard";
 import { HomePage } from '../pages/home/home';
-import { AboutComponent } from '../pages/about/about.component';
+//import { AboutComponent } from '../pages/about/about.component';
 import { RecibosPage } from '../pages/recibos/recibos.page';
 
 @NgModule({
@@ -48,7 +48,7 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
     FolioComponent,
     AddRecibosComponent,
     AddGastosComponent,
-    AboutComponent
+   // AboutComponent
   ],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   exports: [],
@@ -68,10 +68,10 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
     MesesDetailComponent,
     AddRecibosComponent,
     AddGastosComponent,
-    AboutComponent
+  //  AboutComponent
   ],
   providers: [
-    StatusBar,
+  // StatusBar,
     //SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     BaseService,
