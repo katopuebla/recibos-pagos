@@ -4,7 +4,7 @@ import { HomePage } from '../home/home';
 import { RecibosPage } from '../recibos/recibos.page';
 import { GastosComponent } from '../gastos/gastos.component';
 import { ContactPage } from '../contact/contact';
-import { AboutComponent } from '../about/about.component';
+//import { AboutComponent } from '../about/about.component';
 
 @IonicPage()
 @Component({
@@ -16,6 +16,6 @@ export class TabsPage {
   recibosRoot = RecibosPage;
   gastosRoot = GastosComponent;
   contactRoot = ContactPage;
-  aboutRoot = AboutComponent;
+  //aboutRoot = AboutComponent;
   constructor() {}
 }

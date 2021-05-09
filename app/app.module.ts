@@ -48,7 +48,7 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
     FolioComponent,
     AddRecibosComponent,
     AddGastosComponent,
-   // AboutComponent
+   // AboutComponent,
   ],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   exports: [],
@@ -68,7 +68,7 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
     MesesDetailComponent,
     AddRecibosComponent,
     AddGastosComponent,
-  //  AboutComponent
+   // AboutComponent,
   ],
   providers: [
   // StatusBar,
