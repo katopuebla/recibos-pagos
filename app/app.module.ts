@@ -5,7 +5,7 @@ import { MyApp } from './app.component';
 //import { StatusBar } from '@ionic-native/status-bar';
 //import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { MesComponent } from './components/mes/mes.component';
+import { MesComponent, MesDetailComponent } from './components/mes/mes.component';
 import { MesesComponent } from './components/meses/meses.component';
 import { MesesDetailComponent } from './components/meses/meses.component';
 import { GastosComponent } from '../pages/gastos/gastos.component';
@@ -35,6 +35,7 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
     MyApp,
     HomePage,
     MesComponent,
+    MesDetailComponent,
     MesesComponent,
     MesesDetailComponent,
     ContactPage,
@@ -64,6 +65,7 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
     GastosComponent,
     FolioComponent,
     MesComponent,
+    MesDetailComponent,
     MesesComponent,
     MesesDetailComponent,
     AddRecibosComponent,
