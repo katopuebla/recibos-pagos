@@ -1,4 +1,4 @@
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 import { Component } from '@angular/core';
 //import { HomePage } from '../home/home';
 //import { RecibosPage } from '../recibos/recibos.page';
@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
-  homeRoot = 'HomePage';
+  // homeRoot = 'HomePage';
   //recibosRoot = RecibosPage;
   //gastosRoot = GastosComponent;
   //contactRoot = ContactPage;
