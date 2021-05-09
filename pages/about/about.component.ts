@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { IonicPage } from "ionic-angular";
+import { Component, OnInit } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 
-@IonicPage()
+@IonicPage({})
 @Component({
-  selector: "app-about",
-  templateUrl: "./about.component.html",
-  styleUrls: ["./about.component.css"]
+  selector: 'app-about',
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.css']
 })
 export class AboutComponent implements OnInit {
   constructor() {}

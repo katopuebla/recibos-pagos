@@ -29,7 +29,7 @@ import { AddGastosComponent } from './components/add-gastos/add-gastos.component
 
 //import { Clipboard } from "@ionic-native/clipboard";
 import { HomePage } from '../pages/home/home';
-import { AboutComponent } from '../pages/about/about.component';
+//import { AboutComponent } from '../pages/about/about.component';
 import { RecibosPage } from '../pages/recibos/recibos.page';
 
 @NgModule({
@@ -42,7 +42,7 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
     //ContactPage,
     //CasasComponent,
     //CasasDetailComponent,
-    //TabsPage,
+    TabsPage,
     //RecibosPage,
     GroupByPipePipe,
     OrderByPipePipe
@@ -62,11 +62,11 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
     //ContactPage,
     //CasasComponent,
     //CasasDetailComponent,
-    //TabsPage,
+    TabsPage
     //RecibosPage,
     //GastosComponent,
     //FolioComponent,

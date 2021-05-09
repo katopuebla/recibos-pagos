@@ -12,7 +12,7 @@ import { AboutComponent } from '../about/about.component';
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
-  homeRoot: HomePage;
+  homeRoot = HomePage;
   //recibosRoot = RecibosPage;
   //gastosRoot = GastosComponent;
   //contactRoot = ContactPage;
