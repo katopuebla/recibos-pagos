@@ -31,28 +31,26 @@ import { AddGastosComponent } from './components/add-gastos/add-gastos.component
 import { HomePage } from '../pages/home/home';
 import { AboutComponent } from '../pages/about/about.component';
 import { RecibosPage } from '../pages/recibos/recibos.page';
-//import { AppRoutingModule } from "./routing.module";
 
 @NgModule({
   declarations: [
     MyApp,
-    // AppRoutingModule,
     HomePage,
-    MesComponent,
-    MesesComponent,
-    MesesDetailComponent,
-    ContactPage,
-    CasasComponent,
-    CasasDetailComponent,
-    TabsPage,
-    RecibosPage,
+    //MesComponent,
+    //MesesComponent,
+    //MesesDetailComponent,
+    //ContactPage,
+    //CasasComponent,
+    //CasasDetailComponent,
+    //TabsPage,
+    //RecibosPage,
     GroupByPipePipe,
-    OrderByPipePipe,
-    GastosComponent,
-    FolioComponent,
-    AddRecibosComponent,
-    AddGastosComponent,
-    AboutComponent
+    OrderByPipePipe
+    //GastosComponent,
+    //FolioComponent,
+    // AddRecibosComponent,
+    //AddGastosComponent,
+    //AboutComponent
   ],
   imports: [
     BrowserModule,
@@ -64,20 +62,20 @@ import { RecibosPage } from '../pages/recibos/recibos.page';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    ContactPage,
-    CasasComponent,
-    CasasDetailComponent,
-    TabsPage,
-    RecibosPage,
-    GastosComponent,
-    FolioComponent,
-    MesComponent,
-    MesesComponent,
-    MesesDetailComponent,
-    AddRecibosComponent,
-    AddGastosComponent,
-    AboutComponent
+    HomePage
+    //ContactPage,
+    //CasasComponent,
+    //CasasDetailComponent,
+    //TabsPage,
+    //RecibosPage,
+    //GastosComponent,
+    //FolioComponent,
+    //MesComponent,
+    //MesesComponent,
+    //MesesDetailComponent,
+    //AddRecibosComponent,
+    //AddGastosComponent,
+    //AboutComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

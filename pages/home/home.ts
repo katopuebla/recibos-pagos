@@ -1,11 +1,12 @@
-import { Component } from "@angular/core";
-import { IonicPage, ModalController, NavController } from "ionic-angular";
-import { AboutComponent } from "../about/about.component";
+import { Component } from '@angular/core';
+import { IonicPage, ModalController, NavController } from 'ionic-angular';
+import { AddRecibosComponent } from '../../app/components/add-recibos/add-recibos.component';
+import { AboutComponent } from '../about/about.component';
 
 @IonicPage()
 @Component({
-  selector: "page-home",
-  templateUrl: "home.html"
+  selector: 'page-home',
+  templateUrl: 'home.html'
 })
 export class HomePage {
   constructor(
@@ -14,18 +15,18 @@ export class HomePage {
   ) {}
 
   ngOnInit() {
-    this.navCtrl.push(AboutComponent);
+    //this.navCtrl.push(AboutComponent);
   }
   ionViewDidLoad() {
-    console.log("ionViewDidLoad");
+    console.log('ionViewDidLoad');
   }
-  /*
+
   openModal(characterNum) {
     let modal = this.modalCtrl.create(AddRecibosComponent, characterNum);
     modal.present();
-  }*/
+  }
 
   navegationAbout() {
-    this.navCtrl.push(AboutComponent);
+    this.navCtrl.push('AboutComponent');
   }
 }
