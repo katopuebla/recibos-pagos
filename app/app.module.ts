@@ -7,6 +7,9 @@ import {
   IonicPageModule
 } from 'ionic-angular';
 import { MyApp } from './app.component';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
 import { MesComponent } from './components/mes/mes.component';
 import { MesesComponent } from './components/meses/meses.component';
 import { MesesDetailComponent } from './components/meses/meses.component';
@@ -74,6 +77,8 @@ import { HomePageModule } from '../pages/home/home.module';
     //AboutComponent
   ],
   providers: [
+    StatusBar,
+    SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     BaseService,
     UserService,
