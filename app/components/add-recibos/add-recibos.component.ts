@@ -1,29 +1,29 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators
-} from "@angular/forms";
+} from '@angular/forms';
 import {
   LoadingController,
   ToastController,
   ViewController
-} from "ionic-angular";
+} from 'ionic-angular';
 import {
   Casa,
   Concepto,
   Recibo,
   ReciboDetalle
-} from "../../../interface/recibos";
-import { RecibosService } from "../../service/recibos.service";
-import { LoadingUtil } from "../../utils/loadingUtil";
+} from '../../../interface/recibos';
+import { RecibosService } from '../../service/recibos.service';
+import { LoadingUtil } from '../../utils/loadingUtil';
 
 @Component({
-  selector: "app-add-recibos",
-  templateUrl: "./add-recibos.component.html",
-  styleUrls: ["./add-recibos.component.css"]
+  selector: 'app-add-recibos',
+  templateUrl: './add-recibos.component.html',
+  styleUrls: ['./add-recibos.component.css']
 })
 export class AddRecibosComponent extends LoadingUtil implements OnInit {
   item: Recibo = {};
@@ -50,22 +50,22 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
   ) {
     super(loadingCtrl);
     this.fields = this.formBuilder.group({
-      folio: ["", Validators.required],
-      casa: ["", Validators.required],
-      nombre: ["", Validators.required],
-      fecha: ["", Validators.required],
-      email: ["", Validators.required],
-      sendEmail: "",
-      cantidad: ["", Validators.required],
+      folio: ['', Validators.required],
+      casa: ['', Validators.required],
+      nombre: ['', Validators.required],
+      fecha: ['', Validators.required],
+      email: ['', Validators.required],
+      sendEmail: '',
+      cantidad: ['', Validators.required],
       conceptos: this.formBuilder.array([this.frmConceptos()])
     });
   }
 
   frmConceptos(): FormGroup {
     return this.formBuilder.group({
-      concepto: ["", Validators.required],
-      mes: ["", Validators.required],
-      monto: ["", Validators.required]
+      concepto: ['', Validators.required],
+      mes: ['', Validators.required],
+      monto: ['', Validators.required]
     });
   }
 
@@ -96,11 +96,12 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
   }
 
   onChangeCasa(_casa: any) {
-    if (_casa) {
+    if (_casa.CASA) {
       this.casa = this.casas.find(data => {
         if (data.CASA === _casa.CASA && data.NOMBRE === _casa.NOMBRE)
           return data;
       });
+
       this.item.NOMBRE = this.casa.NOMBRE;
       this.item.CORREO = this.casa.EMAIL;
       this.sendEmail = true;
@@ -124,21 +125,21 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
           console.log(_recibo.fecha);
           this.service.sendEmail(_recibo, _recibo.conceptos).subscribe(
             resp => {
-              console.log("resp save item", resp);
-              this.meesageToast("correo enviado");
+              console.log('resp save item', resp);
+              this.meesageToast('correo enviado');
             },
             err => {
-              console.log("Error email: ", err);
+              console.log('Error email: ', err);
             }
           );
         }
-        this.meesageToast("Se guardo exitosamente");
+        this.meesageToast('Se guardo exitosamente');
         this.getDismiss();
         this.dismiss();
       },
       err => {
         //console.log("Error Detail: ", err);
-        this.meesageToast("No se pudo guardar el dato");
+        this.meesageToast('No se pudo guardar el dato');
         this.getDismiss();
       }
     );
@@ -189,11 +190,11 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     let toast = this.toastCtrl.create({
       message: _message,
       duration: 3000,
-      position: "top"
+      position: 'top'
     });
 
     toast.onDidDismiss(() => {
-      console.log("Dismissed toast");
+      console.log('Dismissed toast');
     });
 
     toast.present();
