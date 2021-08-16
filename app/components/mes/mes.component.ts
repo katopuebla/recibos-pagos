@@ -17,6 +17,7 @@ import { Funtions } from '../../utils/funtions';
 })
 export class MesComponent extends Funtions implements OnInit {
   items: ReciboDetalle[];
+  itemsLastMonth: ReciboDetalle[];
   title: string;
   itemsBackup: ReciboDetalle[];
 
@@ -45,13 +46,20 @@ export class MesComponent extends Funtions implements OnInit {
   getdata() {
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
       let today = new Date().getMonth();
-      this.items = data.filter(mes => {
+      /*this.items = data.filter(mes => {
         return new Date(mes.MES).getMonth() === today;
-      });
+      });*/
+      this.items = data;
       this.getDismiss();
       this.items.sort((a, b) => (a.CASA > b.CASA ? 1 : -1));
       this.itemsBackup = this.items.slice();
       this.title = this.items[0].MES;
+
+      let lastMonth = new Date().getMonth() - 1;
+      this.itemsLastMonth = data.filter(mes => {
+        return new Date(mes.MES).getMonth() === lastMonth;
+      });
+      this.itemsLastMonth.sort((a, b) => (a.CASA > b.CASA ? 1 : -1));
     });
     this.getPresent();
   }
