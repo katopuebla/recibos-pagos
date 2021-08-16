@@ -19,7 +19,7 @@
 	</ion-refresher>
 	<ion-item-group *ngFor="let item of items | groupBy: 'CASA'">
 		<ion-item-divider color="light">
-			{{ item.header }} : {{ sumMonto(item.details, item.header) | currency }}
+			{{ item.header }} : {{ sumMonto(item.details, item.header) | currency}}
 		</ion-item-divider>
 		<ion-item *ngFor="let detail of item.details">
 			<ion-grid>
