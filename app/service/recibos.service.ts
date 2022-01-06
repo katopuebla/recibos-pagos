@@ -1,47 +1,49 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   BodyTables,
   Recibo,
   ReciboDetalle,
-  User
-} from "../../interface/recibos";
-import { BaseService } from "./base.service";
+  User,
+} from '../../interface/recibos';
+import { BaseService } from './base.service';
 
 @Injectable()
 export class RecibosService {
   // SPREAD_SHEET_ID = "1io4aQ7pdM0shvePwssrC7xSIwoVqEfWYlvgsXV5oKoo";
   //SPREAD_SHEET_ID = "1YxCDsSTdWWkaV6unC3jH9J-aY16KqY8pCZmf28K2j7E"; 2020
-  SPREAD_SHEET_ID = "18LK79akv3FOhDZSEcVWwRkMfXffWXLNDwjSa5tILgY0";
+  //SPREAD_SHEET_ID = "18LK79akv3FOhDZSEcVWwRkMfXffWXLNDwjSa5tILgY0"; 2021
+  SPREAD_SHEET_ID = '1gavOXH1d86XLmFvC8XzvPVv30duqpm8ICYZ6UZ3g8x4';
+
   constructor(private base: BaseService) {
     base.setSpreadSheetId(this.SPREAD_SHEET_ID);
   }
 
   getFullData() {
-    return this.base.getEntities("Casas");
+    return this.base.getEntities('Casas');
   }
 
   getFullDataDetail() {
-    return this.base.getEntities("RecibosDetalle");
+    return this.base.getEntities('RecibosDetalle');
   }
 
   getRecibos() {
-    return this.base.getEntities("Recibos");
+    return this.base.getEntities('Recibos');
   }
 
   getConceptos() {
-    return this.base.getEntities("ConceptoDef");
+    return this.base.getEntities('ConceptoDef');
   }
 
   save(_entity: Recibo, _entities: ReciboDetalle[]) {
     let reciboBodies: BodyTables[] = [];
     let reciboBody: BodyTables = {};
     //header
-    reciboBody.table = "Recibos";
+    reciboBody.table = 'Recibos';
     reciboBody.rows = this.getBody(_entity);
     reciboBodies.push(reciboBody);
     // Detail
     reciboBody = {};
-    reciboBody.table = "RecibosDetalle";
+    reciboBody.table = 'RecibosDetalle';
     reciboBody.rows = this.getBodyDetrail(_entities);
     reciboBodies.push(reciboBody);
     //run service
@@ -51,7 +53,7 @@ export class RecibosService {
   private getBody(_entity: Recibo) {
     let body: string[][] = [];
     let entities: string[] = [];
-    entities.push("" + _entity.FOLIO);
+    entities.push('' + _entity.FOLIO);
     entities.push(_entity.CASA);
     entities.push(_entity.NOMBRE);
     entities.push(_entity.CANTIDAD);
@@ -67,9 +69,9 @@ export class RecibosService {
     let bodiesDetail: string[][] = [];
     if (_entities) {
       // console.log("_entities Detail", _entities);
-      _entities.forEach(data => {
+      _entities.forEach((data) => {
         let entities: string[] = [];
-        entities.push("" + data.FOLIO);
+        entities.push('' + data.FOLIO);
         entities.push(data.CASA);
         entities.push(data.NOMBRE);
         entities.push(data.CONCEPTO);
