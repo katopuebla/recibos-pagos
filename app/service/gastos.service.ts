@@ -35,7 +35,7 @@ export class GastosService {
     entities.push(_entity.Fecha);
     entities.push('' + _entity.Monto);
     entities.push(_entity.Commentario);
-    entities.push(new Date().toLocaleString('es-MX', { timeZone: 'UTC' }));
+    entities.push(new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }));
     return entities;
   }
 }

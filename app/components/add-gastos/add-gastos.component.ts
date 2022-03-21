@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   LoadingController,
   ToastController,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { CategoriaDef, GastosDetalle } from '../../../interface/gastos';
 import { GastosService } from '../../service/gastos.service';
@@ -12,14 +12,14 @@ import { LoadingUtil } from '../../utils/loadingUtil';
 @Component({
   selector: 'app-add-gastos',
   templateUrl: './add-gastos.component.html',
-  styleUrls: ['./add-gastos.component.css']
+  styleUrls: ['./add-gastos.component.css'],
 })
 export class AddGastosComponent extends LoadingUtil implements OnInit {
   item: GastosDetalle = {};
   categorias: CategoriaDef[];
   date = new Date(); // Or the date you'd like converted.
   today: string = new Date(
-    this.date.getTime() - this.date.getTimezoneOffset() * 60000
+    this.date.getTime() /- this.date.getTimezoneOffset() * 60000
   ).toISOString();
 
   private fields: FormGroup;
@@ -37,7 +37,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       nombre: ['', Validators.required],
       fecha: ['', Validators.required],
       monto: ['', Validators.required],
-      comentario: ['']
+      comentario: [''],
     });
   }
   logForm() {
@@ -59,20 +59,22 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
   onChange(_categoria: any) {
     if (_categoria) {
       let categoria: CategoriaDef;
-      categoria = this.categorias.find(data => data.Categoria === _categoria);
+      categoria = this.categorias.find((data) => data.Categoria === _categoria);
       this.item.Nombre = categoria.Persona;
     }
   }
   onSave() {
     let fecha = new Date(this.item.Fecha);
-    this.item.Fecha = fecha.toLocaleString('es-MX', { timeZone: 'UTC' });
+    this.item.Fecha = fecha.toLocaleString('es-MX', {
+      timeZone: 'America/Mexico_City'
+    });
     this.service.save(this.item).subscribe(
-      resp => {
+      (resp) => {
         this.meesageToast('Se guardo exitosamente');
         this.getDismiss();
         this.dismiss();
       },
-      err => {
+      (err) => {
         this.meesageToast('No se pudo guardar el dato');
         console.log('Error: ', err);
         this.getDismiss();
@@ -85,7 +87,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     let toast = this.toastCtrl.create({
       message: _message,
       duration: 3000,
-      position: 'top'
+      position: 'top',
     });
 
     toast.onDidDismiss(() => {
