@@ -1,18 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   LoadingController,
   ToastController,
   ViewController
-} from "ionic-angular";
-import { CategoriaDef, GastosDetalle } from "../../../interface/gastos";
-import { GastosService } from "../../service/gastos.service";
-import { LoadingUtil } from "../../utils/loadingUtil";
+} from 'ionic-angular';
+import { CategoriaDef, GastosDetalle } from '../../../interface/gastos';
+import { GastosService } from '../../service/gastos.service';
+import { LoadingUtil } from '../../utils/loadingUtil';
 
 @Component({
-  selector: "app-add-gastos",
-  templateUrl: "./add-gastos.component.html",
-  styleUrls: ["./add-gastos.component.css"]
+  selector: 'app-add-gastos',
+  templateUrl: './add-gastos.component.html',
+  styleUrls: ['./add-gastos.component.css']
 })
 export class AddGastosComponent extends LoadingUtil implements OnInit {
   item: GastosDetalle = {};
@@ -33,11 +33,11 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
   ) {
     super(loadingCtrl);
     this.fields = this.formBuilder.group({
-      categoria: ["", Validators.required],
-      nombre: ["", Validators.required],
-      fecha: ["", Validators.required],
-      monto: ["", Validators.required],
-      comentario: [""]
+      categoria: ['', Validators.required],
+      nombre: ['', Validators.required],
+      fecha: ['', Validators.required],
+      monto: ['', Validators.required],
+      comentario: ['']
     });
   }
   logForm() {
@@ -65,16 +65,16 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
   }
   onSave() {
     let fecha = new Date(this.item.Fecha);
-    this.item.Fecha = fecha.toLocaleString();
+    this.item.Fecha = fecha.toLocaleString('es-MX', { timeZone: 'UTC' });
     this.service.save(this.item).subscribe(
       resp => {
-        this.meesageToast("Se guardo exitosamente");
+        this.meesageToast('Se guardo exitosamente');
         this.getDismiss();
         this.dismiss();
       },
       err => {
-        this.meesageToast("No se pudo guardar el dato");
-        console.log("Error: ", err);
+        this.meesageToast('No se pudo guardar el dato');
+        console.log('Error: ', err);
         this.getDismiss();
       }
     );
@@ -85,11 +85,11 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     let toast = this.toastCtrl.create({
       message: _message,
       duration: 3000,
-      position: "top"
+      position: 'top'
     });
 
     toast.onDidDismiss(() => {
-      console.log("Dismissed toast");
+      console.log('Dismissed toast');
     });
 
     toast.present();

@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { CategoriaDef, GastosDetalle } from "../../interface/gastos";
-import { BaseService } from "./base.service";
+import { Injectable } from '@angular/core';
+import { CategoriaDef, GastosDetalle } from '../../interface/gastos';
+import { BaseService } from './base.service';
 
 @Injectable()
 export class GastosService {
@@ -14,18 +14,18 @@ export class GastosService {
   }
 
   getCategoriaDef() {
-    return this.base.getEntities("CategoriaDef");
+    return this.base.getEntities('CategoriaDef');
   }
 
   getFullDataDetail() {
-    return this.base.getEntities("GastosDetalle");
+    return this.base.getEntities('GastosDetalle');
   }
 
   save(_entity: GastosDetalle) {
     let entities = this.getBody(_entity);
     let body: string[][] = [];
     body.push(entities);
-    return this.base.saveEntities("GastosDetalle", body);
+    return this.base.saveEntities('GastosDetalle', body);
   }
 
   private getBody(_entity: GastosDetalle) {
@@ -33,9 +33,9 @@ export class GastosService {
     entities.push(_entity.Categoria);
     entities.push(_entity.Nombre);
     entities.push(_entity.Fecha);
-    entities.push("" + _entity.Monto);
+    entities.push('' + _entity.Monto);
     entities.push(_entity.Commentario);
-    entities.push(new Date().toLocaleString());
+    entities.push(new Date().toLocaleString('es-MX', { timeZone: 'UTC' }));
     return entities;
   }
 }
