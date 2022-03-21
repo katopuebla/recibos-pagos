@@ -19,7 +19,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
   categorias: CategoriaDef[];
   date = new Date(); // Or the date you'd like converted.
   today: string = new Date(
-    this.date.getTime() /- this.date.getTimezoneOffset() * 60000
+    this.date.getTime() //- this.date.getTimezoneOffset() * 60000
   ).toISOString();
 
   private fields: FormGroup;
