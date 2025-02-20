@@ -1,0 +1,7 @@
+{
+  "name": "garita-recibos-pagos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

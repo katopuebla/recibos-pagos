@@ -1,0 +1,22 @@
+<!-- Purpose: Form to set SHEET_ID to Recibos and Gastos -->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Parameters</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="parameters" (ngSubmit)="onSave(parameters.value)">
+    <ion-item>
+      <ion-input type="text" label="SheetId Recibos" formControlName="sheetIdRecibos"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" label="SheetId Gastos" formControlName="sheetIdGastos"></ion-input>
+    </ion-item>
+    <ion-button type="submit" expand="block">Save</ion-button>
+  </form>
+</ion-content>

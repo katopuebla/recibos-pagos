@@ -1,0 +1,19 @@
+<ion-list-header>
+  <ion-searchbar (ionInput)="getItems($event)" placeholder="Pagos del mes de {{title | date: 'MMM.yy' }}">
+  </ion-searchbar>
+</ion-list-header>
+
+<!-- <ion-content> -->
+  <ion-list>
+    <ion-item *ngFor="let item of items | groupBy:'CASA'" (click)="openModal({detail: item.details})">
+      <ion-label>
+        
+        <ion-badge color="light" slot="start">{{ lastSumMonto(itemsLastMonth, item.header) }}</ion-badge>
+        {{ item.header }} - {{ item.details[0].NOMBRE.substr(0, 15) }} : {{ sumMonto(item.details, item.header) | currency }} 
+        <ion-badge *ngIf="sizeMonto(item.details, item.header) == 0" color="danger">{{ sizeMonto(item.details, item.header) }} pago</ion-badge>
+        <ion-badge *ngIf="sizeMonto(item.details, item.header) == 1" color="secondary">{{ sizeMonto(item.details, item.header) }} pago</ion-badge>
+        <ion-badge *ngIf="sizeMonto(item.details, item.header) > 1" color="secondary">{{ sizeMonto(item.details, item.header) }} pagos</ion-badge>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+<!-- </ion-content> -->

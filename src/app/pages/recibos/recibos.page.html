@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="option">
+      <ion-segment-button value="Mes">
+        Mes
+      </ion-segment-button>
+      <ion-segment-button value="Meses">
+        Meses
+      </ion-segment-button>
+      <ion-segment-button value="Casa">
+        Casa
+      </ion-segment-button>
+      <ion-segment-button value="Folio">
+        Folio
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">  
+    <ion-fab-button (click)="openModal({new: 'Add'})">  
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ng-container [ngSwitch]="option">  
+    <div *ngSwitchCase="'Mes'">
+      <app-mes></app-mes>  
+    </div>
+    <div *ngSwitchCase="'Meses'">
+      <app-meses></app-meses>  
+    </div>
+    <div *ngSwitchCase="'Casa'">
+      <app-casas></app-casas>  
+    </div>
+    <!-- <div *ngSwitchCase="'Folio'">
+      <app-folio></app-folio>  </div> -->
+  </ng-container>
+</ion-content>
