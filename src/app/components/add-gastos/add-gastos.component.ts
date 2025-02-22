@@ -89,16 +89,12 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       if (_monto) {
         const control = <FormArray>this.fields.controls['conceptos'];
         const newMonto = _monto - control.at(i).value.monto;
+        const formattedDate = this.today.toJSON().split('T')[0];
         control.at(i).patchValue({
-          mes: this.getFirstDayOfMonth(),
+          mes: formattedDate,
           monto: _monto
         });
       }
-    }
-
-    getFirstDayOfMonth() {
-      const firstDayOfMonth = new Date(this.today.getFullYear(), this.today.getMonth(), 1).toJSON().split('T')[0];
-      return firstDayOfMonth;
     }
 
   onSave(_gasto: any) {
@@ -166,8 +162,9 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       const monto = this.fields.value.monto;
       const newMonto = monto - _monto;
       const control = <FormArray>this.fields.controls['conceptos'];
+      const formattedDate = this.today.toJSON().split('T')[0];
       control.at(control.length -1 ).patchValue({
-        mes: this.getFirstDayOfMonth(),
+        mes: formattedDate,
         monto: newMonto
       });
     }
