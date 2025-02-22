@@ -17,7 +17,7 @@ jobs:
       - name: Install and Build
         run: |
           npm ci
-          npm run build --prod -- --base-href=https://katopuebla.github.io/recibos-pagos
+          npm run build --prod -- --base-href=/recibos-pagos/
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
