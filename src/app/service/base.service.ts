@@ -15,7 +15,7 @@ export class BaseService {
 
   // 'GASTOS_SPREAD_SHEET_ID'
   public async loadConfig(property: string) : Promise<string> {
-    const config: any = await this._http.get('/assets/config.properties', { responseType: 'text' }).toPromise();
+    const config: any = await this._http.get('./assets/config.properties', { responseType: 'text' }).toPromise();
     const properties = this.parseProperties(config);
     this.SPREAD_SHEET_ID = properties[property];
     if (this.SPREAD_SHEET_ID) {
