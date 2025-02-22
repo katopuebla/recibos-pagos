@@ -15,7 +15,7 @@ export class BaseService {
 
   // 'GASTOS_SPREAD_SHEET_ID'
   public async loadConfig(property: string) : Promise<string> {
-    const config: any = await this._http.get('/assets/config.properties', { responseType: 'text' }).toPromise();
+    const config: any = await this._http.get('./assets/config.properties', { responseType: 'text' }).toPromise();
     const properties = this.parseProperties(config);
     this.SPREAD_SHEET_ID = properties[property];
     if (this.SPREAD_SHEET_ID) {
@@ -25,11 +25,11 @@ export class BaseService {
   }
   
   async updateConfig(newSpreadSheetId: string, property: string) : Promise<string> {
-    const config: any = await this._http.get('/assets/config.properties', { responseType: 'text' }).toPromise();
+    const config: any = await this._http.get('./assets/config.properties', { responseType: 'text' }).toPromise();
     let properties = this.parseProperties(config);
     properties[property] = newSpreadSheetId;
     const updatedConfig = this.stringifyProperties(properties);
-    this.SPREAD_SHEET_ID = await this._http.post('/assets/config.properties', { updatedConfig }, { responseType: 'text' }).toPromise();
+    this.SPREAD_SHEET_ID = await this._http.post('./assets/config.properties', { updatedConfig }, { responseType: 'text' }).toPromise();
     this.SPREAD_SHEET_ID = newSpreadSheetId;
     if (this.SPREAD_SHEET_ID) {
       return this.SPREAD_SHEET_ID;
