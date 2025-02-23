@@ -1,8 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import {
   LoadingController,
   ModalController,
-  NavParams,
 } from "@ionic/angular";
 import { RecibosService } from "../../service/recibos.service";
 import { LoadingUtil } from "../../utils/loadingUtil";
@@ -34,13 +33,13 @@ export class CasasComponent extends LoadingUtil implements OnInit {
     await this.service.getSpreadSheetId().then( () => this.getdata());
   }
 
-  doRefresh(refresher: { complete: () => void; }) {
+/*   doRefresh(refresher: { complete: () => void; }) {
     this.service.getFullData().subscribe((data: Casa[]) => {
       this.items = data;
       this.itemsBackup = this.items.slice();
       refresher.complete();
     });
-  }
+  } */
 
   getdata() {
     this.service.getFullData().subscribe(async (data: Casa[]) => {
@@ -53,9 +52,9 @@ export class CasasComponent extends LoadingUtil implements OnInit {
 
   async openModal(casa: any) {
     const modal = await this.modalCtrl.create({
-      component : CasasDetailComponent, 
-      componentProps: { casa : casa.casa }
-      });
+      component: CasasDetailComponent,
+      componentProps: { casa: casa.casa }
+    });
     await modal.present();
   }
 
@@ -82,13 +81,12 @@ export class CasasComponent extends LoadingUtil implements OnInit {
   // styleUrls: ["casas.component.css"],
   standalone: false
 })
-export class CasasDetailComponent extends LoadingUtil {
+export class CasasDetailComponent extends LoadingUtil implements OnInit {
+  @Input() casa: string = "";
   items: ReciboDetalle[] = [];
   name: string = "";
 
   constructor(
-    public params: NavParams,
-    // public viewCtrl: ViewController,
     public modalCtrl: ModalController,
     private service: RecibosService,
     loadingCtrl: LoadingController
@@ -97,8 +95,8 @@ export class CasasDetailComponent extends LoadingUtil {
   }
 
   async ngOnInit() {
-    this.name = this.params.get("casa");
-    await this.service.getSpreadSheetId().then( () => this.getdata());
+    this.name = this.casa;
+    await this.service.getSpreadSheetId().then(() => this.getdata());
   }
 
   doRefresh(refresher: { complete: () => void }) {
@@ -110,7 +108,7 @@ export class CasasDetailComponent extends LoadingUtil {
   }
 
   getdata() {
-    console.log(this.params.get("casa"));
+    console.log(this.casa);
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
       this.items = data.filter(value => value.CASA == this.name);
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));

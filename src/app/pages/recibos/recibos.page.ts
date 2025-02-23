@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular'; // Importa ModalController de 
 import { AddRecibosComponent } from '../../../app/components/add-recibos/add-recibos.component';
 import { RecibosService } from 'src/app/service/recibos.service';
 import { LoadingUtil } from 'src/app/utils/loadingUtil';
- 
+
 @Component({
   selector: 'app-recibos',
   templateUrl: 'recibos.page.html',
@@ -45,5 +45,9 @@ export class RecibosPage implements OnInit {
       });
     }
     await modal.present(); // Espera a que se presente el modal
+    const { data, role } = await modal.onWillDismiss(); // Espera a que se cierre el modal
+    if ( role === 'confirm') {
+      window.location.reload();
+    }
   }
 }

@@ -30,16 +30,16 @@ export class GastosPage implements OnInit {
     this.service.getSpreadSheetId().then(() => this.getdata());
   }
 
-/*   doRefresh(refresher) {
+  doRefresh(event: CustomEvent) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
       this.items = data;
       this.itemsBackup = this.items.slice();
-      refresher.complete();
+      (event.target as HTMLIonRefresherElement).complete();
     });
-  } */
+  }
 
-  getdata() {
-    this.service.getFullDataDetail().subscribe((data: GastosDetalle[]) => {
+  async getdata() {
+    await this.service.getFullDataDetail().subscribe((data: GastosDetalle[]) => {
       this.items = data;
       this.itemsBackup = this.items;
       this.loadUtil.loadingDismiss();
@@ -49,7 +49,7 @@ export class GastosPage implements OnInit {
 
   getItems(ev: any) {
     // Reset items back to all of the items
-    console.log(this.items);
+    // console.log(this.items);
     this.items = this.itemsBackup;
     // console.log("this.items", this.items);
     // set val to the value of the searchbar
@@ -67,9 +67,13 @@ export class GastosPage implements OnInit {
 
   async openModal(detail: any) {
     const modal = await this.modalCtrl.create({
-      component: AddGastosComponent, 
+      component: AddGastosComponent,
       componentProps: { detail : detail.detail }
     });
     modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.getdata();
+    }
   }
 }

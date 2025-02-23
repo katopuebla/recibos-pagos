@@ -1,8 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import {
   LoadingController,
-  ModalController,
-  NavParams
+  ModalController
 } from "@ionic/angular";
 import { ReciboDetalle } from "../../interface/recibos";
 import { RecibosService } from "../../service/recibos.service";
@@ -48,7 +47,7 @@ export class MesesComponent extends Funtions implements OnInit {
 
   async openModal(detail: any) {
     const modal = await this.modalCtrl.create({
-      component : MesesDetailComponent, 
+      component : MesesDetailComponent,
       componentProps: { detail : detail.detail }
       });
     await modal.present();
@@ -62,12 +61,12 @@ export class MesesComponent extends Funtions implements OnInit {
   standalone: false
 })
 export class MesesDetailComponent extends Funtions {
+  @Input() detail: ReciboDetalle[] = [];
   items: ReciboDetalle[] = [];
   itemsBackup: ReciboDetalle[] = [];
   title: string | any;
 
   constructor(
-    public params: NavParams,
     public modalCtrl: ModalController,
     loadingCtrl: LoadingController
   ) {
@@ -75,7 +74,7 @@ export class MesesDetailComponent extends Funtions {
   }
 
   ngOnInit() {
-    this.items = this.params.get("detail");
+    this.items = this.detail;
     this.itemsBackup = this.items ? this.items.slice() : [];
 
     this.title = this.items ? this.items[0].MES : '';

@@ -17,17 +17,17 @@ export class RecibosService {
 
   constructor(private base: BaseService) {
   }
-  
+
   async getSpreadSheetId() {
     this.SPREAD_SHEET_ID = await this.base.loadConfig('RECIBOS_SPREAD_SHEET_ID');
-        console.log('RecibosService: SPREAD_SHEET_ID loaded : ', this.SPREAD_SHEET_ID);
+        // console.log('RecibosService: SPREAD_SHEET_ID loaded : ', this.SPREAD_SHEET_ID);
     return this.SPREAD_SHEET_ID;
   }
 
   async setSpreadSheetId(_spreadSheetId: string) {
     // this.SPREAD_SHEET_ID = _spreadSheetId;
     this.SPREAD_SHEET_ID = await this.base.updateConfig(_spreadSheetId, 'RECIBOS_SPREAD_SHEET_ID');
-      console.log('RecibosService: SPREAD_SHEET_ID updated : ', this.SPREAD_SHEET_ID);
+      // console.log('RecibosService: SPREAD_SHEET_ID updated : ', this.SPREAD_SHEET_ID);
     return this.SPREAD_SHEET_ID;
   }
 

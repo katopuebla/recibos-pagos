@@ -23,7 +23,7 @@ export class BaseService {
     }
     throw new Error("SPREAD_SHEET_ID is undefined");
   }
-  
+
   async updateConfig(newSpreadSheetId: string, property: string) : Promise<string> {
     const config: any = await this._http.get('./assets/config.properties', { responseType: 'text' }).toPromise();
     let properties = this.parseProperties(config);
@@ -36,7 +36,7 @@ export class BaseService {
     }
     throw new Error("SPREAD_SHEET_ID is undefined");
   }
-  
+
   private parseProperties(properties: string): any {
     return properties.split('\n').reduce((acc: { [key: string]: string }, line) => {
       const [key, value] = line.split('=');
@@ -44,7 +44,7 @@ export class BaseService {
       return acc;
     }, {});
   }
-  
+
   private stringifyProperties(properties: { [key: string]: string }): string {
     return Object.entries(properties).map(([key, value]) => `${key}=${value}`).join('\n');
   }
@@ -54,7 +54,7 @@ export class BaseService {
   }
 
   /**
-   * 
+   *
    * @param table sheet name e.g. 'Casa'
    * @returns json of sheet
    */
@@ -67,7 +67,7 @@ export class BaseService {
   }
 
   /**
-   * 
+   *
    * @param table sheet name e.g. 'Casa'
    * @param range range of sheet e.g. A1:Z100
    * @returns json of sheet
@@ -101,7 +101,7 @@ export class BaseService {
       body.rows = data.rows;
       bodiesSaving.tables?.push(body);
     });
-    console.log(JSON.stringify(bodiesSaving));
+    console.debug(JSON.stringify(bodiesSaving));
     return this._http.post(this.BASE_URL, JSON.stringify(bodiesSaving));
   }
 
@@ -110,7 +110,7 @@ export class BaseService {
     bodySend.sendEmail = true;
     bodySend.info = _info;
     bodySend.Detail = _Detail;
-    console.log(bodySend);
+    console.debug(bodySend);
     return this._http.post(this.BASE_URL, JSON.stringify(bodySend));
   }
 }

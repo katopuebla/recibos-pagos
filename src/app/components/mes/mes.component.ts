@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { LoadingController, ModalController, NavParams } from '@ionic/angular';
+import { Component, OnInit, Input } from '@angular/core';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { ReciboDetalle } from '../../interface/recibos';
 import { RecibosService } from '../../service/recibos.service';
 import { Funtions } from '../../utils/funtions';
@@ -24,7 +24,7 @@ export class MesComponent extends Funtions implements OnInit {
   }
 
   async ngOnInit() {
-    await this.service.getSpreadSheetId().then( () => this.getdata());
+    await this.service.getSpreadSheetId().then(() => this.getdata());
   }
 
   doRefresh(event: { target: { complete: () => void; }; }) {
@@ -79,20 +79,20 @@ export class MesComponent extends Funtions implements OnInit {
   standalone: false, // Updated for Ionic 8
 })
 export class MesDetailComponent extends Funtions {
+  @Input() detail: ReciboDetalle[] = [];
   items: ReciboDetalle[] = []; // Initialize to an empty array
   itemsBackup: ReciboDetalle[] = [];
   title: string | any;
 
   constructor(
     public modalCtrl: ModalController,
-    private navParams: NavParams,
     loadingCtrl: LoadingController
   ) {
     super(loadingCtrl);
   }
 
   ngOnInit() {
-    this.items = this.navParams.get('detail'); // recibe datos del modal
+    this.items = this.detail; // recibe datos del modal
     this.itemsBackup = this.items ? this.items.slice() : [];
     this.title = this.items ? this.items[0].MES : '';
   }
