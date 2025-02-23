@@ -10,10 +10,10 @@ export class GastosService {
 
   constructor(private base: BaseService) {
   }
-  
+
   async getSpreadSheetId() {
     this.SPREAD_SHEET_ID = await this.base.loadConfig('GASTOS_SPREAD_SHEET_ID');
-      console.log('GastosService: SPREAD_SHEET_ID loaded : {}', this.SPREAD_SHEET_ID);
+      // console.log('GastosService: SPREAD_SHEET_ID loaded : {}', this.SPREAD_SHEET_ID);
     return this.SPREAD_SHEET_ID;
   }
 
@@ -90,5 +90,5 @@ export class GastosService {
     //console.log("_entities Detail return ", bodiesDetail);
     return bodiesDetail;
   }
-  
+
 }

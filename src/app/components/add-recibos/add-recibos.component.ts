@@ -136,11 +136,21 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     const _concepto: ConceptoDef = event.detail.value;
     if (_concepto) {
       const control = <FormArray>this.fields.controls['conceptos'];
+      let _monto = this.calMontoConcepto();
       control.at(i).patchValue({
         mes: this.getFirstDayOfMonth(),
-        monto: this.fields.value.cantidad
+        monto: _monto
       });
     }
+  }
+
+  calMontoConcepto() {
+    const control = <FormArray>this.fields.controls['conceptos'];
+    let sumMonto: number = 0;
+      control.controls.forEach((data: any) => {
+        sumMonto += data.value.monto;
+      });
+      return this.fields.value.cantidad - sumMonto;
   }
 
   getFirstDayOfMonth() {
@@ -175,7 +185,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
         }
         this.meesageToast('Se guardo exitosamente');
         this.loadingDismiss();
-        this.dismiss();
+        this.confirm();
       },
       error: err => {
         //console.log("Error Detail: ", err);
@@ -241,7 +251,11 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.toastUtil.presentToast(_message, "top");
   }
 
-  dismiss() {
-    this.modalCtrl.dismiss();
+  confirm() {
+    this.modalCtrl.dismiss(null, 'confirm');
+  }
+
+  close() {
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 }

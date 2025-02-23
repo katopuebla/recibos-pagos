@@ -107,7 +107,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       next: (resp) => {
         this.meesageToast('Se guardo exitosamente');
         this.loadingDismiss();
-        this.dismiss();
+        this.confirm();
       },
       error: (err) => {
         this.meesageToast('No se pudo guardar el dato');
@@ -147,18 +147,18 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       const control = <FormArray>this.fields.controls['conceptos'];
       control.removeAt(i);
     }
-  
+
     addNewInputField(): void {
       const control = <FormArray>this.fields.controls['conceptos'];
-      let lastMonto: number = 0;
+      let sumMonto: number = 0;
       control.controls.forEach((data: any) => {
-        lastMonto += data.value.monto;
+        sumMonto += data.value.monto;
       });
       control.push(this.frmConceptos());
-      this.updateConcepto(lastMonto);
+      this.updateMountConcepto(sumMonto);
     }
 
-    updateConcepto(_monto: number = 0) {
+    updateMountConcepto(_monto: number = 0) {
       const monto = this.fields.value.monto;
       const newMonto = monto - _monto;
       const control = <FormArray>this.fields.controls['conceptos'];
@@ -169,12 +169,15 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       });
     }
 
-    
+
   meesageToast(_message: string) {
     this.toastCtrl.presentToast(_message, 'top');
   }
 
-  dismiss() {
-    this.modalCtrl.dismiss();
+  close() {
+    this.modalCtrl.dismiss(null, 'cancel');
+  }
+  confirm() {
+    this.modalCtrl.dismiss(null, 'confirm');
   }
 }
