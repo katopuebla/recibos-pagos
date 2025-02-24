@@ -6,6 +6,7 @@ import {
   Validators
 } from '@angular/forms';
 import {
+  ActionSheetController,
   LoadingController,
   ModalController
 } from '@ionic/angular';
@@ -19,6 +20,7 @@ import {
 import { RecibosService } from '../../service/recibos.service';
 import { LoadingUtil } from '../../utils/loadingUtil';
 import { ToastUtil } from '../../utils/toastUtil';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Component({
   selector: 'app-add-recibos',
@@ -43,6 +45,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
+    private actionSheetCtrl: ActionSheetController,
     private formBuilder: FormBuilder,
     private service: RecibosService,
     loadingCtrl: LoadingController,
@@ -158,7 +161,29 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     return firstDayOfMonth;
   }
 
-  onSave(_recibo: any) {
+  async onSave(_recibo: any) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: '¿Desea guardar el recibo?',
+      buttons: [
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          icon: 'checkmark',
+          handler: () => {
+            this.save(_recibo);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          icon: 'close',
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  save(_recibo: any) {
     let _casa = _recibo.casa;
     _recibo.casa = _casa.ID;
     this.fillEvent(_recibo);
@@ -252,7 +277,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
   }
 
   confirm() {
-    this.modalCtrl.dismiss(null, 'confirm');
+      this.modalCtrl.dismiss(null, 'confirm');
   }
 
   close() {

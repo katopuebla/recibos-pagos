@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   Casa,
   ConceptoDef,
@@ -14,9 +14,8 @@ import { BodyTables } from '../interface/tables';
 @Injectable()
 export class RecibosService {
   SPREAD_SHEET_ID: string | undefined;
-
-  constructor(private base: BaseService) {
-  }
+  base = inject(BaseService);
+  // constructor(private base: BaseService) {}
 
   async getSpreadSheetId() {
     this.SPREAD_SHEET_ID = await this.base.loadConfig('RECIBOS_SPREAD_SHEET_ID');

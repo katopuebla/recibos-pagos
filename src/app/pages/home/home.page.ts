@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { ActionSheetController, ModalController, NavController } from '@ionic/angular';
 import { AddRecibosComponent } from '../../components/add-recibos/add-recibos.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { AddRecibosComponent } from '../../components/add-recibos/add-recibos.co
 })
 export class HomePage {
 
-  constructor( private navCtrl: NavController, private modalCtrl: ModalController) {}
+  constructor( private navCtrl: NavController, private modalCtrl: ModalController, private actionSheet: ActionSheetController) {}
 
   async openModal() {
     const modal = await this.modalCtrl.create({

@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ModalController,
   LoadingController,
+  ActionSheetController,
 } from '@ionic/angular';
 import { CategoriaDef, Concepto, Gastos, GastosDetalle } from '../../interface/gastos';
 import { GastosService } from '../../service/gastos.service';
@@ -30,6 +31,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
 
   constructor(
     public modalCtrl: ModalController,
+    private actionSheet: ActionSheetController,
     private formBuilder: FormBuilder,
     private service: GastosService,
     loadingCtrl: LoadingController,
@@ -97,7 +99,28 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       }
     }
 
-  onSave(_gasto: any) {
+  async onSave(_gasto: any) {
+    const actionSheet = await this.actionSheet.create({
+      header: '¿Desea guardar el gasto?',
+      buttons: [
+        {
+          text: 'Guardar',
+          icon: 'save',
+          handler: () => {
+            this.save(_gasto);
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+        },
+      ],
+  });
+    await actionSheet.present();
+}
+
+  save(_gasto: any) {
     let fecha = new Date(this.gasto.Fecha || this.today);
     this.gasto.Fecha = fecha.toLocaleString('es-MX', {
       timeZone: 'America/Mexico_City'

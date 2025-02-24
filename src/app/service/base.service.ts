@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { BodiesSaving, BodySaving, BodyTables } from "../interface/tables";
 
 @Injectable()
@@ -11,7 +11,9 @@ export class BaseService {
   SPREAD_SHEET_ID: string | undefined;
   TABLES = [];
 
-  constructor(private _http: HttpClient) {}
+  _http = inject(HttpClient);
+  // constructor(private _http: HttpClient) {}
+  constructor() {}
 
   // 'GASTOS_SPREAD_SHEET_ID'
   public async loadConfig(property: string) : Promise<string> {
