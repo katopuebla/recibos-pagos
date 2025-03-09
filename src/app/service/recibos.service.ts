@@ -3,8 +3,7 @@ import {
   Casa,
   ConceptoDef,
   Recibo,
-  ReciboDetalle,
-  User,
+  ReciboDetalle
 } from '../interface/recibos';
 import { BaseService } from './base.service';
 import { Observable } from 'rxjs';

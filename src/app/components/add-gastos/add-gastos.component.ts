@@ -144,7 +144,6 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     fillEvent(_gasto: any) {
       // console.log("fillEvent", _gasto);
       this.gasto.Categoria = _gasto.categoria.Nombre;
-      let fecha = new Date(_gasto.fecha);
       this.gasto.Fecha = _gasto.fecha;
       this.gasto.Nombre = _gasto.nombre;
       this.gasto.Monto = _gasto.monto;

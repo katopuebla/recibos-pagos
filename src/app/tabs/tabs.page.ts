@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-tabs',
@@ -6,8 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['tabs.page.scss'],
   standalone: false,
 })
-export class TabsPage {
+export class TabsPage implements OnInit {
+
+  isLoggedIn = false;
 
   constructor() {}
+
+  ngOnInit() {
+    localStorage.getItem('user') ? this.isLoggedIn = true : this.isLoggedIn = false;
+  }
 
 }

@@ -17,6 +17,7 @@ import { GastosDetalle } from '../../interface/gastos';
 export class GastosPage implements OnInit {
   items: GastosDetalle[] = [];
   itemsBackup: GastosDetalle[] = [];
+  role: string = '';
 
   constructor(
     public modalCtrl: ModalController,
@@ -28,6 +29,8 @@ export class GastosPage implements OnInit {
 
   ngOnInit() {
     this.service.getSpreadSheetId().then(() => this.getdata());
+    const user = localStorage.getItem('user');
+    this.role = user ? JSON.parse(user).ROLE : '';
   }
 
   doRefresh(event: CustomEvent) {

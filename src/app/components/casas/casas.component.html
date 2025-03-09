@@ -3,7 +3,7 @@
 </ion-list-header>
 <ion-list inset>
 	<ion-item ion-item *ngFor="let item of items" (click)="openModal({casa: item.ID})">
-      {{ item.ID }} - {{ item?.NOMBRE?.substr(0, 15) }}
+      {{ item.ID }} - {{ item.NOMBRE }}
       <!-- {{ item.ID }}  -->
     </ion-item>
 </ion-list>

@@ -13,6 +13,7 @@ import { LoadingUtil } from 'src/app/utils/loadingUtil';
 export class RecibosPage implements OnInit {
   option: string = 'Mes';
   isAndroid: boolean = false;
+  role: string = '';
 
   constructor(public modalCtrl: ModalController
     , private recibosService: RecibosService
@@ -27,6 +28,8 @@ export class RecibosPage implements OnInit {
     //   }
     // );
     // this.loadUtil.showLoading();
+    const user = localStorage.getItem('user');
+    this.role = user ? JSON.parse(user).ROLE : '';
   }
 
   async openModal(characterNum: { new: string }) { // openModal debe ser async
