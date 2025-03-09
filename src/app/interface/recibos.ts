@@ -1,7 +1,10 @@
-export interface User {
-  id?: number;
-  uername?: string;
-  email?: string;
+export interface Usuario {
+  ID?: string;
+  PASSWORD?: string;
+  NOMBRE?: string;
+  EMAIL?: string;
+  TELEFONO?: string;
+  ROLE?: string;
 }
 
 export interface Recibo {

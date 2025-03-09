@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
       Recibos
     </ion-title>
@@ -8,7 +8,22 @@
 
 <!-- <ion-content [fullscreen]="true"> -->
 <ion-content class="ion-padding">
-  <ion-fab slot="fixed" horizontal="end" vertical="bottom">
+  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true">
+    <ion-fab-button>
+      <ion-icon name="chevron-down-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="openParameter()" *ngIf="role === 'admin'">
+        <ion-icon name="cog"></ion-icon>
+        <!-- <ion-label>Configuración</ion-label> -->
+      </ion-fab-button>
+      <ion-fab-button (click)="presentActionSheet()">
+        <ion-icon name="log-out"></ion-icon>
+        <!-- <ion-label>Salir</ion-label> -->
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  <ion-fab slot="fixed" horizontal="end" vertical="bottom" *ngIf="role != 'reader'">
     <ion-fab-button ion-fab (click)="openModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

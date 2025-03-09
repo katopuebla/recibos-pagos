@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { noIngresadoGuard } from '../guard/no-ingresado.guard';
+import { ingresadoGuard } from '../guard/ingresado.guard';
 
 const routes: Routes = [
   {
@@ -9,23 +11,28 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../pages/home/home.module').then(m => m.HomePageModule)
+        loadChildren: () => import('../pages/home/home.module').then(m => m.HomePageModule),
+        canActivate: [ingresadoGuard]
       },
       {
         path: 'recibos',
-        loadChildren: () => import('../pages/recibos/recibos.module').then(m => m.RecibosPageModule)
+        loadChildren: () => import('../pages/recibos/recibos.module').then(m => m.RecibosPageModule),
+        canActivate: [ingresadoGuard]
       },
       {
         path: 'gastos',
-        loadChildren: () => import('../pages/gastos/gastos.module').then(m => m.GastosPageModule)
+        loadChildren: () => import('../pages/gastos/gastos.module').then(m => m.GastosPageModule),
+        canActivate: [ingresadoGuard]
       },
       {
         path: 'about',
-        loadChildren: () => import('../pages/about/about.module').then(m => m.AboutPageModule)
+        loadChildren: () => import('../pages/about/about.module').then(m => m.AboutPageModule),
+        canActivate: [ingresadoGuard]
       },
       {
-        path: 'admin',
-        loadChildren: () => import('../pages/admin/admin.module').then(m => m.AdminPageModule)
+        path: 'login',
+        loadChildren: () => import('../pages/login/login.module').then(m => m.LoginPageModule),
+        canActivate: [noIngresadoGuard]
       },
       {
         path: '',

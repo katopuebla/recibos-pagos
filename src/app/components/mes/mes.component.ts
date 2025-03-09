@@ -43,7 +43,7 @@ export class MesComponent extends Funtions implements OnInit {
       this.loadingDismiss();
       this.items.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
       this.itemsBackup = this.items ? this.items.slice() : [];
-      this.title = this.items[0].MES;
+      this.title = new Date().toDateString();
 
       let lastMonth = new Date().getMonth() - 1;
       this.itemsLastMonth = data.filter(mes => {

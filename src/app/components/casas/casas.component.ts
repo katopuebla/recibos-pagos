@@ -43,7 +43,9 @@ export class CasasComponent extends LoadingUtil implements OnInit {
 
   getdata() {
     this.service.getFullData().subscribe(async (data: Casa[]) => {
-      this.items = data;
+      this.items = data.filter((item, index, self) =>
+        index === self.findIndex((t) => t.ID === item.ID)
+      );
       this.itemsBackup = this.items.slice();
       this.loadingDismiss();
     });

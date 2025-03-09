@@ -40,21 +40,8 @@
 			<section *ngFor="let control of conceptoForm.controls; let i = index" [formGroupName]="i" >
 				<ion-item-group>
 					<ion-item-divider color="light">Conceptos #{{ i + 1 }}</ion-item-divider>
-					<!-- <ion-item>
-						<ion-select label="Concepto:" labelPlacement="floating"  interface="popover" id="concepto" formControlName="concepto" (ionChange)="onChangeConcepto($event, i)">
-							<ion-select-option *ngFor="let row of conceptos" [value]="row.NOMBRE">
-								{{row.NOMBRE}}
-							</ion-select-option>
-						</ion-select>
-					</ion-item> -->
 					<ion-item>
-						<ion-label floating>Mes:</ion-label>
-							<!-- <ion-input type="date" maxlength="50" formControlName="mes"></ion-input> -->
-							<ion-datetime id="mes" displayFormat="MMM. YYYY" formControlName="mes"
-							monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
-							presentation="month-year"
-						[preferWheel]="true">
-						</ion-datetime>
+						<ion-input label="Mes:" labelPlacement="floating" id="mes" type="date" maxlength="50" formControlName="mes"></ion-input>
 					</ion-item>
 					<ion-item>
 						<ion-input label="Monto:" labelPlacement="floating"  id="monto" type="number" maxlength="50" formControlName="monto"></ion-input>
