@@ -29,6 +29,10 @@ export class HomePage implements OnInit {
     modal.present();
 
     const { data, role } = await modal.onWillDismiss();
+    if ( role === 'confirm') {
+      // window.location.reload();
+      this.router.navigate(['/tabs/recibos']);
+    }
   }
 
   async openParameter() {

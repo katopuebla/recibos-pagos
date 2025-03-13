@@ -32,6 +32,11 @@ export class RecibosPage implements OnInit {
     this.role = user ? JSON.parse(user).ROLE : '';
   }
 
+  doRefresh(event: CustomEvent) {
+    window.location.reload();
+    (event.target as HTMLIonRefresherElement).complete();
+  }
+
   async openModal(characterNum: { new: string }) { // openModal debe ser async
     let modal: any = {};
     console.log(characterNum.new);
@@ -51,6 +56,7 @@ export class RecibosPage implements OnInit {
     const { data, role } = await modal.onWillDismiss(); // Espera a que se cierre el modal
     if ( role === 'confirm') {
       window.location.reload();
+      // this.option = 'Mes';
     }
   }
 }
