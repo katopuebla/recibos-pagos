@@ -29,11 +29,11 @@ const routes: Routes = [
         loadChildren: () => import('../pages/about/about.module').then(m => m.AboutPageModule),
         canActivate: [ingresadoGuard]
       },
-      {
+      /* {
         path: 'login',
         loadChildren: () => import('../pages/login/login.module').then(m => m.LoginPageModule),
         canActivate: [noIngresadoGuard]
-      },
+      }, */
       {
         path: '',
         redirectTo: '/tabs/home',
