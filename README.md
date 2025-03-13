@@ -86,6 +86,7 @@ GitHub Pages
 1. Abrir la página: https://katopuebla.github.io/recibos-pagos
 
 Servidor Web
+
 1.  Abre la terminal y navega hasta la carpeta de tu proyecto Ionic. 
 1.  Compilar como producción para empaquetar optimizadamente:
     ```bash
