@@ -24,6 +24,3 @@ jobs:
         with:
           branch: gh-pages
           folder: www # The folder the action should deploy.
-
-      - name: Create 404 page
-        run: cp www/index.html www/404.html
