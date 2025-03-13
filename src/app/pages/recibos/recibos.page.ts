@@ -33,8 +33,8 @@ export class RecibosPage implements OnInit {
   }
 
   doRefresh(event: CustomEvent) {
-    window.location.reload();
     (event.target as HTMLIonRefresherElement).complete();
+    window.location.reload();
   }
 
   async openModal(characterNum: { new: string }) { // openModal debe ser async
