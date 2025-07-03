@@ -103,7 +103,7 @@ export class CasasDetailComponent extends LoadingUtil implements OnInit {
 
   doRefresh(refresher: { complete: () => void }) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
-      this.items = data.filter(value => value.CASA == this.name);
+      this.items = [...data.filter(value => value.CASA == this.name)];
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
       refresher.complete();
     });
@@ -112,7 +112,7 @@ export class CasasDetailComponent extends LoadingUtil implements OnInit {
   getdata() {
     console.log(this.casa);
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
-      this.items = data.filter(value => value.CASA == this.name);
+      this.items = [...data.filter(value => value.CASA == this.name)];
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
       this.loadingDismiss();
     });

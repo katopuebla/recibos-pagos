@@ -2,7 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { BodyTables } from '../interface/tables';
 import { CategoriaDef, Gastos, GastosDetalle } from '../interface/gastos';
 import { BaseService } from './base.service';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { MOCK_GASTOS, MOCK_GASTOS_DETALLE, MOCK_CATEGORIAS } from '../mocks/mock-gastos';
 
 @Injectable()
 export class GastosService {
@@ -28,6 +31,9 @@ export class GastosService {
   }
 
   getCategoriaDef(): Observable<CategoriaDef[]> {
+    if (!environment.production) {
+      return of(MOCK_CATEGORIAS).pipe(delay(500));
+    }
     return this.base.getEntitiesByRange('Catalogos','A1:C18').pipe(
       map((data: any) => {
         return data as CategoriaDef[];
@@ -36,6 +42,9 @@ export class GastosService {
   }
 
   getFullDataDetail(): Observable<GastosDetalle[]> {
+    if (!environment.production) {
+      return of(MOCK_GASTOS_DETALLE).pipe(delay(500));
+    }
     return this.base.getEntities('GastosDetalle').pipe(
       map((data: any) => {
         return data as GastosDetalle[];
@@ -44,6 +53,13 @@ export class GastosService {
   }
 
   save(_entity: Gastos, _entities: GastosDetalle[]) {
+    if (!environment.production) {
+      MOCK_GASTOS.push(_entity);
+      if (Array.isArray(_entities)) {
+        _entities.forEach(e => MOCK_GASTOS_DETALLE.push(e));
+      }
+      return of({ message: 'Guardado en mock local (desarrollo)' }).pipe(delay(500));
+    }
     let gastoBodies: BodyTables[] = [];
     let gastoBody: BodyTables = {};
     //header

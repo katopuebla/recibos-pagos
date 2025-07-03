@@ -130,7 +130,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       next: (resp) => {
         this.meesageToast('Se guardo exitosamente');
         this.loadingDismiss();
-        this.confirm();
+        this.confirm(this.gastoDetalles);
       },
       error: (err) => {
         this.meesageToast('No se pudo guardar el dato');
@@ -199,7 +199,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
   close() {
     this.modalCtrl.dismiss(null, 'cancel');
   }
-  confirm() {
-    this.modalCtrl.dismiss(null, 'confirm');
+  confirm(gasto : any) {
+    this.modalCtrl.dismiss(gasto, 'confirm');
   }
 }

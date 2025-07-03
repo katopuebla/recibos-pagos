@@ -6,15 +6,22 @@ import {
   ReciboDetalle
 } from '../interface/recibos';
 import { BaseService } from './base.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { map, delay } from 'rxjs/operators';
 import { BodyTables } from '../interface/tables';
+import { environment } from '../../environments/environment';
+import { MOCK_RECIBOS } from '../mocks/mock-recibos';
+import { MOCK_CATALOGOS } from '../mocks/mock-catalogos';
+import { MOCK_RECIBOS_DETALLE } from '../mocks/mock-recibos-detalle';
+import { MOCK_CONCEPTOS } from '../mocks/mock-conceptos';
 
 @Injectable()
 export class RecibosService {
   SPREAD_SHEET_ID: string | undefined;
   base = inject(BaseService);
   // constructor(private base: BaseService) {}
+
+  public recibosDetalle$ = new BehaviorSubject<ReciboDetalle[]>([]);
 
   async getSpreadSheetId() {
     this.SPREAD_SHEET_ID = await this.base.loadConfig('RECIBOS_SPREAD_SHEET_ID');
@@ -30,6 +37,9 @@ export class RecibosService {
   }
 
   getFullData(): Observable<Casa[]> {
+    if (!environment.production) {
+      return of(MOCK_CATALOGOS).pipe(delay(500));
+    }
     return this.base.getEntitiesByRange('Catalogos','E1:I39').pipe(
       map((data: any) => {
         return data as Casa[];
@@ -38,6 +48,9 @@ export class RecibosService {
   }
 
   getFullDataDetail(): Observable<ReciboDetalle[]> {
+    if (!environment.production) {
+      return of(MOCK_RECIBOS_DETALLE).pipe(delay(500));
+    }
     return this.base.getEntities('RecibosDetalle').pipe(
       map((data: any) => {
         return data as ReciboDetalle[];
@@ -46,10 +59,16 @@ export class RecibosService {
   }
 
   getRecibos() {
+    if (!environment.production) {
+      return of(MOCK_RECIBOS).pipe(delay(500));
+    }
     return this.base.getEntities('Recibos');
   }
 
   getConceptos(): Observable<ConceptoDef[]> {
+    if (!environment.production) {
+      return of(MOCK_CONCEPTOS).pipe(delay(500));
+    }
     return this.base.getEntitiesByRange('Catalogos', 'A1:A17').pipe(
       map((data: any) => {
         return data as ConceptoDef[]
@@ -59,6 +78,15 @@ export class RecibosService {
   }
 
   save(_entity: Recibo, _entities: ReciboDetalle[]) {
+    if (!environment.production) {
+      // Guardar temporalmente en el array dummy (solo en memoria, no persistente)
+      MOCK_RECIBOS.push(_entity);
+      if (Array.isArray(_entities)) {
+        _entities.forEach(e => MOCK_RECIBOS_DETALLE.push(e));
+      }
+      // Simula un observable de éxito
+      return of({ message: 'Guardado en mock local (desarrollo)' }).pipe(delay(500));
+    }
     let reciboBodies: BodyTables[] = [];
     let reciboBody: BodyTables = {};
     //header

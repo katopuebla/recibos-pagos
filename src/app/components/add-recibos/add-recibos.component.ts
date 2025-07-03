@@ -21,6 +21,8 @@ import { RecibosService } from '../../service/recibos.service';
 import { LoadingUtil } from '../../utils/loadingUtil';
 import { ToastUtil } from '../../utils/toastUtil';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { delay, of } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-recibos',
@@ -29,7 +31,16 @@ import { Action } from 'rxjs/internal/scheduler/Action';
   standalone: false,
 })
 export class AddRecibosComponent extends LoadingUtil implements OnInit {
-  item: Recibo = {};
+  item: Recibo = {
+    FOLIO: 0,
+    CASA: '',
+    NOMBRE: '',
+    CANTIDAD: '',
+    CONCEPTO: '',
+    FECHA: '',
+    CORREO: '',
+    INPUT_TIMESTAMP: ''
+  };
   itemDetail: ReciboDetalle[] = [];
   casas: Casa[] = [];
   casa: Casa | any;
@@ -66,9 +77,9 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
 
   frmConceptos(): FormGroup {
     return this.formBuilder.group({
-      concepto: ['', Validators.required],
-      mes: ['', Validators.required],
-      monto: ['', Validators.required]
+      concepto: ['', [Validators.required, Validators.minLength(3)]],
+      mes: ['', [Validators.required]],
+      monto: ['', [Validators.required, Validators.min(0), Validators.pattern(/^\d+(\.\d{1,2})?$/)]]
     });
   }
 
@@ -210,7 +221,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
         }
         this.meesageToast('Se guardo exitosamente');
         this.loadingDismiss();
-        this.confirm();
+        this.confirm(this.itemDetail);
       },
       error: err => {
         //console.log("Error Detail: ", err);
@@ -276,8 +287,8 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.toastUtil.presentToast(_message, "top");
   }
 
-  confirm() {
-      this.modalCtrl.dismiss(null, 'confirm');
+  confirm(reciboDetalles: any) {
+      this.modalCtrl.dismiss(reciboDetalles, 'confirm');
   }
 
   close() {

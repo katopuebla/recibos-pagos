@@ -30,7 +30,7 @@ export class MesesComponent extends Funtions implements OnInit {
 
   doRefresh(refresher: { complete: () => void }) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
-      this.items = data;
+      this.items = [...data];
       refresher.complete();
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
     });
@@ -38,7 +38,7 @@ export class MesesComponent extends Funtions implements OnInit {
 
   getdata() {
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
-      this.items = data;
+      this.items = [...data];
       this.loadingDismiss();
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
     });

@@ -24,7 +24,22 @@ export class MesComponent extends Funtions implements OnInit {
   }
 
   async ngOnInit() {
-    await this.service.getSpreadSheetId().then(() => this.getdata());
+    await this.service.recibosDetalle$.subscribe((data: ReciboDetalle[]) => {
+      this.items = data;
+      // this.loadingDismiss();
+      this.items.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
+      this.itemsBackup = this.items ? this.items.slice() : [];
+      this.title = new Date().toDateString();
+
+      let lastMonth = new Date().getMonth() - 1;
+      this.itemsLastMonth = data.filter(mes => {
+        return mes.MES && new Date(mes.MES).getMonth() === lastMonth;
+      });
+      this.itemsLastMonth.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
+      // Aquí puedes aplicar lógica adicional si necesitas filtrar por mes, etc.
+    });
+    // Si necesitas cargar datos iniciales, puedes hacerlo aquí también
+    // await this.service.getSpreadSheetId().then(() => this.getdata());
   }
 
   doRefresh(event: { target: { complete: () => void; }; }) {

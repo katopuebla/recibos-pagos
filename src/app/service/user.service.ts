@@ -2,6 +2,8 @@ import { inject, Injectable } from "@angular/core";
 import { Usuario } from "../interface/recibos";
 import { BaseService } from "./base.service";
 import { map, Observable } from "rxjs";
+import { MOCK_USUARIOS } from '../mocks/mock-usuarios';
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class UserService {
@@ -12,14 +14,29 @@ export class UserService {
       this.SPREAD_SHEET_ID = await this.base.loadConfig('CATALOGOS_SPREAD_SHEET_ID');
       return this.SPREAD_SHEET_ID;
     }
-  
+
     async setSpreadSheetId(_spreadSheetId: string) {
       this.SPREAD_SHEET_ID = await this.base.updateConfig(_spreadSheetId, 'CATALOGOS_SPREAD_SHEET_ID');
       return this.SPREAD_SHEET_ID;
     }
-  
+
 
   getUsers(nombre: string, password: string): Observable<string| null | undefined> {
+    if (!environment.production) {
+      return new Observable<string | null | undefined>(observer => {
+        let users = MOCK_USUARIOS;
+        let user = users.find((_user) => _user.ID === nombre && _user.PASSWORD === password);
+        if(user) {
+          user.PASSWORD = '';
+          user.TELEFONO = '';
+          localStorage.setItem('user', JSON.stringify(user));
+          observer.next(user.NOMBRE);
+        } else {
+          observer.next(null);
+        }
+        observer.complete();
+      });
+    }
     return this.base.getEntities("Usuarios").pipe(
       map((data: any) => {
         let users = data as Usuario[];
