@@ -1,4 +1,51 @@
 # recibos-pagos
+# Despliegue en subcarpetas (producción y desarrollo)
+
+## ¿Cómo funciona?
+El workflow despliega la app en dos ubicaciones:
+- Producción: `/recibos-pagos/` (push a main)
+- Desarrollo: `/recibos-pagos/dev/` (push a develop)
+
+## Configuración recomendada en Angular/Ionic
+
+1. **Ajusta el `base-href` en el build:**
+   - Producción: `--base-href=/recibos-pagos/`
+   - Desarrollo: `--base-href=/recibos-pagos/dev/`
+
+2. **Configura rutas absolutas en tu app:**
+   - Usa rutas relativas para assets y navegación, o prepende el `base-href` si usas rutas absolutas.
+
+3. **Configura el entorno en `src/environments/environment.ts` y `environment.prod.ts`:**
+   - Puedes agregar una variable, por ejemplo:
+     ```ts
+     // environment.ts
+     export const environment = {
+       production: false,
+       baseHref: '/recibos-pagos/dev/'
+     };
+     // environment.prod.ts
+     export const environment = {
+       production: true,
+       baseHref: '/recibos-pagos/'
+     };
+     ```
+
+   - Úsala para construir rutas en servicios/componentes si necesitas acceder a recursos externos o APIs.
+
+4. **Verifica que los assets y rutas funcionen en ambos entornos:**
+   - Si usas rutas absolutas, asegúrate de incluir el `baseHref`.
+   - Ejemplo en un servicio:
+     ```ts
+     import { environment } from 'src/environments/environment';
+     const apiUrl = environment.baseHref + 'api/endpoint';
+     ```
+
+## Prueba tu app
+- Accede a producción: `https://katopuebla.github.io/recibos-pagos/`
+- Accede a desarrollo: `https://katopuebla.github.io/recibos-pagos/dev/`
+
+---
+Si necesitas ayuda para ajustar rutas específicas en tu app, dime qué componente o servicio quieres adaptar.
 
 ## Descripción
 
@@ -87,7 +134,7 @@ GitHub Pages
 
 Servidor Web
 
-1.  Abre la terminal y navega hasta la carpeta de tu proyecto Ionic. 
+1.  Abre la terminal y navega hasta la carpeta de tu proyecto Ionic.
 1.  Compilar como producción para empaquetar optimizadamente:
     ```bash
     ionic build --prod -- --base-href=/recibos-pagos/
