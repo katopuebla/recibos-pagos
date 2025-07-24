@@ -3,6 +3,7 @@ import { LoadingController, ModalController } from '@ionic/angular';
 import { ReciboDetalle } from '../../interface/recibos';
 import { RecibosService } from '../../service/recibos.service';
 import { Funtions } from '../../utils/funtions';
+import { LoadingUtil } from 'src/app/utils/loadingUtil';
 
 @Component({
   selector: 'app-mes',
@@ -18,13 +19,28 @@ export class MesComponent extends Funtions implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     private service: RecibosService,
-    loadingCtrl: LoadingController
+    private loadingUtil: LoadingUtil
   ) {
-    super(loadingCtrl);
+    super();
   }
 
   async ngOnInit() {
-    await this.service.getSpreadSheetId().then(() => this.getdata());
+    await this.service.recibosDetalle$.subscribe((data: ReciboDetalle[]) => {
+      this.items = data;
+      // this.dismiss();
+      this.items.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
+      this.itemsBackup = this.items ? this.items.slice() : [];
+      this.title = new Date().toDateString();
+
+      let lastMonth = new Date().getMonth() - 1;
+      this.itemsLastMonth = data.filter(mes => {
+        return mes.MES && new Date(mes.MES).getMonth() === lastMonth;
+      });
+      this.itemsLastMonth.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
+      this.loadingUtil.dismiss();
+    });
+    // Si necesitas cargar datos iniciales, puedes hacerlo aquí también
+    // await this.service.getSpreadSheetId().then(() => this.getdata());
   }
 
   doRefresh(event: { target: { complete: () => void; }; }) {
@@ -40,7 +56,7 @@ export class MesComponent extends Funtions implements OnInit {
     this.service.getFullDataDetail().subscribe((data: ReciboDetalle[]) => {
       let today = new Date().getMonth();
       this.items = data;
-      this.loadingDismiss();
+      this.loadingUtil.dismiss();
       this.items.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
       this.itemsBackup = this.items ? this.items.slice() : [];
       this.title = new Date().toDateString();
@@ -51,7 +67,7 @@ export class MesComponent extends Funtions implements OnInit {
       });
       this.itemsLastMonth.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
     });
-    this.showLoading();
+    this.loadingUtil.showing();
   }
 
   getItems(ev: any) {
@@ -85,10 +101,9 @@ export class MesDetailComponent extends Funtions {
   title: string | any;
 
   constructor(
-    public modalCtrl: ModalController,
-    loadingCtrl: LoadingController
+    public modalCtrl: ModalController
   ) {
-    super(loadingCtrl);
+    super();
   }
 
   ngOnInit() {

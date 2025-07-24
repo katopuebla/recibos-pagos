@@ -3,10 +3,17 @@ import { ToastController } from '@ionic/angular';
 
 @Injectable()
 export class ToastUtil {
-  static presentToast(_message: string, arg1: string) {
-    throw new Error('Method not implemented.');
-  }
   constructor(private toastController: ToastController) {}
+
+   async presentToastColor(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      position: 'bottom'
+    });
+    await toast.present();
+  }
 
   async presentToast(_message: string, position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({

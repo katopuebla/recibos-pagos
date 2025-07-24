@@ -35,19 +35,19 @@ export class GastosPage implements OnInit {
 
   doRefresh(event: CustomEvent) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
-      this.items = data;
-      this.itemsBackup = this.items.slice();
+      this.items = [...data]; // Fuerza nueva referencia para refrescar la vista
+      this.itemsBackup = [...this.items];
       (event.target as HTMLIonRefresherElement).complete();
     });
   }
 
   async getdata() {
     await this.service.getFullDataDetail().subscribe((data: GastosDetalle[]) => {
-      this.items = data;
-      this.itemsBackup = this.items;
-      this.loadUtil.loadingDismiss();
+      this.items = [...data]; // Fuerza nueva referencia para refrescar la vista
+      this.itemsBackup = [...this.items];
+      this.loadUtil.dismiss();
     });
-    this.loadUtil.showLoading();
+    this.loadUtil.showing();
   }
 
   getItems(ev: any) {
@@ -75,8 +75,11 @@ export class GastosPage implements OnInit {
     });
     modal.present();
     const { data, role } = await modal.onWillDismiss();
-    if (role === 'confirm') {
-      this.getdata();
+    if (role === 'confirm' && data && Array.isArray(data)) {
+      this.items.push(...data);
+      this.items = [...this.items]; // Fuerza refresco de la vista
+      this.itemsBackup = [...this.items];
+      this.service.gastosDetalle$.next(this.items); // Actualiza el observable compartido
     }
   }
 }

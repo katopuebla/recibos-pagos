@@ -1,6 +1,7 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { BodiesSaving, BodySaving, BodyTables } from "../interface/tables";
+import { throwError } from "rxjs";
 
 @Injectable()
 export class BaseService {
@@ -71,6 +72,19 @@ export class BaseService {
   /**
    *
    * @param table sheet name e.g. 'Casa'
+   * @returns json of sheet
+   */
+  getMaxId(table: string, id: string) {
+    const url =
+      this.BASE_URL + `?spreadsheetId=${this.SPREAD_SHEET_ID}&sheet=${table}&sheetMaxId=${id}`;
+      // this.BASE_URL + `?sheetId=${this.SPREAD_SHEET_ID}&sheetName=${table}`;
+    // console.log(url);
+    return this._http.get(url, { responseType: "json" });
+  }
+
+  /**
+   *
+   * @param table sheet name e.g. 'Casa'
    * @param range range of sheet e.g. A1:Z100
    * @returns json of sheet
    */
@@ -114,6 +128,25 @@ export class BaseService {
     bodySend.Detail = _Detail;
     console.debug(bodySend);
     return this._http.post(this.BASE_URL, JSON.stringify(bodySend));
+  }
+
+    /**
+   * Función privada para manejar errores HTTP.
+   * @param error El error HTTP.
+   * @returns Observable<never> Un Observable que emite un error.
+   */
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Error desconocido del cliente.';
+    if (error.error instanceof ErrorEvent) {
+      // Error del lado del cliente o de la red.
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // El backend devolvió un código de respuesta no exitoso.
+      // El cuerpo de la respuesta puede contener pistas sobre lo que salió mal.
+      errorMessage = `Código de error del servidor: ${error.status}, cuerpo: ${error.error}`;
+    }
+    console.error('Error en la petición HTTP:', errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }
 

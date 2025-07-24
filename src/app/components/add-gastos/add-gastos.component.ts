@@ -64,16 +64,16 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     console.log(this.fields.value);
   }
   ngOnInit() {
+    this.showing();
     this.service.getSpreadSheetId().then(() => this.initCategorias());
     const formattedDate = this.today.toJSON().split('T')[0];
     this.fields.patchValue({ fecha: formattedDate });
-    this.showLoading();
   }
 
   initCategorias() {
     this.service.getCategoriaDef().subscribe((resp: CategoriaDef[]) => {
       this.categorias = resp || [];
-      this.loadingDismiss();
+      this.dismiss();
     });
   }
 
@@ -129,16 +129,16 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     this.service.save(this.gasto, this.gastoDetalles).subscribe({
       next: (resp) => {
         this.meesageToast('Se guardo exitosamente');
-        this.loadingDismiss();
-        this.confirm();
+        this.dismiss();
+        this.confirm(this.gastoDetalles);
       },
       error: (err) => {
         this.meesageToast('No se pudo guardar el dato');
         console.log('Error: ', err);
-        this.loadingDismiss();
+        this.dismiss();
       }
     });
-    this.showLoading();
+    this.showing();
   }
 
     fillEvent(_gasto: any) {
@@ -199,7 +199,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
   close() {
     this.modalCtrl.dismiss(null, 'cancel');
   }
-  confirm() {
-    this.modalCtrl.dismiss(null, 'confirm');
+  confirm(gasto : any) {
+    this.modalCtrl.dismiss(gasto, 'confirm');
   }
 }

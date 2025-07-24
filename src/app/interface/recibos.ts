@@ -8,14 +8,18 @@ export interface Usuario {
 }
 
 export interface Recibo {
-  FOLIO?: number;
-  CASA?: string;
-  NOMBRE?: string;
-  CANTIDAD?: string;
-  CONCEPTO?: string;
-  FECHA?: string;
-  CORREO?: string;
-  INPUT_TIMESTAMP?: string;
+  FOLIO: number;  // Remove optional if this is always required
+  CASA: string;   // Remove optional if this is always required
+  NOMBRE: string;
+  CANTIDAD: string;
+  CONCEPTO: string;
+  FECHA: string;
+  CORREO: string;
+  INPUT_TIMESTAMP: string;
+}
+
+export interface ReciboMaxFolio {
+  FOLIO: number;
 }
 
 export interface ReciboDetalle {

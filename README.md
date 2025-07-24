@@ -76,13 +76,13 @@ Este proyecto es una aplicación para la gestión de recibos y pagos. Permite a 
 
 1. Inicia en modo _debug_ la aplicación:
     ```bash
-    npx ng serve --no-open --host=0.0.0. --port=8100 --configuration=development
+    npx ng serve --no-open --host=0.0.0.0 --port=8100 --configuration=development
     ```
 ## Deploy a GitHub
 
 GitHub Pages
 
-1. Hacer Pull Request al branch main, y github actions automaticamente compilará, validará y deployará la aplicación en la página de guthub.
+1. Hacer Pull Request al branch main, y github actions automaticamente compilará, validará y deployará la aplicación en la página de github.
 1. Abrir la página: https://katopuebla.github.io/recibos-pagos
 
 Servidor Web

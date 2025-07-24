@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
 import {
-  LoadingController,
   ModalController
 } from "@ionic/angular";
 import { ReciboDetalle } from "../../interface/recibos";
 import { RecibosService } from "../../service/recibos.service";
 import { Funtions } from "../../utils/funtions";
+import { LoadingUtil } from '../../utils/loadingUtil';
 
 @Component({
   selector: "app-meses",
@@ -19,9 +19,9 @@ export class MesesComponent extends Funtions implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     private service: RecibosService,
-    loadingCtrl: LoadingController
+    private loadingUtil: LoadingUtil
   ) {
-    super(loadingCtrl);
+    super();
   }
 
   async ngOnInit() {
@@ -30,19 +30,19 @@ export class MesesComponent extends Funtions implements OnInit {
 
   doRefresh(refresher: { complete: () => void }) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
-      this.items = data;
+      this.items = [...data];
       refresher.complete();
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
     });
   }
 
   getdata() {
-    this.service.getFullDataDetail().subscribe(async (data: any[]) => {
-      this.items = data;
-      this.loadingDismiss();
+    // this.loadingUtil.showing();
+    this.service.recibosDetalle$.subscribe(async (data: any[]) => {
+      this.items = [...data];
+      // this.loadingUtil.dismiss();
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
     });
-    this.showLoading();
   }
 
   async openModal(detail: any) {
@@ -67,10 +67,9 @@ export class MesesDetailComponent extends Funtions {
   title: string | any;
 
   constructor(
-    public modalCtrl: ModalController,
-    loadingCtrl: LoadingController
+    public modalCtrl: ModalController
   ) {
-    super(loadingCtrl);
+    super();
   }
 
   ngOnInit() {
