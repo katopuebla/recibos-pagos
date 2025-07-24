@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - develop
-  # pull_request: 
+  # pull_request:
   #   branches:
   #     - main
 jobs:
@@ -37,9 +37,7 @@ jobs:
       - name: Install and Build (Dev)
         run: |
           npm ci
-          npm run build --configuration=development -- --base-href=/recibos-pagos/dev/
-          mkdir -p www/dev
-          cp -r www/* www/dev/
+          npm run build --configuration=development -- --base-href=/recibos-pagos/dev/ --output-path=www/dev
 
       - name: Deploy 🚀 (Dev)
         uses: JamesIves/github-pages-deploy-action@v4
