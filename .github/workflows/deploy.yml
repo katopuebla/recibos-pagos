@@ -39,7 +39,8 @@ jobs:
           npm ci
           npm run build --configuration=development -- --base-href=/recibos-pagos/dev/
           mkdir -p www/dev
-          cp -r www/* www/dev/
+          shopt -s extglob
+          cp -r www/!(dev) www/dev/
 
       - name: Add .nojekyll file
         run: echo > www/dev/.nojekyll
