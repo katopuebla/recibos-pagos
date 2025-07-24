@@ -63,13 +63,13 @@ export class RecibosService {
   getFullDataDetail(): Observable<ReciboDetalle[]> {
     if (this.recibosDetalle$.getValue().length > 0) {
       // Si ya hay datos en casas$, retorna el observable actual
-      return this.recibosDetalle$.asObservable().pipe(delay(500));
+      return this.recibosDetalle$.asObservable().pipe(delay(1500));
     }
     // Si no hay datos, invoca el método y setea casas$
     if (!environment.production) {
       const mock = MOCK_RECIBOS_DETALLE;
       this.recibosDetalle$.next(mock);
-      return of(MOCK_RECIBOS_DETALLE).pipe(delay(500));
+      return of(MOCK_RECIBOS_DETALLE).pipe(delay(1500));
     }
     return this.base.getEntities('RecibosDetalle').pipe(
       map((data: any) => {
