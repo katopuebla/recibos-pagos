@@ -1,14 +1,15 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { BodiesSaving, BodySaving, BodyTables } from "../interface/tables";
+import { environment } from "../../environments/environment";
 import { throwError } from "rxjs";
 
 @Injectable()
 export class BaseService {
   // script sheet to json
   BASE_URL =
-    // "https://script.google.com/macros/s/AKfycbwkI8W5CyL095zwF2Hi2qJbyKGPAr39HDJH-XXD7ITtmYeeMyM/exec";
     "https://script.google.com/macros/s/AKfycbza19jUFnHpxywV7YrIpEPYDybxs7p2CGcdcp3b6euN1V7NyMNUU3cEUfKVUAvOFCrR/exec";
+//  environment.baseHref + "api/exec";
   SPREAD_SHEET_ID: string | undefined;
   TABLES = [];
 
@@ -18,7 +19,12 @@ export class BaseService {
 
   // 'GASTOS_SPREAD_SHEET_ID'
   public async loadConfig(property: string) : Promise<string> {
-    const config: any = await this._http.get('./assets/config.properties', { responseType: 'text' }).toPromise();
+    var config: any;
+    if (environment.production) {
+      config = await this._http.get('./assets/config.properties', { responseType: 'text' }).toPromise();
+    } else {
+      config = await this._http.get('./assets/config-dev.properties', { responseType: 'text' }).toPromise();
+    }
     const properties = this.parseProperties(config);
     this.SPREAD_SHEET_ID = properties[property];
     if (this.SPREAD_SHEET_ID) {
@@ -28,11 +34,20 @@ export class BaseService {
   }
 
   async updateConfig(newSpreadSheetId: string, property: string) : Promise<string> {
-    const config: any = await this._http.get('./assets/config.properties', { responseType: 'text' }).toPromise();
+    var config: any;
+    if (environment.production) {
+      config = await this._http.get('./assets/config.properties', { responseType: 'text' }).toPromise();
+    } else {
+      config = await this._http.get('./assets/config-dev.properties', { responseType: 'text' }).toPromise();
+    }
     let properties = this.parseProperties(config);
     properties[property] = newSpreadSheetId;
     const updatedConfig = this.stringifyProperties(properties);
-    this.SPREAD_SHEET_ID = await this._http.post('./assets/config.properties', { updatedConfig }, { responseType: 'text' }).toPromise();
+    if (environment.production) {
+      this.SPREAD_SHEET_ID = await this._http.post('./assets/config.properties', { updatedConfig }, { responseType: 'text' }).toPromise();
+    } else {
+      this.SPREAD_SHEET_ID = await this._http.post('./assets/config-dev.properties', { updatedConfig }, { responseType: 'text' }).toPromise();
+    }
     this.SPREAD_SHEET_ID = newSpreadSheetId;
     if (this.SPREAD_SHEET_ID) {
       return this.SPREAD_SHEET_ID;
