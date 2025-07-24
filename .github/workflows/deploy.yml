@@ -39,6 +39,9 @@ jobs:
           npm ci
           npm run build --configuration=development -- --base-href=/recibos-pagos/dev/ --output-path=www/dev
 
+      - name: Add .nojekyll file
+        run: echo > www/dev/.nojekyll
+
       - name: Deploy 🚀 (Dev)
         uses: JamesIves/github-pages-deploy-action@v4
         with:
