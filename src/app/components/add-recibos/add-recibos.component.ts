@@ -15,14 +15,13 @@ import {
   Concepto,
   ConceptoDef,
   Recibo,
-  ReciboDetalle
+  ReciboDetalle,
+  ReciboMaxFolio
 } from '../../interface/recibos';
 import { RecibosService } from '../../service/recibos.service';
 import { LoadingUtil } from '../../utils/loadingUtil';
 import { ToastUtil } from '../../utils/toastUtil';
-import { Action } from 'rxjs/internal/scheduler/Action';
-import { delay, of } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { AlertUtil } from 'src/app/utils/alertUtil';
 
 @Component({
   selector: 'app-add-recibos',
@@ -30,7 +29,8 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./add-recibos.component.css'],
   standalone: false,
 })
-export class AddRecibosComponent extends LoadingUtil implements OnInit {
+// export class AddRecibosComponent extends LoadingUtil implements OnInit {
+export class AddRecibosComponent implements OnInit {
   item: Recibo = {
     FOLIO: 0,
     CASA: '',
@@ -59,10 +59,12 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private formBuilder: FormBuilder,
     private service: RecibosService,
-    loadingCtrl: LoadingController,
-    private toastUtil: ToastUtil
+    // loadingCtrl: LoadingController,
+    private loadingUtil: LoadingUtil,
+    private toastUtil: ToastUtil,
+    private alertUtil: AlertUtil
   ) {
-    super(loadingCtrl);
+    // super(loadingCtrl);
     this.fields = this.formBuilder.group({
       folio: ['', Validators.required],
       casa: ['', Validators.required],
@@ -93,39 +95,44 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       const formattedDate = this.today.toJSON().split('T')[0];
       this.fields.patchValue({ fecha: formattedDate });
       this.inittial();
-      // this.loadingDismiss();
+      // this.dismiss();
     });
-    this.showLoading();
+    this.loadingUtil.showing();
   }
 
   getMaxFolio() {
-    this.service.getRecibos().subscribe(
+    this.service.getMaxFolio().subscribe(
       {
-        next: (resp: Recibo[] | any) => {
-          const FOLIO = Math.max(...resp.map((row: { FOLIO: any; }) => row.FOLIO)) + 1;
+        next: (resp: ReciboMaxFolio | any) => {
+          const FOLIO = resp.FOLIO + 1;
           this.fields.patchValue({ folio: FOLIO });
-          this.loadingDismiss();
+          this.loadingUtil.dismiss();
         }, error: err => {
           const FOLIO = 1;
           this.fields.patchValue({ folio: FOLIO });
-          this.loadingDismiss();
+          this.loadingUtil.dismiss();
+          this.alertUtil.showError('No se pudo obtener el folio: ' + err.message);
         }
       });
-      // this.showLoading();
   }
 
   inittial() {
-    this.service.getFullData().subscribe((resp: Casa[] | any) => {
+    this.service.getFullData().subscribe({
+      next: (resp: Casa[] | any) => {
       this.casas = resp || [];
-      // this.loadingDismiss();
+      // this.dismiss();
       this.service.getConceptos().subscribe((resp: ConceptoDef[] | any) => {
         this.conceptos = resp || [];
         // console.log(this.conceptos);
         this.getMaxFolio();
-        // this.loadingDismiss();
         });
+      },
+      error: async (err) => {
+        console.error('Error al cargar datos:', err);
+        this.loadingUtil.dismiss();
+        this.alertUtil.showError('No se pudieron cargar los datos: ' + err.message);
+      }
     });
-      // this.showLoading();
   }
 
   onChangeCasa(event: CustomEvent) {
@@ -220,16 +227,16 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
           });
         }
         this.meesageToast('Se guardo exitosamente');
-        this.loadingDismiss();
+        this.loadingUtil.dismiss();
         this.confirm(this.itemDetail);
       },
       error: err => {
         //console.log("Error Detail: ", err);
         this.meesageToast('No se pudo guardar el dato');
-        this.loadingDismiss();
+        this.loadingUtil.dismiss();
       }
   });
-    this.showLoading();
+    this.loadingUtil.showing();
     _recibo.sendEmail = true;
   }
 

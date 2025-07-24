@@ -42,9 +42,9 @@ export class RecibosPage extends LoadingUtil implements OnInit {
       this.itemsRecibos = [...this.itemsRecibos];
       this.recibosService.recibosDetalle$.next(this.itemsRecibos); // Actualiza el observable compartido
 
-      this.loadingDismiss();
+      this.dismiss();
     });
-    this.showLoading();
+    this.showing();
   }
 
   // Cuando agregues recibos nuevos:

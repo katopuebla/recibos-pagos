@@ -45,9 +45,9 @@ export class GastosPage implements OnInit {
     await this.service.getFullDataDetail().subscribe((data: GastosDetalle[]) => {
       this.items = [...data]; // Fuerza nueva referencia para refrescar la vista
       this.itemsBackup = [...this.items];
-      this.loadUtil.loadingDismiss();
+      this.loadUtil.dismiss();
     });
-    this.loadUtil.showLoading();
+    this.loadUtil.showing();
   }
 
   getItems(ev: any) {

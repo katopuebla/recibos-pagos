@@ -3,14 +3,15 @@ import {
   Casa,
   ConceptoDef,
   Recibo,
-  ReciboDetalle
+  ReciboDetalle,
+  ReciboMaxFolio
 } from '../interface/recibos';
 import { BaseService } from './base.service';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, delay } from 'rxjs/operators';
 import { BodyTables } from '../interface/tables';
 import { environment } from '../../environments/environment';
-import { MOCK_RECIBOS } from '../mocks/mock-recibos';
+import { MOCK_RECIBO_MAX_FOLIO, MOCK_RECIBOS } from '../mocks/mock-recibos';
 import { MOCK_CATALOGOS } from '../mocks/mock-catalogos';
 import { MOCK_RECIBOS_DETALLE } from '../mocks/mock-recibos-detalle';
 import { MOCK_CONCEPTOS } from '../mocks/mock-conceptos';
@@ -42,7 +43,7 @@ export class RecibosService {
     }
     return this.base.getEntitiesByRange('Catalogos','E1:I39').pipe(
       map((data: any) => {
-        return data as Casa[];
+        return data as Casa[] || [];
       })
     );
   }
@@ -53,7 +54,7 @@ export class RecibosService {
     }
     return this.base.getEntities('RecibosDetalle').pipe(
       map((data: any) => {
-        return data as ReciboDetalle[];
+        return data as ReciboDetalle[] || [];
       })
     );
   }
@@ -65,13 +66,24 @@ export class RecibosService {
     return this.base.getEntities('Recibos');
   }
 
+  getMaxFolio(): Observable<ReciboMaxFolio> {
+    if (!environment.production) {
+      return of(MOCK_RECIBO_MAX_FOLIO).pipe(delay(500));
+    }
+    return this.base.getEntitiesByRange('Recibos', 'FOLIO').pipe(
+      map((data: any) => {
+        return data as ReciboMaxFolio || { FOLIO: 1 }; // Default to 1 if no data found
+      })
+    );
+  }
+
   getConceptos(): Observable<ConceptoDef[]> {
     if (!environment.production) {
       return of(MOCK_CONCEPTOS).pipe(delay(500));
     }
     return this.base.getEntitiesByRange('Catalogos', 'A1:A17').pipe(
       map((data: any) => {
-        return data as ConceptoDef[]
+        return data as ConceptoDef[] || [];
       })
     );
 

@@ -18,6 +18,10 @@ export interface Recibo {
   INPUT_TIMESTAMP: string;
 }
 
+export interface ReciboMaxFolio {
+  FOLIO: number;
+}
+
 export interface ReciboDetalle {
   FOLIO?: number;
   CASA?: string;

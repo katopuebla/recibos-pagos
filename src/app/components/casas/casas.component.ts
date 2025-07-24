@@ -13,17 +13,15 @@ import { Casa, ReciboDetalle } from "../../interface/recibos";
   styleUrls: ["casas.component.scss"],
   standalone: false
 })
-export class CasasComponent extends LoadingUtil implements OnInit {
+export class CasasComponent implements OnInit {
   items: Casa[] = [];
   itemsBackup: Casa[] = [];
 
   constructor(
     public modalCtrl: ModalController,
     private service: RecibosService,
-    loadingCtrl: LoadingController
-  ) {
-    super(loadingCtrl);
-  }
+    private loadingUtil: LoadingUtil
+  ) {  }
 
   /*ionViewDidLoad() {
     this.getdata();
@@ -47,9 +45,9 @@ export class CasasComponent extends LoadingUtil implements OnInit {
         index === self.findIndex((t) => t.ID === item.ID)
       );
       this.itemsBackup = this.items.slice();
-      this.loadingDismiss();
+      this.loadingUtil.dismiss();
     });
-    this.showLoading();
+    this.loadingUtil.showing();
   }
 
   async openModal(casa: any) {
@@ -83,7 +81,7 @@ export class CasasComponent extends LoadingUtil implements OnInit {
   // styleUrls: ["casas.component.css"],
   standalone: false
 })
-export class CasasDetailComponent extends LoadingUtil implements OnInit {
+export class CasasDetailComponent implements OnInit {
   @Input() casa: string = "";
   items: ReciboDetalle[] = [];
   name: string = "";
@@ -91,10 +89,8 @@ export class CasasDetailComponent extends LoadingUtil implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     private service: RecibosService,
-    loadingCtrl: LoadingController
-  ) {
-    super(loadingCtrl);
-  }
+    private loadingUtil: LoadingUtil
+  ) {  }
 
   async ngOnInit() {
     this.name = this.casa;
@@ -114,9 +110,9 @@ export class CasasDetailComponent extends LoadingUtil implements OnInit {
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
       this.items = [...data.filter(value => value.CASA == this.name)];
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
-      this.loadingDismiss();
+      this.loadingUtil.dismiss();
     });
-    this.showLoading();
+    this.loadingUtil.showing();
   }
 
   sumMonto(array: any[], Id: any) {

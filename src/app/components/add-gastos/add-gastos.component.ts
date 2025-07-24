@@ -67,13 +67,13 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     this.service.getSpreadSheetId().then(() => this.initCategorias());
     const formattedDate = this.today.toJSON().split('T')[0];
     this.fields.patchValue({ fecha: formattedDate });
-    this.showLoading();
+    this.showing();
   }
 
   initCategorias() {
     this.service.getCategoriaDef().subscribe((resp: CategoriaDef[]) => {
       this.categorias = resp || [];
-      this.loadingDismiss();
+      this.dismiss();
     });
   }
 
@@ -129,16 +129,16 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     this.service.save(this.gasto, this.gastoDetalles).subscribe({
       next: (resp) => {
         this.meesageToast('Se guardo exitosamente');
-        this.loadingDismiss();
+        this.dismiss();
         this.confirm(this.gastoDetalles);
       },
       error: (err) => {
         this.meesageToast('No se pudo guardar el dato');
         console.log('Error: ', err);
-        this.loadingDismiss();
+        this.dismiss();
       }
     });
-    this.showLoading();
+    this.showing();
   }
 
     fillEvent(_gasto: any) {

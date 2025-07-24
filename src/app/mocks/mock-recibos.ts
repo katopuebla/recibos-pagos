@@ -1,5 +1,8 @@
 // Datos de prueba para Recibos
-import { Recibo } from '../interface/recibos';
+import { Recibo, ReciboMaxFolio } from '../interface/recibos';
+export const MOCK_RECIBO_MAX_FOLIO: ReciboMaxFolio = {
+  FOLIO: 3
+};
 
 export const MOCK_RECIBOS: Recibo[] = [
   {

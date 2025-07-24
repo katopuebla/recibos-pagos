@@ -4,17 +4,20 @@ import { LoadingController } from "@ionic/angular";
 @Injectable()
 export class LoadingUtil {
 
+  loading: any;
+
   constructor(private loadingCtrl: LoadingController) {}
 
-  async showLoading() {
-    const loading = await this.loadingCtrl.create({
+  async showing() {
+    this.loading = await this.loadingCtrl.create({
       message: "Por favor espere... "
     });
 
-    await loading.present();
+    await this.loading.present();
   }
 
-  loadingDismiss() {
-    this.loadingCtrl.dismiss();
+  dismiss() {
+    // this.loadingCtrl.dismiss();
+    this.loading.dismiss();
   }
 }
