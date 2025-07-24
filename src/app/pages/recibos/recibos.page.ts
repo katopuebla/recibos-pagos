@@ -11,7 +11,7 @@ import { ReciboDetalle } from 'src/app/interface/recibos';
   styleUrls: ['recibos.page.scss'], // Usa .scss para los estilos
   standalone: false,
 })
-export class RecibosPage extends LoadingUtil implements OnInit {
+export class RecibosPage implements OnInit {
   option: string = 'Mes';
   isAndroid: boolean = false;
   role: string = '';
@@ -19,9 +19,8 @@ export class RecibosPage extends LoadingUtil implements OnInit {
 
   constructor(public modalCtrl: ModalController
     , private recibosService: RecibosService
-    , loadingCtrl: LoadingController
-      ) {
-        super(loadingCtrl);}
+    , private loadingUtil: LoadingUtil
+      ) {}
 
   async ngOnInit() {
     await this.recibosService.getSpreadSheetId().then( () => this.getdata());
@@ -42,9 +41,9 @@ export class RecibosPage extends LoadingUtil implements OnInit {
       this.itemsRecibos = [...this.itemsRecibos];
       // this.recibosService.recibosDetalle$.next(this.itemsRecibos); // Actualiza el observable compartido
 
-      this.dismiss();
+      this.loadingUtil.dismiss();
     });
-    this.showing();
+    this.loadingUtil.showing();
   }
 
   // Cuando agregues recibos nuevos:
