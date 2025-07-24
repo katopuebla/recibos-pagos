@@ -50,3 +50,4 @@ jobs:
         with:
           branch: gh-pages
           folder: www/dev
+          target-folder: dev
