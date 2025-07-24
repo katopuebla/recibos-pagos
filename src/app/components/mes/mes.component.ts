@@ -37,7 +37,7 @@ export class MesComponent extends Funtions implements OnInit {
         return mes.MES && new Date(mes.MES).getMonth() === lastMonth;
       });
       this.itemsLastMonth.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
-      // Aquí puedes aplicar lógica adicional si necesitas filtrar por mes, etc.
+      this.loadingUtil.dismiss();
     });
     // Si necesitas cargar datos iniciales, puedes hacerlo aquí también
     // await this.service.getSpreadSheetId().then(() => this.getdata());

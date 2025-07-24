@@ -64,10 +64,10 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     console.log(this.fields.value);
   }
   ngOnInit() {
+    this.showing();
     this.service.getSpreadSheetId().then(() => this.initCategorias());
     const formattedDate = this.today.toJSON().split('T')[0];
     this.fields.patchValue({ fecha: formattedDate });
-    this.showing();
   }
 
   initCategorias() {

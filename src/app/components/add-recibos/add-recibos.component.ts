@@ -101,10 +101,10 @@ export class AddRecibosComponent implements OnInit {
   }
 
   getMaxFolio() {
-    this.service.getMaxFolio().subscribe(
+    this.service.getFullDataDetail().subscribe(
       {
-        next: (resp: ReciboMaxFolio | any) => {
-          const FOLIO = resp.FOLIO + 1;
+         next: (resp: ReciboDetalle[] | any) => {
+          const FOLIO = Math.max(...resp.map((row: { FOLIO: any; }) => row.FOLIO)) + 1;
           this.fields.patchValue({ folio: FOLIO });
           this.loadingUtil.dismiss();
         }, error: err => {

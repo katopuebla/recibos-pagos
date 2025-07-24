@@ -42,9 +42,9 @@ export class FolioComponent extends LoadingUtil implements OnInit {
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
       this.items = data;
       this.itemsBackup = this.items.slice();
-      this.dismiss();
+      // this.dismiss();
     });
-    this.showing();
+    // this.showing();
   }
 
   getItems(ev: any) {

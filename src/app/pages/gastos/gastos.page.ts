@@ -79,6 +79,7 @@ export class GastosPage implements OnInit {
       this.items.push(...data);
       this.items = [...this.items]; // Fuerza refresco de la vista
       this.itemsBackup = [...this.items];
+      this.service.gastosDetalle$.next(this.items); // Actualiza el observable compartido
     }
   }
 }

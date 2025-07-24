@@ -37,12 +37,12 @@ export class MesesComponent extends Funtions implements OnInit {
   }
 
   getdata() {
-    this.service.getFullDataDetail().subscribe(async (data: any[]) => {
+    // this.loadingUtil.showing();
+    this.service.recibosDetalle$.subscribe(async (data: any[]) => {
       this.items = [...data];
-      this.loadingUtil.dismiss();
+      // this.loadingUtil.dismiss();
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
     });
-    this.loadingUtil.showing();
   }
 
   async openModal(detail: any) {

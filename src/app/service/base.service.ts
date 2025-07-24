@@ -72,6 +72,19 @@ export class BaseService {
   /**
    *
    * @param table sheet name e.g. 'Casa'
+   * @returns json of sheet
+   */
+  getMaxId(table: string, id: string) {
+    const url =
+      this.BASE_URL + `?spreadsheetId=${this.SPREAD_SHEET_ID}&sheet=${table}&sheetMaxId=${id}`;
+      // this.BASE_URL + `?sheetId=${this.SPREAD_SHEET_ID}&sheetName=${table}`;
+    // console.log(url);
+    return this._http.get(url, { responseType: "json" });
+  }
+
+  /**
+   *
+   * @param table sheet name e.g. 'Casa'
    * @param range range of sheet e.g. A1:Z100
    * @returns json of sheet
    */

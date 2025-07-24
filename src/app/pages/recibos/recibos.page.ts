@@ -40,7 +40,7 @@ export class RecibosPage extends LoadingUtil implements OnInit {
     this.recibosService.getFullDataDetail().subscribe(async (data: any[]) => {
       this.itemsRecibos = [...data];
       this.itemsRecibos = [...this.itemsRecibos];
-      this.recibosService.recibosDetalle$.next(this.itemsRecibos); // Actualiza el observable compartido
+      // this.recibosService.recibosDetalle$.next(this.itemsRecibos); // Actualiza el observable compartido
 
       this.dismiss();
     });

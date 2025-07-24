@@ -45,9 +45,9 @@ export class CasasComponent implements OnInit {
         index === self.findIndex((t) => t.ID === item.ID)
       );
       this.itemsBackup = this.items.slice();
-      this.loadingUtil.dismiss();
+      // this.loadingUtil.dismiss();
     });
-    this.loadingUtil.showing();
+    // this.loadingUtil.showing();
   }
 
   async openModal(casa: any) {
@@ -107,12 +107,12 @@ export class CasasDetailComponent implements OnInit {
 
   getdata() {
     console.log(this.casa);
-    this.service.getFullDataDetail().subscribe(async (data: any[]) => {
+    this.service.recibosDetalle$.subscribe(async (data: any[]) => {
       this.items = [...data.filter(value => value.CASA == this.name)];
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
-      this.loadingUtil.dismiss();
+      // this.loadingUtil.dismiss();
     });
-    this.loadingUtil.showing();
+    // this.loadingUtil.showing();
   }
 
   sumMonto(array: any[], Id: any) {
