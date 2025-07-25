@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular'; // Importa ModalController de @ionic/angular
+import { ModalController } from '@ionic/angular'; // Importa ModalController de @ionic/angular
 import { AddRecibosComponent } from '../../../app/components/add-recibos/add-recibos.component';
 import { RecibosService } from 'src/app/service/recibos.service';
 import { LoadingUtil } from 'src/app/utils/loadingUtil';
 import { ReciboDetalle } from 'src/app/interface/recibos';
-import { finalize } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { AlertUtil } from 'src/app/utils/alertUtil';
 
 @Component({
@@ -34,25 +34,24 @@ export class RecibosPage implements OnInit {
     // this.loadRecibos();
   }
 
-  doRefresh(event: CustomEvent) {
+  async doRefresh(event: CustomEvent) {
+    await this.recibosService.getSpreadSheetId().then( () => this.getdata());
+    this.loadingUtil.dismiss();
     (event.target as HTMLIonRefresherElement).complete();
   }
 
-  getdata() {
+  async getdata(): Promise <void> {
     this.loadingUtil.showing();
-    this.recibosService.getFullDataDetail()
-      .pipe(
-        finalize(() => this.loadingUtil.dismiss())
-      )
-      .subscribe(async (data: any[]) => {
+    try {
+      const data = await firstValueFrom(this.recibosService.getFullDataDetail());
       this.itemsRecibos = [...data];
       this.itemsRecibos = [...this.itemsRecibos];
-      // this.recibosService.recibosDetalle$.next(this.itemsRecibos); // Actualiza el observable compartido
-    },
-    (error) => {
-      this.alertUtil.showError('Error al cargar recibos: '+ error);
+      // this.recibosService.recibosDetalle$.next(this.itemsRecibos);
+    } catch (error) {
+      this.alertUtil.showError('Error al cargar recibos: ' + error);
+    } finally {
+      this.loadingUtil.dismiss();
     }
-    );
   }
 
   // Cuando agregues recibos nuevos:

@@ -37,7 +37,7 @@ export class GastosService {
   getCategoriaDef(): Observable<CategoriaDef[]> {
     if (this.categorias$.getValue().length > 0) {
       // Si ya hay datos en categorias$, retorna el observable actual con delay
-      return this.categorias$.asObservable().pipe(delay(500));
+      return this.categorias$.asObservable().pipe(delay(100));
     }
 
     if (environment.name === 'local') {
@@ -48,6 +48,7 @@ export class GastosService {
     return this.base.getEntitiesByRange('Catalogos','A1:C50').pipe(
       map((data: any) => {
         data = data.filter((item: any) => item.Nombre);
+        this.categorias$.next(data as CategoriaDef[]);
         return data as CategoriaDef[];
       }),
       catchError(this.base.handleError)
@@ -57,7 +58,7 @@ export class GastosService {
   getFullDataDetail(): Observable<GastosDetalle[]> {
     if (this.gastosDetalle$.getValue().length > 0) {
       // Si ya hay datos en gastosDetalle$, retorna el observable actual
-      return this.gastosDetalle$.asObservable().pipe(delay(500));
+      return this.gastosDetalle$.asObservable().pipe(delay(100));
     }
     if (environment.name === 'local') {
       const mock = MOCK_GASTOS_DETALLE;
@@ -66,6 +67,7 @@ export class GastosService {
     }
     return this.base.getEntities('GastosDetalle').pipe(
       map((data: any) => {
+        this.gastosDetalle$.next(data as GastosDetalle[]);
         return data as GastosDetalle[];
       }),
       catchError(this.base.handleError)
