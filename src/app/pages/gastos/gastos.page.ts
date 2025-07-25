@@ -17,6 +17,7 @@ import { GastosDetalle } from '../../interface/gastos';
 export class GastosPage implements OnInit {
   items: GastosDetalle[] = [];
   itemsBackup: GastosDetalle[] = [];
+  role: string = '';
 
   constructor(
     public modalCtrl: ModalController,
@@ -28,28 +29,30 @@ export class GastosPage implements OnInit {
 
   ngOnInit() {
     this.service.getSpreadSheetId().then(() => this.getdata());
+    const user = localStorage.getItem('user');
+    this.role = user ? JSON.parse(user).ROLE : '';
   }
 
-/*   doRefresh(refresher) {
+  doRefresh(event: CustomEvent) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
-      this.items = data;
-      this.itemsBackup = this.items.slice();
-      refresher.complete();
+      this.items = [...data]; // Fuerza nueva referencia para refrescar la vista
+      this.itemsBackup = [...this.items];
+      (event.target as HTMLIonRefresherElement).complete();
     });
-  } */
+  }
 
-  getdata() {
-    this.service.getFullDataDetail().subscribe((data: GastosDetalle[]) => {
-      this.items = data;
-      this.itemsBackup = this.items;
-      this.loadUtil.loadingDismiss();
+  async getdata() {
+    await this.service.getFullDataDetail().subscribe((data: GastosDetalle[]) => {
+      this.items = [...data]; // Fuerza nueva referencia para refrescar la vista
+      this.itemsBackup = [...this.items];
+      this.loadUtil.dismiss();
     });
-    this.loadUtil.showLoading();
+    this.loadUtil.showing();
   }
 
   getItems(ev: any) {
     // Reset items back to all of the items
-    console.log(this.items);
+    // console.log(this.items);
     this.items = this.itemsBackup;
     // console.log("this.items", this.items);
     // set val to the value of the searchbar
@@ -67,9 +70,16 @@ export class GastosPage implements OnInit {
 
   async openModal(detail: any) {
     const modal = await this.modalCtrl.create({
-      component: AddGastosComponent, 
+      component: AddGastosComponent,
       componentProps: { detail : detail.detail }
     });
     modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm' && data && Array.isArray(data)) {
+      this.items.push(...data);
+      this.items = [...this.items]; // Fuerza refresco de la vista
+      this.itemsBackup = [...this.items];
+      this.service.gastosDetalle$.next(this.items); // Actualiza el observable compartido
+    }
   }
 }

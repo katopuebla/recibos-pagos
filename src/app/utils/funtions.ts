@@ -1,6 +1,5 @@
-import { LoadingUtil } from './loadingUtil';
 
-export class Funtions extends LoadingUtil {
+export class Funtions {
   lastSumMonto(array: any[], Id: any) {
     var values = array.filter(element => element.CASA == Id);
     return values.reduce((sum, currentValue) => {

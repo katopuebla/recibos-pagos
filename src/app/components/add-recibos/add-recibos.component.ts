@@ -6,6 +6,7 @@ import {
   Validators
 } from '@angular/forms';
 import {
+  ActionSheetController,
   LoadingController,
   ModalController
 } from '@ionic/angular';
@@ -14,11 +15,13 @@ import {
   Concepto,
   ConceptoDef,
   Recibo,
-  ReciboDetalle
+  ReciboDetalle,
+  ReciboMaxFolio
 } from '../../interface/recibos';
 import { RecibosService } from '../../service/recibos.service';
 import { LoadingUtil } from '../../utils/loadingUtil';
 import { ToastUtil } from '../../utils/toastUtil';
+import { AlertUtil } from 'src/app/utils/alertUtil';
 
 @Component({
   selector: 'app-add-recibos',
@@ -26,8 +29,18 @@ import { ToastUtil } from '../../utils/toastUtil';
   styleUrls: ['./add-recibos.component.css'],
   standalone: false,
 })
-export class AddRecibosComponent extends LoadingUtil implements OnInit {
-  item: Recibo = {};
+// export class AddRecibosComponent extends LoadingUtil implements OnInit {
+export class AddRecibosComponent implements OnInit {
+  item: Recibo = {
+    FOLIO: 0,
+    CASA: '',
+    NOMBRE: '',
+    CANTIDAD: '',
+    CONCEPTO: '',
+    FECHA: '',
+    CORREO: '',
+    INPUT_TIMESTAMP: ''
+  };
   itemDetail: ReciboDetalle[] = [];
   casas: Casa[] = [];
   casa: Casa | any;
@@ -43,12 +56,15 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
+    private actionSheetCtrl: ActionSheetController,
     private formBuilder: FormBuilder,
     private service: RecibosService,
-    loadingCtrl: LoadingController,
-    private toastUtil: ToastUtil
+    // loadingCtrl: LoadingController,
+    private loadingUtil: LoadingUtil,
+    private toastUtil: ToastUtil,
+    private alertUtil: AlertUtil
   ) {
-    super(loadingCtrl);
+    // super(loadingCtrl);
     this.fields = this.formBuilder.group({
       folio: ['', Validators.required],
       casa: ['', Validators.required],
@@ -63,9 +79,9 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
 
   frmConceptos(): FormGroup {
     return this.formBuilder.group({
-      concepto: ['', Validators.required],
-      mes: ['', Validators.required],
-      monto: ['', Validators.required]
+      concepto: ['', [Validators.required, Validators.minLength(3)]],
+      mes: ['', [Validators.required]],
+      monto: ['', [Validators.required, Validators.min(0), Validators.pattern(/^\d+(\.\d{1,2})?$/)]]
     });
   }
 
@@ -79,39 +95,44 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       const formattedDate = this.today.toJSON().split('T')[0];
       this.fields.patchValue({ fecha: formattedDate });
       this.inittial();
-      // this.loadingDismiss();
+      // this.dismiss();
     });
-    this.showLoading();
+    this.loadingUtil.showing();
   }
 
   getMaxFolio() {
-    this.service.getRecibos().subscribe(
+    this.service.getFullDataDetail().subscribe(
       {
-        next: (resp: Recibo[] | any) => {
+         next: (resp: ReciboDetalle[] | any) => {
           const FOLIO = Math.max(...resp.map((row: { FOLIO: any; }) => row.FOLIO)) + 1;
           this.fields.patchValue({ folio: FOLIO });
-          this.loadingDismiss();
+          this.loadingUtil.dismiss();
         }, error: err => {
           const FOLIO = 1;
           this.fields.patchValue({ folio: FOLIO });
-          this.loadingDismiss();
+          this.loadingUtil.dismiss();
+          this.alertUtil.showError('No se pudo obtener el folio: ' + err.message);
         }
       });
-      // this.showLoading();
   }
 
   inittial() {
-    this.service.getFullData().subscribe((resp: Casa[] | any) => {
+    this.service.getFullData().subscribe({
+      next: (resp: Casa[] | any) => {
       this.casas = resp || [];
-      // this.loadingDismiss();
+      // this.dismiss();
       this.service.getConceptos().subscribe((resp: ConceptoDef[] | any) => {
         this.conceptos = resp || [];
         // console.log(this.conceptos);
         this.getMaxFolio();
-        // this.loadingDismiss();
         });
+      },
+      error: async (err) => {
+        console.error('Error al cargar datos:', err);
+        this.loadingUtil.dismiss();
+        this.alertUtil.showError('No se pudieron cargar los datos: ' + err.message);
+      }
     });
-      // this.showLoading();
   }
 
   onChangeCasa(event: CustomEvent) {
@@ -136,11 +157,21 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     const _concepto: ConceptoDef = event.detail.value;
     if (_concepto) {
       const control = <FormArray>this.fields.controls['conceptos'];
+      let _monto = this.calMontoConcepto();
       control.at(i).patchValue({
         mes: this.getFirstDayOfMonth(),
-        monto: this.fields.value.cantidad
+        monto: _monto
       });
     }
+  }
+
+  calMontoConcepto() {
+    const control = <FormArray>this.fields.controls['conceptos'];
+    let sumMonto: number = 0;
+      control.controls.forEach((data: any) => {
+        sumMonto += data.value.monto;
+      });
+      return this.fields.value.cantidad - sumMonto;
   }
 
   getFirstDayOfMonth() {
@@ -148,7 +179,29 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     return firstDayOfMonth;
   }
 
-  onSave(_recibo: any) {
+  async onSave(_recibo: any) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: '¿Desea guardar el recibo?',
+      buttons: [
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          icon: 'checkmark',
+          handler: () => {
+            this.save(_recibo);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          icon: 'close',
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  save(_recibo: any) {
     let _casa = _recibo.casa;
     _recibo.casa = _casa.ID;
     this.fillEvent(_recibo);
@@ -174,16 +227,16 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
           });
         }
         this.meesageToast('Se guardo exitosamente');
-        this.loadingDismiss();
-        this.dismiss();
+        this.loadingUtil.dismiss();
+        this.confirm(this.itemDetail);
       },
       error: err => {
         //console.log("Error Detail: ", err);
         this.meesageToast('No se pudo guardar el dato');
-        this.loadingDismiss();
+        this.loadingUtil.dismiss();
       }
   });
-    this.showLoading();
+    this.loadingUtil.showing();
     _recibo.sendEmail = true;
   }
 
@@ -241,7 +294,11 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.toastUtil.presentToast(_message, "top");
   }
 
-  dismiss() {
-    this.modalCtrl.dismiss();
+  confirm(reciboDetalles: any) {
+      this.modalCtrl.dismiss(reciboDetalles, 'confirm');
+  }
+
+  close() {
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 }

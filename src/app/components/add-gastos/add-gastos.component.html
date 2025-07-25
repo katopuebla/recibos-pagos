@@ -2,7 +2,7 @@
 	<ion-toolbar>
 		<ion-title>Agregar Gastos</ion-title>
 		<ion-buttons slot="start">
-			<ion-button ion-button (click)="dismiss()">
+			<ion-button ion-button (click)="close()">
 				<ion-icon name="close"></ion-icon>
 			</ion-button>
 		</ion-buttons>
@@ -40,49 +40,27 @@
 			<section *ngFor="let control of conceptoForm.controls; let i = index" [formGroupName]="i" >
 				<ion-item-group>
 					<ion-item-divider color="light">Conceptos #{{ i + 1 }}</ion-item-divider>
-					<!-- <ion-item>
-						<ion-select label="Concepto:" labelPlacement="floating"  interface="popover" id="concepto" formControlName="concepto" (ionChange)="onChangeConcepto($event, i)">
-							<ion-select-option *ngFor="let row of conceptos" [value]="row.NOMBRE">
-								{{row.NOMBRE}}
-							</ion-select-option>
-						</ion-select>
-					</ion-item> -->
 					<ion-item>
-						<ion-label floating>Mes:</ion-label>
-							<!-- <ion-input type="date" maxlength="50" formControlName="mes"></ion-input> -->
-							<ion-datetime id="mes" displayFormat="MMM. YYYY" formControlName="mes"
-							monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
-							presentation="month-year"
-						[preferWheel]="true">
-						</ion-datetime>
+						<ion-input label="Mes:" labelPlacement="floating" id="mes" type="date" maxlength="50" formControlName="mes"></ion-input>
 					</ion-item>
 					<ion-item>
 						<ion-input label="Monto:" labelPlacement="floating"  id="monto" type="number" maxlength="50" formControlName="monto"></ion-input>
 					</ion-item>
 					<!-- Allow generated input field to be removed -->
-					<span
-						float-right
-						ion-button
-						icon-left
-						clear
-						*ngIf="conceptoForm.length > 1"
+					<ion-button size="small" fill="clear" color="danger"	*ngIf="conceptoForm.length > 1"
 						(click)="removeInputField(i)">
-						<ion-icon name="close"></ion-icon>
+						<ion-icon slot="start" name="close"></ion-icon>
 						eliminar
-					</span>
+					</ion-button>
 				</ion-item-group>
 			</section>
 		</div>
 		<!-- Allow new input field to be generated/added -->
-		<span
-			ion-button
-			float-left
-			icon-left
-			clear
+		<ion-button size="small" fill="clear" color="primary"
 			(click)="addNewInputField()">
-			<ion-icon name="add"></ion-icon>
+			<ion-icon slot="start" name="add"></ion-icon>
 			nuevo concepto
-			</span>
-		<ion-button type="submit" [disabled]="!fields.valid">Agregar</ion-button>
+			</ion-button>
+		<ion-button type="submit" expand="block" [disabled]="!fields.valid">Agregar</ion-button>
 	</form>
 </ion-content>

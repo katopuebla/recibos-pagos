@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-segment [(ngModel)]="option">
       <ion-segment-button value="Mes">
         Mes
@@ -18,23 +18,26 @@
 </ion-header>
 
 <ion-content>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">  
-    <ion-fab-button (click)="openModal({new: 'Add'})">  
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="role != 'reader'">
+    <ion-fab-button (click)="openModal({new: 'Add'})">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
-  <ng-container [ngSwitch]="option">  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+			refreshingText="Refrescando..."></ion-refresher-content>
+	</ion-refresher>
+  <ng-container [ngSwitch]="option">
     <div *ngSwitchCase="'Mes'">
-      <app-mes></app-mes>  
+      <app-mes></app-mes>
     </div>
     <div *ngSwitchCase="'Meses'">
-      <app-meses></app-meses>  
+      <app-meses></app-meses>
     </div>
     <div *ngSwitchCase="'Casa'">
-      <app-casas></app-casas>  
+      <app-casas></app-casas>
     </div>
-    <!-- <div *ngSwitchCase="'Folio'">
-      <app-folio></app-folio>  </div> -->
+    <div *ngSwitchCase="'Folio'">
+      <app-folio></app-folio>  </div>
   </ng-container>
 </ion-content>
