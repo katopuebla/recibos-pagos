@@ -63,7 +63,7 @@ export class RecibosService {
   getFullDataDetail(): Observable<ReciboDetalle[]> {
     if (this.recibosDetalle$.getValue().length > 0) {
       // Si ya hay datos en casas$, retorna el observable actual
-      return this.recibosDetalle$.asObservable().pipe(delay(1500));
+      return this.recibosDetalle$.asObservable().pipe(delay(500));
     }
     // Si no hay datos, invoca el método y setea casas$
     if (!environment.production) {
