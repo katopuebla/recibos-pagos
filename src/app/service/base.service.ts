@@ -56,11 +56,14 @@ export class BaseService {
   }
 
   private parseProperties(properties: string): any {
-    return properties.split('\n').reduce((acc: { [key: string]: string }, line) => {
-      const [key, value] = line.split('=');
-      acc[key.trim()] = value.trim();
-      return acc;
-    }, {});
+    return properties
+      .split('\n')
+      .filter(line => line.trim() && line.includes('='))
+      .reduce((acc: { [key: string]: string }, line) => {
+        const [key, value] = line.split('=');
+        acc[key.trim()] = (value ?? '').trim();
+        return acc;
+      }, {});
   }
 
   private stringifyProperties(properties: { [key: string]: string }): string {

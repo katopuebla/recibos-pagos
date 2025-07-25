@@ -46,7 +46,7 @@ export class RecibosService {
       return this.casas$.asObservable().pipe(delay(500));
     }
     // Si no hay datos, invoca el método y setea casas$
-    if (!environment.production) {
+    if (environment.name === 'local') {
       const mock = MOCK_CATALOGOS;
       this.casas$.next(mock);
       return of(mock).pipe(delay(500));
@@ -66,10 +66,10 @@ export class RecibosService {
       return this.recibosDetalle$.asObservable().pipe(delay(500));
     }
     // Si no hay datos, invoca el método y setea casas$
-    if (!environment.production) {
+    if (environment.name === 'local') {
       const mock = MOCK_RECIBOS_DETALLE;
       this.recibosDetalle$.next(mock);
-      return of(MOCK_RECIBOS_DETALLE).pipe(delay(500));
+      return of(MOCK_RECIBOS_DETALLE).pipe(delay(1500));
     }
     return this.base.getEntities('RecibosDetalle').pipe(
       map((data: any) => {
@@ -80,14 +80,14 @@ export class RecibosService {
   }
 
 /*   getRecibos() {
-    if (!environment.production) {
+    if (environment.name === 'local') {
       return of(MOCK_RECIBOS).pipe(delay(500));
     }
     return this.base.getEntities('Recibos');
   } */
 
   getMaxFolio(): Observable<ReciboMaxFolio> {
-    if (!environment.production) {
+    if (environment.name === 'local') {
       return of(MOCK_RECIBO_MAX_FOLIO).pipe(delay(500));
     }
     return this.base.getMaxId('Recibos', 'FOLIO').pipe(
@@ -103,7 +103,7 @@ export class RecibosService {
       // Si ya hay datos en conceptos$, retorna el observable actual con delay
       return this.conceptos$.asObservable().pipe(delay(500));
     }
-    if (!environment.production) {
+    if (environment.name === 'local') {
       const mock = MOCK_CONCEPTOS;
       this.conceptos$.next(mock);
       return of(mock).pipe(delay(500));
@@ -119,7 +119,7 @@ export class RecibosService {
   }
 
   save(_entity: Recibo, _entities: ReciboDetalle[]) {
-    if (!environment.production) {
+    if (environment.name === 'local') {
       // Guardar temporalmente en el array dummy (solo en memoria, no persistente)
       MOCK_RECIBOS.push(_entity);
       if (Array.isArray(_entities)) {

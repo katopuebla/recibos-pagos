@@ -4,6 +4,7 @@ import { ReciboDetalle } from '../../interface/recibos';
 import { RecibosService } from '../../service/recibos.service';
 import { Funtions } from '../../utils/funtions';
 import { LoadingUtil } from 'src/app/utils/loadingUtil';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-mes',
@@ -25,7 +26,8 @@ export class MesComponent extends Funtions implements OnInit {
   }
 
   async ngOnInit() {
-    await this.service.recibosDetalle$.subscribe((data: ReciboDetalle[]) => {
+    await this.service.getSpreadSheetId().then(() => this.getdata());
+    /* await this.service.recibosDetalle$.subscribe((data: ReciboDetalle[]) => {
       this.items = data;
       // this.dismiss();
       this.items.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
@@ -38,7 +40,7 @@ export class MesComponent extends Funtions implements OnInit {
       });
       this.itemsLastMonth.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
       this.loadingUtil.dismiss();
-    });
+    }); */
     // Si necesitas cargar datos iniciales, puedes hacerlo aquí también
     // await this.service.getSpreadSheetId().then(() => this.getdata());
   }
@@ -53,21 +55,23 @@ export class MesComponent extends Funtions implements OnInit {
   }
 
   getdata() {
-    this.service.getFullDataDetail().subscribe((data: ReciboDetalle[]) => {
-      let today = new Date().getMonth();
-      this.items = data;
-      this.loadingUtil.dismiss();
-      this.items.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
-      this.itemsBackup = this.items ? this.items.slice() : [];
-      this.title = new Date().toDateString();
+    // this.loadingUtil.showing();
+    this.service.getFullDataDetail()
+      // .pipe(
+      //   finalize(() => this.loadingUtil.dismiss())
+      // )
+      .subscribe((data: ReciboDetalle[]) => {
+        this.items = data;
+        this.items.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
+        this.itemsBackup = this.items ? this.items.slice() : [];
+        this.title = new Date().toDateString();
 
-      let lastMonth = new Date().getMonth() - 1;
-      this.itemsLastMonth = data.filter(mes => {
-        return mes.MES && new Date(mes.MES).getMonth() === lastMonth;
+        let lastMonth = new Date().getMonth() - 1;
+        this.itemsLastMonth = data.filter(mes => {
+          return mes.MES && new Date(mes.MES).getMonth() === lastMonth;
+        });
+        this.itemsLastMonth.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
       });
-      this.itemsLastMonth.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
-    });
-    this.loadingUtil.showing();
   }
 
   getItems(ev: any) {

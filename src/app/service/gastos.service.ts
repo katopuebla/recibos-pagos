@@ -40,7 +40,7 @@ export class GastosService {
       return this.categorias$.asObservable().pipe(delay(500));
     }
 
-    if (!environment.production) {
+    if (environment.name === 'local') {
       const mock = MOCK_CATEGORIAS;
       this.categorias$.next(mock);
       return of(mock).pipe(delay(500));
@@ -59,7 +59,7 @@ export class GastosService {
       // Si ya hay datos en gastosDetalle$, retorna el observable actual
       return this.gastosDetalle$.asObservable().pipe(delay(500));
     }
-    if (!environment.production) {
+    if (environment.name === 'local') {
       const mock = MOCK_GASTOS_DETALLE;
       this.gastosDetalle$.next(mock);
       return of(mock).pipe(delay(500));
@@ -73,7 +73,7 @@ export class GastosService {
   }
 
   save(_entity: Gastos, _entities: GastosDetalle[]) {
-    if (!environment.production) {
+    if (environment.name === 'local') {
       MOCK_GASTOS.push(_entity);
       if (Array.isArray(_entities)) {
         _entities.forEach(e => MOCK_GASTOS_DETALLE.push(e));

@@ -4,6 +4,8 @@ import { AddRecibosComponent } from '../../../app/components/add-recibos/add-rec
 import { RecibosService } from 'src/app/service/recibos.service';
 import { LoadingUtil } from 'src/app/utils/loadingUtil';
 import { ReciboDetalle } from 'src/app/interface/recibos';
+import { finalize } from 'rxjs';
+import { AlertUtil } from 'src/app/utils/alertUtil';
 
 @Component({
   selector: 'app-recibos',
@@ -20,6 +22,7 @@ export class RecibosPage implements OnInit {
   constructor(public modalCtrl: ModalController
     , private recibosService: RecibosService
     , private loadingUtil: LoadingUtil
+    , private alertUtil: AlertUtil
       ) {}
 
   async ngOnInit() {
@@ -35,15 +38,21 @@ export class RecibosPage implements OnInit {
     (event.target as HTMLIonRefresherElement).complete();
   }
 
-    getdata() {
-    this.recibosService.getFullDataDetail().subscribe(async (data: any[]) => {
+  getdata() {
+    this.loadingUtil.showing();
+    this.recibosService.getFullDataDetail()
+      .pipe(
+        finalize(() => this.loadingUtil.dismiss())
+      )
+      .subscribe(async (data: any[]) => {
       this.itemsRecibos = [...data];
       this.itemsRecibos = [...this.itemsRecibos];
       // this.recibosService.recibosDetalle$.next(this.itemsRecibos); // Actualiza el observable compartido
-
-      this.loadingUtil.dismiss();
-    });
-    this.loadingUtil.showing();
+    },
+    (error) => {
+      this.alertUtil.showError('Error al cargar recibos: '+ error);
+    }
+    );
   }
 
   // Cuando agregues recibos nuevos:
