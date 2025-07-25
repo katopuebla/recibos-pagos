@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  name: 'local',
   baseHref: '/recibos-pagos/dev/',
 };
 
