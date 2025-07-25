@@ -42,12 +42,12 @@ export class GastosPage implements OnInit {
   }
 
   async getdata() {
+    this.loadUtil.showing();
     await this.service.getFullDataDetail().subscribe((data: GastosDetalle[]) => {
       this.items = [...data]; // Fuerza nueva referencia para refrescar la vista
       this.itemsBackup = [...this.items];
       this.loadUtil.dismiss();
     });
-    this.loadUtil.showing();
   }
 
   getItems(ev: any) {

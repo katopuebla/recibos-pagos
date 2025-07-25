@@ -46,20 +46,22 @@ export class MesComponent extends Funtions implements OnInit {
   }
 
   doRefresh(event: { target: { complete: () => void; }; }) {
-    this.service.getFullDataDetail().subscribe((data: any[]) => {
+    /* this.service.getFullDataDetail().subscribe((data: any[]) => {
       this.items = data.find(
         mes => new Date(mes.header).getMonth() == new Date().getMonth()
       );
       event.target.complete();
-    });
+    }); */
+    this.getdata();
+    event.target.complete();
   }
 
   getdata() {
     // this.loadingUtil.showing();
     this.service.getFullDataDetail()
-      // .pipe(
-      //   finalize(() => this.loadingUtil.dismiss())
-      // )
+      .pipe(
+        finalize(() => this.loadingUtil.dismiss())
+      )
       .subscribe((data: ReciboDetalle[]) => {
         this.items = data;
         this.items.sort((a, b) => (a.CASA && b.CASA && a.CASA > b.CASA ? 1 : -1));
