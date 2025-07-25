@@ -22,7 +22,7 @@ export class UserService {
 
 
   getUsers(nombre: string, password: string): Observable<string| null | undefined> {
-    if (!environment.production) {
+    if (environment.name === 'local') {
       return new Observable<string | null | undefined>(observer => {
         let users = MOCK_USUARIOS;
         let user = users.find((_user) => _user.ID === nombre && _user.PASSWORD === password);
