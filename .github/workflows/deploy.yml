@@ -40,7 +40,7 @@ jobs:
       - name: Install and Build (Dev)
         run: |
           npm ci
-          npm run build --configuration=development -- --base-href=/recibos-pagos/dev/ --outputPath=/www/dev/
+          npm run build -- --configuration=development --base-href=/recibos-pagos/dev/ --output-path=/www/dev
           # mkdir -p www/dev
           # shopt -s extglob
           # cp -r www/!(dev) www/dev/
