@@ -3,6 +3,7 @@ import { ActionSheetController, ModalController, NavController } from '@ionic/an
 import { AddRecibosComponent } from '../../components/add-recibos/add-recibos.component';
 import { ParametersComponent } from 'src/app/components/parameters/parameters.component';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -14,17 +15,18 @@ export class HomePage implements OnInit {
 
   role: string = '';
 
-  constructor( private router: Router, private modalCtrl: ModalController, 
+  constructor( private router: Router, private modalCtrl: ModalController,
     private actionSheet: ActionSheetController) {}
 
   ngOnInit() {
     const user = localStorage.getItem('user');
     this.role = user ? JSON.parse(user).ROLE : '';
+    console.log('ENVIRONMENT:',environment)
   }
 
   async openModal() {
     const modal = await this.modalCtrl.create({
-      component: AddRecibosComponent, 
+      component: AddRecibosComponent,
     });
     modal.present();
 
