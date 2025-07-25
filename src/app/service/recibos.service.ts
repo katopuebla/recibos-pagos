@@ -43,7 +43,8 @@ export class RecibosService {
   getFullData(): Observable<Casa[]> {
     if (this.casas$.getValue().length > 0) {
       // Si ya hay datos en casas$, retorna el observable actual
-      return this.casas$.asObservable().pipe(delay(500));
+      // return this.casas$.asObservable().pipe(delay(500));
+      return this.casas$.asObservable();
     }
     // Si no hay datos, invoca el método y setea casas$
     if (environment.name === 'local') {
@@ -63,7 +64,7 @@ export class RecibosService {
   getFullDataDetail(): Observable<ReciboDetalle[]> {
     if (this.recibosDetalle$.getValue().length > 0) {
       // Si ya hay datos en casas$, retorna el observable actual
-      return this.recibosDetalle$.asObservable().pipe(delay(500));
+      return this.recibosDetalle$.asObservable().pipe(delay(100));
     }
     // Si no hay datos, invoca el método y setea casas$
     if (environment.name === 'local') {
@@ -73,6 +74,7 @@ export class RecibosService {
     }
     return this.base.getEntities('RecibosDetalle').pipe(
       map((data: any) => {
+        this.recibosDetalle$.next(data as ReciboDetalle[] || []);
         return data as ReciboDetalle[] || [];
       }),
       catchError(this.base.handleError)
@@ -86,7 +88,7 @@ export class RecibosService {
     return this.base.getEntities('Recibos');
   } */
 
-  getMaxFolio(): Observable<ReciboMaxFolio> {
+/*   getMaxFolio(): Observable<ReciboMaxFolio> {
     if (environment.name === 'local') {
       return of(MOCK_RECIBO_MAX_FOLIO).pipe(delay(500));
     }
@@ -96,12 +98,13 @@ export class RecibosService {
       }),
       catchError(this.base.handleError)
     );
-  }
+  } */
 
   getConceptos(): Observable<ConceptoDef[]> {
     if(this.conceptos$ && this.conceptos$.getValue().length > 0) {
       // Si ya hay datos en conceptos$, retorna el observable actual con delay
-      return this.conceptos$.asObservable().pipe(delay(500));
+      // return this.conceptos$.asObservable().pipe(delay(500));
+      return this.conceptos$.asObservable().pipe(delay(100));
     }
     if (environment.name === 'local') {
       const mock = MOCK_CONCEPTOS;
@@ -111,6 +114,7 @@ export class RecibosService {
     return this.base.getEntitiesByRange('Catalogos', 'A1:A50').pipe(
       map((data: any) => {
         data = data.filter((item: any) => item.NOMBRE);
+        this.conceptos$.next(data as ReciboDetalle[] || []);
         return data as ConceptoDef[] || [];
       }),
       catchError(this.base.handleError)

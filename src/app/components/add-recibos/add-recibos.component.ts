@@ -228,6 +228,7 @@ export class AddRecibosComponent implements OnInit {
         }
         this.meesageToast('Se guardo exitosamente');
         this.loadingUtil.dismiss();
+        this.itemDetail = this.convertMonth(this.itemDetail);
         this.confirm(this.itemDetail);
       },
       error: err => {
@@ -238,6 +239,17 @@ export class AddRecibosComponent implements OnInit {
   });
     this.loadingUtil.showing();
     _recibo.sendEmail = true;
+  }
+
+convertMonth(itemDetail: ReciboDetalle[]) {
+    return itemDetail.map(item => {
+      // 1. Toma el string y separa
+      const [yyyy, mm, dd] = item.MES?.split('-') || [];
+      // 3. Crea fecha ISO agregando hora
+      const isoString = `${yyyy}-${mm}-${dd}T06:00:00.000Z`;
+      // 4. Devuelve el nuevo objeto con MES modificado
+      return { ...item, MES: isoString };
+    });
   }
 
   fillEvent(_recibo: any) {
