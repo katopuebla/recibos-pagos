@@ -20,6 +20,7 @@ jobs:
         run: |
           npm ci
           npm run build --prod -- --base-href=/recibos-pagos/
+          cp www/index.html www/404.html
 
       - name: Deploy 🚀 (Prod)
         uses: JamesIves/github-pages-deploy-action@v4
@@ -45,6 +46,7 @@ jobs:
           mkdir -p www/dev
           shopt -s extglob
           cp -r www/!(dev) www/dev/
+          cp www/dev/index.html www/dev/404.html
 
       - name: Add .nojekyll file
         run: echo > www/dev/.nojekyll
