@@ -74,6 +74,8 @@
                   "with": "src/environments/environment.snapshot.ts"
                 }
               ],
+              "baseHref": "/recibos-pagos/dev/",
+              "outputPath": "www/dev",
               "outputHashing": "all",
               "optimization": true,
               "sourceMap": true,

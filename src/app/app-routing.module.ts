@@ -5,9 +5,9 @@ import { ingresadoGuard } from './guard/ingresado.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: '/tabs/home',
-    pathMatch: 'full'
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    ,canActivate: [noIngresadoGuard]
   },
   {
     path: '',
@@ -15,9 +15,9 @@ const routes: Routes = [
     ,canActivate: [ingresadoGuard]
   },
   {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-    ,canActivate: [noIngresadoGuard]
+    path: '**',
+    redirectTo: '/tabs/home',
+    pathMatch: 'full'
   }
 ];
 @NgModule({
