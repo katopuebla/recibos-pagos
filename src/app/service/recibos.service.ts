@@ -134,7 +134,7 @@ export class RecibosService {
       this.prefijos$.next(mock);
       return of(mock).pipe(delay(500));
     }
-    return this.base.getEntitiesByRange('Catalogos', 'K1:K4').pipe(
+    return this.base.getEntitiesByNameRange('Catalogos', 'PrefijoDef').pipe(
       map((data: any) => {
         this.prefijos$.next(data as PrefijoDef[] || []);
         return data as PrefijoDef[] || [];
