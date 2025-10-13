@@ -9,7 +9,8 @@ export const MOCK_RECIBOS_DETALLE: ReciboDetalle[] = [
     CONCEPTO: 'Renta',
     MES: '2025-06',
     MONTO: '1200',
-    INPUT_TIMESTAMP: '2025-06-01T10:00:00'
+    INPUT_TIMESTAMP: '2025-06-01T10:00:00',
+    PREFIX: 'A'
   },
   {
     FOLIO: 2,
@@ -18,7 +19,8 @@ export const MOCK_RECIBOS_DETALLE: ReciboDetalle[] = [
     CONCEPTO: 'Renta',
     MES: '2025-07',
     MONTO: '1200',
-    INPUT_TIMESTAMP: '2025-07-01T10:00:00'
+    INPUT_TIMESTAMP: '2025-07-01T10:00:00',
+    PREFIX: 'A'
   },
   {
     FOLIO: 3,
@@ -27,6 +29,7 @@ export const MOCK_RECIBOS_DETALLE: ReciboDetalle[] = [
     CONCEPTO: 'Mantenimiento',
     MES: '2025-06',
     MONTO: '800',
-    INPUT_TIMESTAMP: '2025-06-15T09:00:00'
+    INPUT_TIMESTAMP: '2025-06-15T09:00:00',
+    PREFIX: 'B'
   }
 ];

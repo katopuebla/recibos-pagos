@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   Casa,
   ConceptoDef,
+  PrefijoDef,
   Recibo,
   ReciboDetalle,
   ReciboMaxFolio
@@ -16,6 +17,7 @@ import { MOCK_CATALOGOS } from '../mocks/mock-catalogos';
 import { MOCK_RECIBOS_DETALLE } from '../mocks/mock-recibos-detalle';
 import { MOCK_CONCEPTOS } from '../mocks/mock-conceptos';
 import { Concepto } from '../interface/recibos';
+import { MOCK_PREFIJOS } from '../mocks/mock-prefijos';
 
 @Injectable()
 export class RecibosService {
@@ -26,6 +28,7 @@ export class RecibosService {
   public recibosDetalle$ = new BehaviorSubject<ReciboDetalle[]>([]);
   public casas$ = new BehaviorSubject<Casa[]>([]);
   public conceptos$ = new BehaviorSubject<ConceptoDef[]>([]);
+  public prefijos$ = new BehaviorSubject<PrefijoDef[]>([]);
 
   async getSpreadSheetId() {
     this.SPREAD_SHEET_ID = await this.base.loadConfig('RECIBOS_SPREAD_SHEET_ID');
@@ -122,12 +125,37 @@ export class RecibosService {
 
   }
 
+  getPrefijos(): Observable<PrefijoDef[]> {
+    if(this.prefijos$ && this.prefijos$.getValue().length > 0) {
+      return this.prefijos$.asObservable().pipe(delay(100));
+    }
+    if (environment.name === 'local') {
+      const mock = MOCK_PREFIJOS;
+      this.prefijos$.next(mock);
+      return of(mock).pipe(delay(500));
+    }
+    return this.base.getEntitiesByRange('Catalogos', 'K1:K4').pipe(
+      map((data: any) => {
+        this.prefijos$.next(data as PrefijoDef[] || []);
+        return data as PrefijoDef[] || [];
+      }),
+      catchError(this.base.handleError)
+    );
+
+  }
+
   save(_entity: Recibo, _entities: ReciboDetalle[]) {
     if (environment.name === 'local') {
       // Guardar temporalmente en el array dummy (solo en memoria, no persistente)
       MOCK_RECIBOS.push(_entity);
       if (Array.isArray(_entities)) {
         _entities.forEach(e => MOCK_RECIBOS_DETALLE.push(e));
+      }
+      if (_entity.PREFIX) {
+        const prefijo = MOCK_PREFIJOS.find(p => p.PREFIJO === _entity.PREFIX);
+        if (prefijo) {
+          prefijo.FOLIO = _entity.FOLIO;
+        }
       }
       // Simula un observable de éxito
       return of({ message: 'Guardado en mock local (desarrollo)' }).pipe(delay(500));
@@ -158,6 +186,7 @@ export class RecibosService {
     entities.push(_entity.FECHA);
     entities.push(_entity.CORREO);
     entities.push(new Date().toLocaleString());
+    entities.push(_entity.PREFIX);
     body.push(entities);
     return body;
   }
@@ -175,6 +204,7 @@ export class RecibosService {
         entities.push(data.MES);
         entities.push(data.MONTO);
         entities.push(new Date().toLocaleString());
+        entities.push(data.PREFIX);
         bodiesDetail.push(entities);
       });
     }
