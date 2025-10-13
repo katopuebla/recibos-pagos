@@ -11,6 +11,14 @@
 
 <ion-content class="ion-padding">
 	<form [formGroup]="fields" (ngSubmit)="onSave(fields.value)">
+		<ion-item disabled *ngIf="user?.ROLE === 'admin' || user?.ROLE === 'dev' || user?.ROLE === 'manager'" >
+      <ion-select label="Prefix:" labelPlacement="floating"  interface="popover"
+        id="prefijo" formControlName="prefijo" (ionChange)="onChangePrefijo($event)">
+        <ion-select-option *ngFor="let row of prefijos" [value]="row">
+          {{row.NOMBRE}}
+        </ion-select-option>
+      </ion-select>
+		</ion-item>
 		<ion-item>
 			<ion-input label="Folio" labelPlacement="floating" id="folio" type="number" formControlName="folio">
 			</ion-input>

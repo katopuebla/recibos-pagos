@@ -91,7 +91,8 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       if (_monto) {
         const control = <FormArray>this.fields.controls['conceptos'];
         const newMonto = _monto - control.at(i).value.monto;
-        const formattedDate = this.today.toJSON().split('T')[0];
+        // const formattedDate = this.today.toJSON().split('T')[0];
+        const formattedDate = this.fields.value.fecha;
         control.at(i).patchValue({
           mes: formattedDate,
           monto: _monto

@@ -13,7 +13,8 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago de renta junio',
     FECHA: '2025-06-01',
     CORREO: 'juan.perez@email.com',
-    INPUT_TIMESTAMP: '2025-06-01T10:00:00'
+    INPUT_TIMESTAMP: '2025-06-01T10:00:00',
+    PREFIX: 'A'
   },
   {
     FOLIO: 2,
@@ -23,7 +24,8 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago de renta julio',
     FECHA: '2025-07-01',
     CORREO: 'ana.lopez@email.com',
-    INPUT_TIMESTAMP: '2025-07-01T10:00:00'
+    INPUT_TIMESTAMP: '2025-07-01T10:00:00',
+    PREFIX: 'A'
   },
   {
     FOLIO: 3,
@@ -33,7 +35,8 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago de mantenimiento',
     FECHA: '2025-06-15',
     CORREO: 'juan.perez@email.com',
-    INPUT_TIMESTAMP: '2025-06-15T09:00:00'
+    INPUT_TIMESTAMP: '2025-06-15T09:00:00',
+    PREFIX: 'B'
   },
   {
     FOLIO: 4,
@@ -43,7 +46,8 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago de agua',
     FECHA: '2025-05-20',
     CORREO: 'carlos.ruiz@email.com',
-    INPUT_TIMESTAMP: '2025-05-20T08:00:00'
+    INPUT_TIMESTAMP: '2025-05-20T08:00:00',
+    PREFIX: 'B'
   },
   {
     FOLIO: 5,
@@ -53,7 +57,8 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago de luz',
     FECHA: '2025-04-10',
     CORREO: 'ana.lopez@email.com',
-    INPUT_TIMESTAMP: '2025-04-10T11:00:00'
+    INPUT_TIMESTAMP: '2025-04-10T11:00:00',
+    PREFIX: 'C'
   },
   {
     FOLIO: 6,
@@ -63,7 +68,8 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago de renta marzo',
     FECHA: '2025-03-05',
     CORREO: 'luis.gomez@email.com',
-    INPUT_TIMESTAMP: '2025-03-05T12:00:00'
+    INPUT_TIMESTAMP: '2025-03-05T12:00:00',
+    PREFIX: 'C'
   },
   {
     FOLIO: 7,
@@ -73,7 +79,8 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago de renta febrero',
     FECHA: '2025-02-01',
     CORREO: 'juan.perez@email.com',
-    INPUT_TIMESTAMP: '2025-02-01T10:00:00'
+    INPUT_TIMESTAMP: '2025-02-01T10:00:00',
+    PREFIX: 'A'
   },
   {
     FOLIO: 8,
@@ -83,7 +90,8 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago de renta enero',
     FECHA: '2025-01-01',
     CORREO: 'maria.torres@email.com',
-    INPUT_TIMESTAMP: '2025-01-01T10:00:00'
+    INPUT_TIMESTAMP: '2025-01-01T10:00:00',
+    PREFIX: 'A'
   },
   {
     FOLIO: 9,
@@ -93,7 +101,8 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago parcial de renta',
     FECHA: '2025-06-25',
     CORREO: 'carlos.ruiz@email.com',
-    INPUT_TIMESTAMP: '2025-06-25T13:00:00'
+    INPUT_TIMESTAMP: '2025-06-25T13:00:00',
+    PREFIX: 'B'
   },
   {
     FOLIO: 10,
@@ -103,6 +112,7 @@ export const MOCK_RECIBOS: Recibo[] = [
     CONCEPTO: 'Pago de renta junio (atrasado)',
     FECHA: '2025-06-30',
     CORREO: 'ana.lopez@email.com',
-    INPUT_TIMESTAMP: '2025-06-30T14:00:00'
+    INPUT_TIMESTAMP: '2025-06-30T14:00:00',
+    PREFIX: 'C'
   }
 ];

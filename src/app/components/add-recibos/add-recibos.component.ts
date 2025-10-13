@@ -16,12 +16,14 @@ import {
   ConceptoDef,
   Recibo,
   ReciboDetalle,
-  ReciboMaxFolio
+  ReciboMaxFolio,
+  Usuario
 } from '../../interface/recibos';
 import { RecibosService } from '../../service/recibos.service';
 import { LoadingUtil } from '../../utils/loadingUtil';
 import { ToastUtil } from '../../utils/toastUtil';
 import { AlertUtil } from 'src/app/utils/alertUtil';
+import { PrefijoDef } from '../../interface/recibos';
 
 @Component({
   selector: 'app-add-recibos',
@@ -31,6 +33,7 @@ import { AlertUtil } from 'src/app/utils/alertUtil';
 })
 // export class AddRecibosComponent extends LoadingUtil implements OnInit {
 export class AddRecibosComponent implements OnInit {
+  user: Usuario | null = null;
   item: Recibo = {
     FOLIO: 0,
     CASA: '',
@@ -39,12 +42,14 @@ export class AddRecibosComponent implements OnInit {
     CONCEPTO: '',
     FECHA: '',
     CORREO: '',
-    INPUT_TIMESTAMP: ''
+    INPUT_TIMESTAMP: '',
+    PREFIX: '',
   };
   itemDetail: ReciboDetalle[] = [];
   casas: Casa[] = [];
   casa: Casa | any;
   conceptos: ConceptoDef[] = [];
+  prefijos: PrefijoDef[] = [];
   data: boolean = false;
   sendEmail: boolean = false;
 
@@ -66,6 +71,7 @@ export class AddRecibosComponent implements OnInit {
   ) {
     // super(loadingCtrl);
     this.fields = this.formBuilder.group({
+      prefijo: ['', Validators.required],
       folio: ['', Validators.required],
       casa: ['', Validators.required],
       nombre: ['', Validators.required],
@@ -100,6 +106,9 @@ export class AddRecibosComponent implements OnInit {
     this.loadingUtil.showing();
   }
 
+  /**
+   * @deprecated Use getMaxFolio with subscription instead
+   */
   getMaxFolio() {
     this.service.getFullDataDetail().subscribe(
       {
@@ -117,6 +126,8 @@ export class AddRecibosComponent implements OnInit {
   }
 
   inittial() {
+    const userStr = localStorage.getItem('user');
+    this.user = userStr ? JSON.parse(userStr) : null;
     this.service.getFullData().subscribe({
       next: (resp: Casa[] | any) => {
       this.casas = resp || [];
@@ -124,7 +135,20 @@ export class AddRecibosComponent implements OnInit {
       this.service.getConceptos().subscribe((resp: ConceptoDef[] | any) => {
         this.conceptos = resp || [];
         // console.log(this.conceptos);
-        this.getMaxFolio();
+        // this.getMaxFolio();
+        });
+      this.service.getPrefijos().subscribe((resp: PrefijoDef[] | any) => {
+        this.prefijos = resp || [];
+        let prefijo = this.prefijos.find((data: PrefijoDef) =>
+          data.NOMBRE?.toUpperCase() === this.user?.ID?.toUpperCase() && this.user?.ROLE === 'user'
+        );
+        if (prefijo) {
+          this.fields.patchValue({
+            prefijo: prefijo.NOMBRE,
+            folio: prefijo?.FOLIO + 1
+          });
+        }
+        this.loadingUtil.dismiss();
         });
       },
       error: async (err) => {
@@ -151,6 +175,15 @@ export class AddRecibosComponent implements OnInit {
         sendEmail: true
       });
     }
+  }
+
+  onChangePrefijo(event: CustomEvent) {
+    const _prefijo: PrefijoDef = event.detail.value;
+    if (!_prefijo) return;
+    let prefijo = this.prefijos.find((data: PrefijoDef) => data.NOMBRE === _prefijo.NOMBRE);
+    this.fields.patchValue({
+        folio: (prefijo?.FOLIO ?? 0) + 1
+      });
   }
 
   onChangeConcepto(event: CustomEvent, i: number) {
@@ -204,6 +237,8 @@ export class AddRecibosComponent implements OnInit {
   save(_recibo: any) {
     let _casa = _recibo.casa;
     _recibo.casa = _casa.ID;
+    let _prefix = _recibo.prefijo?.PREFIJO ?? '';
+    _recibo.prefijo = _prefix;
     this.fillEvent(_recibo);
     this.service.save(this.item, this.itemDetail).subscribe( {
       next: resp => {
@@ -261,6 +296,7 @@ convertMonth(itemDetail: ReciboDetalle[]) {
     this.item.NOMBRE = _recibo.nombre;
     this.item.CORREO = _recibo.email;
     this.item.CANTIDAD = _recibo.cantidad;
+    this.item.PREFIX = _recibo.prefijo;
     // console.log("this.item", this.item);
     var conceptos = _recibo.conceptos;
     this.itemDetail = [];
@@ -275,6 +311,7 @@ convertMonth(itemDetail: ReciboDetalle[]) {
         detail.CONCEPTO = data.concepto;
         detail.MES = data.mes;
         detail.MONTO = data.monto;
+        detail.PREFIX = _recibo.prefijo;
         //console.log("detail", detail);
         this.itemDetail.push(detail);
       });
