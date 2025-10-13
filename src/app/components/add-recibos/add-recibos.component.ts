@@ -145,7 +145,7 @@ export class AddRecibosComponent implements OnInit {
         if (prefijo) {
           this.fields.patchValue({
             prefijo: prefijo.NOMBRE,
-            folio: prefijo?.FOLIO + 1 + 1
+            folio: prefijo?.FOLIO + 1
           });
         }
         this.loadingUtil.dismiss();
@@ -237,7 +237,7 @@ export class AddRecibosComponent implements OnInit {
   save(_recibo: any) {
     let _casa = _recibo.casa;
     _recibo.casa = _casa.ID;
-    let _prefix = _recibo.prefijo.PREFIJO;
+    let _prefix = _recibo.prefijo?.PREFIJO ?? '';
     _recibo.prefijo = _prefix;
     this.fillEvent(_recibo);
     this.service.save(this.item, this.itemDetail).subscribe( {

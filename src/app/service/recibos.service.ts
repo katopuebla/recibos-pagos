@@ -117,7 +117,7 @@ export class RecibosService {
     return this.base.getEntitiesByRange('Catalogos', 'A1:A50').pipe(
       map((data: any) => {
         data = data.filter((item: any) => item.NOMBRE);
-        this.conceptos$.next(data as ReciboDetalle[] || []);
+        this.conceptos$.next(data as ConceptoDef[] || []);
         return data as ConceptoDef[] || [];
       }),
       catchError(this.base.handleError)
