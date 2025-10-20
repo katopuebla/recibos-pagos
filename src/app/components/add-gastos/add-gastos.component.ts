@@ -26,6 +26,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
   today = new Date(
     this.date.getTime() - this.date.getTimezoneOffset() * 60000
   );
+  gastosConfirm: GastosDetalle[] = [];
 
   public fields: FormGroup;
 
@@ -52,7 +53,8 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     return this.formBuilder.group({
       // concepto: ['', Validators.required],
       mes: ['', Validators.required],
-      monto: ['', Validators.required]
+      monto: ['', Validators.required],
+      comentario: ['']
     });
   }
 
@@ -91,10 +93,13 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       if (_monto) {
         const control = <FormArray>this.fields.controls['conceptos'];
         const newMonto = _monto - control.at(i).value.monto;
-        const formattedDate = this.today.toJSON().split('T')[0];
+        // const formattedDate = this.today.toJSON().split('T')[0];
+        const formattedDate = this.fields.value.fecha;
+        const _comentario = this.fields.value.comentario;
         control.at(i).patchValue({
           mes: formattedDate,
-          monto: _monto
+          monto: _monto,
+          comentario: _comentario
         });
       }
     }
@@ -130,7 +135,8 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       next: (resp) => {
         this.meesageToast('Se guardo exitosamente');
         this.dismiss();
-        this.confirm(this.gastoDetalles);
+        // this.confirm(this.gastoDetalles);
+        this.calOther(this.gastoDetalles);
       },
       error: (err) => {
         this.meesageToast('No se pudo guardar el dato');
@@ -147,7 +153,7 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       this.gasto.Fecha = _gasto.fecha;
       this.gasto.Nombre = _gasto.nombre;
       this.gasto.Monto = _gasto.monto;
-      this.gasto.Commentario = _gasto.comentario;
+      this.gasto.Comentario = _gasto.comentario;
       // console.log("this.gastos", this.gastos);
       var conceptos = _gasto.conceptos;
           this.gastoDetalles = [];
@@ -158,11 +164,41 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
             detail.Fecha = data.mes;
             detail.Nombre = _gasto.nombre;
             detail.Monto = data.monto;
-            detail.Commentario = _gasto.comentario;
+            detail.Comentario = data.comentario;
               //console.log("detail", detail);
               this.gastoDetalles.push(detail);
             });
           }
+    }
+
+
+    async calOther(_gastosDetalle: any) {
+      const actionSheet = await this.actionSheet.create({
+        header: '¿Desea agregar otro gasto ?',
+        buttons: [
+          {
+            text: 'Otro gasto',
+            icon: 'add-outline',
+            role: 'other',
+            handler: () => {
+              this.gastosConfirm.push(..._gastosDetalle);
+              this.fields.reset();
+              const formattedDate = this.today.toJSON().split('T')[0];
+              this.fields.patchValue({ fecha: formattedDate });
+            },
+          },
+          {
+            text: 'Salir',
+            icon: 'checkmark',
+            role: 'confirm',
+            handler: () => {
+              this.gastosConfirm.push(..._gastosDetalle);
+              this.confirm(this.gastosConfirm);
+            },
+          },
+        ],
+      });
+      await actionSheet.present();
     }
 
     removeInputField(i: number): void {

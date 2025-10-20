@@ -108,9 +108,20 @@ export class BaseService {
    */
   getEntitiesByRange(table: string, range: string) {
     const url =
-      // this.BASE_URL + `?spreadsheetId=${this.SPREAD_SHEET_ID}&sheet=${table}`;
       this.BASE_URL + `?spreadsheetId=${this.SPREAD_SHEET_ID}&sheet=${table}&sheetRange=${range}`;
     // console.log(url);
+    return this._http.get(url, { responseType: "json" });
+  }
+
+  /**
+   *
+   * @param table sheet name e.g. 'Casa'
+   * @param range range of sheet e.g. A1:Z100
+   * @returns json of sheet
+   */
+  getEntitiesByNameRange(sheet: string, tanmeName: string) {
+    const url =
+      this.BASE_URL + `?spreadsheetId=${this.SPREAD_SHEET_ID}&sheet=${sheet}&tableName=${tanmeName}`;
     return this._http.get(url, { responseType: "json" });
   }
 
@@ -135,7 +146,7 @@ export class BaseService {
       body.rows = data.rows;
       bodiesSaving.tables?.push(body);
     });
-    console.debug(JSON.stringify(bodiesSaving));
+    console.log(JSON.stringify(bodiesSaving));
     return this._http.post(this.BASE_URL, JSON.stringify(bodiesSaving));
   }
 
@@ -144,7 +155,7 @@ export class BaseService {
     bodySend.sendEmail = true;
     bodySend.info = _info;
     bodySend.Detail = _Detail;
-    console.debug(bodySend);
+    console.log(bodySend);
     return this._http.post(this.BASE_URL, JSON.stringify(bodySend));
   }
 

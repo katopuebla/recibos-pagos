@@ -16,6 +16,7 @@ export interface Recibo {
   FECHA: string;
   CORREO: string;
   INPUT_TIMESTAMP: string;
+  PREFIX: string;
 }
 
 export interface ReciboMaxFolio {
@@ -30,6 +31,7 @@ export interface ReciboDetalle {
   MES?: string;
   MONTO?: string;
   INPUT_TIMESTAMP?: string;
+  PREFIX?: string;
 }
 
 export interface Concepto {
@@ -47,4 +49,10 @@ export interface Casa {
 
 export interface ConceptoDef {
   NOMBRE?: string;
+}
+
+export interface PrefijoDef {
+  PREFIX?: string;
+  NOMBRE?: string;
+  FOLIO: number;
 }

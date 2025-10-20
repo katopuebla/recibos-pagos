@@ -16,21 +16,21 @@ export const MOCK_USUARIOS: Usuario[] = [
     NOMBRE: 'Kato puebla',
     EMAIL: 'katopuebla@email.com',
     TELEFONO: '555-1112',
-    ROLE: 'user'
+    ROLE: 'dev'
   },
   {
-    ID: 'juan',
-    PASSWORD: 'juanpass',
-    NOMBRE: 'Juan Pérez',
-    EMAIL: 'juan@email.com',
+    ID: 'antonio',
+    PASSWORD: 'Antonio123',
+    NOMBRE: 'Antonio Baéz',
+    EMAIL: 'antonio@email.com',
     TELEFONO: '555-1111',
     ROLE: 'user'
   },
   {
-    ID: 'ana',
-    PASSWORD: 'anapass',
-    NOMBRE: 'Ana López',
-    EMAIL: 'ana@email.com',
+    ID: 'luis',
+    PASSWORD: 'luispass',
+    NOMBRE: 'Luis Perez',
+    EMAIL: 'luis@email.com',
     TELEFONO: '555-2222',
     ROLE: 'user'
   }

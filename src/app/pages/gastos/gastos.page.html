@@ -26,7 +26,7 @@
 		<ion-item *ngFor="let detail of item.details">
 			<ion-label>
 				<div ion-text color="primary">
-					<h3>{{ detail.Nombre }}</h3>
+					<h3>{{ detail.Nombre }} {{ detail.Comentario ? ' (' + detail.Comentario + ') ' : ''}}</h3>
 				</div>
 				<p>{{ detail.Categoria }} -- {{ detail.Monto | currency }} </p>
 			</ion-label>
