@@ -2,7 +2,7 @@
 import { PrefijoDef } from '../interface/recibos';
 
 export const MOCK_PREFIJOS: PrefijoDef[] = [
-  { PREFIJO: 'A', NOMBRE: 'Antonio', FOLIO: 25100 },
-  { PREFIJO: 'B', NOMBRE: 'Luis', FOLIO: 25200 },
-  { PREFIJO: 'C', NOMBRE: 'Cirilo', FOLIO: 25300 }
+  { PREFIX: 'A', NOMBRE: 'Antonio', FOLIO: 25100 },
+  { PREFIX: 'B', NOMBRE: 'Luis', FOLIO: 25200 },
+  { PREFIX: 'C', NOMBRE: 'Cirilo', FOLIO: 25300 }
 ];

@@ -152,7 +152,7 @@ export class RecibosService {
         _entities.forEach(e => MOCK_RECIBOS_DETALLE.push(e));
       }
       if (_entity.PREFIX) {
-        const prefijo = MOCK_PREFIJOS.find(p => p.PREFIJO === _entity.PREFIX);
+        const prefijo = MOCK_PREFIJOS.find(p => p.PREFIX === _entity.PREFIX);
         if (prefijo) {
           prefijo.FOLIO = _entity.FOLIO;
         }
