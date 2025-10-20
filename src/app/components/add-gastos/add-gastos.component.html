@@ -46,6 +46,12 @@
 					<ion-item>
 						<ion-input label="Monto:" labelPlacement="floating"  id="monto" type="number" maxlength="50" formControlName="monto"></ion-input>
 					</ion-item>
+          <ion-item>
+          <ion-item>
+            <ion-textarea label="Comentario" labelPlacement="floating" formControlName="comentario" placeholder="comentario">
+            </ion-textarea>
+          </ion-item>
+        </ion-item>
 					<!-- Allow generated input field to be removed -->
 					<ion-button size="small" fill="clear" color="danger"	*ngIf="conceptoForm.length > 1"
 						(click)="removeInputField(i)">

@@ -52,7 +52,7 @@ export interface ConceptoDef {
 }
 
 export interface PrefijoDef {
-  PREFIJO?: string;
+  PREFIX?: string;
   NOMBRE?: string;
   FOLIO: number;
 }

@@ -146,7 +146,7 @@ export class BaseService {
       body.rows = data.rows;
       bodiesSaving.tables?.push(body);
     });
-    console.debug(JSON.stringify(bodiesSaving));
+    console.log(JSON.stringify(bodiesSaving));
     return this._http.post(this.BASE_URL, JSON.stringify(bodiesSaving));
   }
 
@@ -155,7 +155,7 @@ export class BaseService {
     bodySend.sendEmail = true;
     bodySend.info = _info;
     bodySend.Detail = _Detail;
-    console.debug(bodySend);
+    console.log(bodySend);
     return this._http.post(this.BASE_URL, JSON.stringify(bodySend));
   }
 

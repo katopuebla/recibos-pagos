@@ -46,6 +46,7 @@ export class AddRecibosComponent implements OnInit {
     PREFIX: '',
   };
   itemDetail: ReciboDetalle[] = [];
+  itemDetailConfirms : ReciboDetalle[] = [];
   casas: Casa[] = [];
   casa: Casa | any;
   conceptos: ConceptoDef[] = [];
@@ -139,15 +140,7 @@ export class AddRecibosComponent implements OnInit {
         });
       this.service.getPrefijos().subscribe((resp: PrefijoDef[] | any) => {
         this.prefijos = resp || [];
-        let prefijo = this.prefijos.find((data: PrefijoDef) =>
-          data.NOMBRE?.toUpperCase() === this.user?.ID?.toUpperCase() && this.user?.ROLE === 'user'
-        );
-        if (prefijo) {
-          this.fields.patchValue({
-            prefijo: prefijo.NOMBRE,
-            folio: prefijo?.FOLIO + 1
-          });
-        }
+        this.calPrefijoUser();
         this.loadingUtil.dismiss();
         });
       },
@@ -217,7 +210,7 @@ export class AddRecibosComponent implements OnInit {
       header: '¿Desea guardar el recibo?',
       buttons: [
         {
-          text: 'Aceptar',
+          text: 'Guardar',
           role: 'confirm',
           icon: 'checkmark',
           handler: () => {
@@ -237,8 +230,8 @@ export class AddRecibosComponent implements OnInit {
   save(_recibo: any) {
     let _casa = _recibo.casa;
     _recibo.casa = _casa.ID;
-    let _prefix = _recibo.prefijo?.PREFIJO ?? '';
-    _recibo.prefijo = _prefix;
+    let _folio = _recibo.folio;
+    let _prefijo = _recibo.prefijo?.PREFIX ?? '';
     this.fillEvent(_recibo);
     this.service.save(this.item, this.itemDetail).subscribe( {
       next: resp => {
@@ -264,7 +257,9 @@ export class AddRecibosComponent implements OnInit {
         this.meesageToast('Se guardo exitosamente');
         this.loadingUtil.dismiss();
         this.itemDetail = this.convertMonth(this.itemDetail);
-        this.confirm(this.itemDetail);
+        this.calSavePrefijos(_folio, _prefijo)
+        // this.confirm(this.itemDetail);
+        this.otherSave(this.itemDetail);
       },
       error: err => {
         //console.log("Error Detail: ", err);
@@ -274,6 +269,37 @@ export class AddRecibosComponent implements OnInit {
   });
     this.loadingUtil.showing();
     _recibo.sendEmail = true;
+  }
+
+  async otherSave(_itemDetail: any) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: '¿Desea agregar otro recibo ?',
+      buttons: [
+        {
+          text: 'Otro recibo',
+          role: 'other',
+          icon: 'add',
+          handler: () => {
+            this.fields.reset();
+            const formattedDate = this.today.toJSON().split('T')[0];
+            this.fields.patchValue({ fecha: formattedDate });
+            this.calPrefijoUser();
+            this.itemDetailConfirms.push(..._itemDetail);
+          }
+        },
+        {
+          text: 'Salir',
+          role: 'confirm',
+          icon: 'checkmark',
+          handler: () => {
+          this.itemDetailConfirms.push(..._itemDetail);
+           console.log(this.itemDetailConfirms);
+            this.confirm(this.itemDetailConfirms);
+          }
+        }
+      ]
+    });
+    await actionSheet.present();
   }
 
 convertMonth(itemDetail: ReciboDetalle[]) {
@@ -287,6 +313,27 @@ convertMonth(itemDetail: ReciboDetalle[]) {
     });
   }
 
+  calPrefijoUser(){
+    let prefijo = this.prefijos.find((data: PrefijoDef) =>
+      data.NOMBRE?.toUpperCase() === this.user?.ID?.toUpperCase() && this.user?.ROLE === 'user'
+    );
+    if (prefijo) {
+      this.fields.patchValue({
+        prefijo: prefijo.NOMBRE,
+        folio: prefijo?.FOLIO + 1
+      });
+    }
+  }
+
+  calSavePrefijos(_folio: number, _prefijo: string) {
+    if (!_prefijo) return;
+    let prefijoToUpdate = this.prefijos.find(p => p.PREFIX === _prefijo);
+    if (prefijoToUpdate) {
+      prefijoToUpdate.FOLIO = _folio;
+    }
+
+  }
+
   fillEvent(_recibo: any) {
     // console.log("event", _recibo);
     this.item.FOLIO = _recibo.folio;
@@ -296,7 +343,7 @@ convertMonth(itemDetail: ReciboDetalle[]) {
     this.item.NOMBRE = _recibo.nombre;
     this.item.CORREO = _recibo.email;
     this.item.CANTIDAD = _recibo.cantidad;
-    this.item.PREFIX = _recibo.prefijo;
+    this.item.PREFIX = _recibo.prefijo?.PREFIX ?? '';
     // console.log("this.item", this.item);
     var conceptos = _recibo.conceptos;
     this.itemDetail = [];
@@ -311,7 +358,7 @@ convertMonth(itemDetail: ReciboDetalle[]) {
         detail.CONCEPTO = data.concepto;
         detail.MES = data.mes;
         detail.MONTO = data.monto;
-        detail.PREFIX = _recibo.prefijo;
+        detail.PREFIX = _recibo.prefijo?.PREFIX ?? '';
         //console.log("detail", detail);
         this.itemDetail.push(detail);
       });

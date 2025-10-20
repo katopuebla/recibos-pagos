@@ -7,28 +7,28 @@ export const MOCK_GASTOS: Gastos[] = [
     Nombre: 'Reparación de plomería',
     Fecha: '2025-06-05',
     Monto: '300',
-    Commentario: 'Cambio de llave en baño'
+    Comentario: 'Cambio de llave en baño'
   },
   {
     Categoria: 'Suministros',
     Nombre: 'Compra de focos',
     Fecha: '2025-06-10',
     Monto: '150',
-    Commentario: 'Focos LED para pasillo'
+    Comentario: 'Focos LED para pasillo'
   },
   {
     Categoria: 'Servicios',
     Nombre: 'Pago de agua',
     Fecha: '2025-06-15',
     Monto: '500',
-    Commentario: 'Pago bimestral'
+    Comentario: 'Pago bimestral'
   },
   {
     Categoria: 'Mantenimiento',
     Nombre: 'Pintura',
     Fecha: '2025-05-20',
     Monto: '1200',
-    Commentario: 'Pintura de fachada'
+    Comentario: 'Pintura de fachada'
   }
 ];
 
@@ -38,21 +38,21 @@ export const MOCK_GASTOS_DETALLE: GastosDetalle[] = [
     Nombre: 'Reparación de plomería',
     Fecha: '2025-06-05',
     Monto: '300',
-    Commentario: 'Cambio de llave en baño'
+    Comentario: 'Cambio de llave en baño'
   },
   {
     Categoria: 'Suministros',
     Nombre: 'Compra de focos',
     Fecha: '2025-06-10',
     Monto: '150',
-    Commentario: 'Focos LED para pasillo'
+    Comentario: 'Focos LED para pasillo'
   },
   {
     Categoria: 'Servicios',
     Nombre: 'Pago de agua',
     Fecha: '2025-06-15',
     Monto: '500',
-    Commentario: 'Pago bimestral'
+    Comentario: 'Pago bimestral'
   }
 ];
 
