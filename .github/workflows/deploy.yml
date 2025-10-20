@@ -1,13 +1,14 @@
 name: Build and Deploy
 
 on:
-  push:
+  # push:
+  #   branches:
+  #     - main
+  #     - snapshot
+  pull_request:
     branches:
       - main
       - snapshot
-  # pull_request:
-  #   branches:
-  #     - main
 jobs:
   build:
     if: github.ref == 'refs/heads/main'
