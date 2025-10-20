@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ModalController,
   LoadingController,
+  ActionSheetController,
 } from '@ionic/angular';
 import { CategoriaDef, Concepto, Gastos, GastosDetalle } from '../../interface/gastos';
 import { GastosService } from '../../service/gastos.service';
@@ -25,11 +26,13 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
   today = new Date(
     this.date.getTime() - this.date.getTimezoneOffset() * 60000
   );
+  gastosConfirm: GastosDetalle[] = [];
 
   public fields: FormGroup;
 
   constructor(
     public modalCtrl: ModalController,
+    private actionSheet: ActionSheetController,
     private formBuilder: FormBuilder,
     private service: GastosService,
     loadingCtrl: LoadingController,
@@ -50,7 +53,8 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     return this.formBuilder.group({
       // concepto: ['', Validators.required],
       mes: ['', Validators.required],
-      monto: ['', Validators.required]
+      monto: ['', Validators.required],
+      comentario: ['']
     });
   }
 
@@ -65,13 +69,13 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     this.service.getSpreadSheetId().then(() => this.initCategorias());
     const formattedDate = this.today.toJSON().split('T')[0];
     this.fields.patchValue({ fecha: formattedDate });
-    this.showLoading();
   }
 
   initCategorias() {
+    this.showing();
     this.service.getCategoriaDef().subscribe((resp: CategoriaDef[]) => {
       this.categorias = resp || [];
-      this.loadingDismiss();
+      this.dismiss();
     });
   }
 
@@ -89,19 +93,39 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
       if (_monto) {
         const control = <FormArray>this.fields.controls['conceptos'];
         const newMonto = _monto - control.at(i).value.monto;
+        // const formattedDate = this.today.toJSON().split('T')[0];
+        const formattedDate = this.fields.value.fecha;
+        const _comentario = this.fields.value.comentario;
         control.at(i).patchValue({
-          mes: this.getFirstDayOfMonth(),
-          monto: _monto
+          mes: formattedDate,
+          monto: _monto,
+          comentario: _comentario
         });
       }
     }
 
-    getFirstDayOfMonth() {
-      const firstDayOfMonth = new Date(this.today.getFullYear(), this.today.getMonth(), 1).toJSON().split('T')[0];
-      return firstDayOfMonth;
-    }
+  async onSave(_gasto: any) {
+    const actionSheet = await this.actionSheet.create({
+      header: '¿Desea guardar el gasto?',
+      buttons: [
+        {
+          text: 'Guardar',
+          icon: 'save',
+          handler: () => {
+            this.save(_gasto);
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+        },
+      ],
+  });
+    await actionSheet.present();
+}
 
-  onSave(_gasto: any) {
+  save(_gasto: any) {
     let fecha = new Date(this.gasto.Fecha || this.today);
     this.gasto.Fecha = fecha.toLocaleString('es-MX', {
       timeZone: 'America/Mexico_City'
@@ -110,26 +134,26 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
     this.service.save(this.gasto, this.gastoDetalles).subscribe({
       next: (resp) => {
         this.meesageToast('Se guardo exitosamente');
-        this.loadingDismiss();
         this.dismiss();
+        // this.confirm(this.gastoDetalles);
+        this.calOther(this.gastoDetalles);
       },
       error: (err) => {
         this.meesageToast('No se pudo guardar el dato');
         console.log('Error: ', err);
-        this.loadingDismiss();
+        this.dismiss();
       }
     });
-    this.showLoading();
+    this.showing();
   }
 
     fillEvent(_gasto: any) {
       // console.log("fillEvent", _gasto);
       this.gasto.Categoria = _gasto.categoria.Nombre;
-      let fecha = new Date(_gasto.fecha);
       this.gasto.Fecha = _gasto.fecha;
       this.gasto.Nombre = _gasto.nombre;
       this.gasto.Monto = _gasto.monto;
-      this.gasto.Commentario = _gasto.comentario;
+      this.gasto.Comentario = _gasto.comentario;
       // console.log("this.gastos", this.gastos);
       var conceptos = _gasto.conceptos;
           this.gastoDetalles = [];
@@ -140,44 +164,78 @@ export class AddGastosComponent extends LoadingUtil implements OnInit {
             detail.Fecha = data.mes;
             detail.Nombre = _gasto.nombre;
             detail.Monto = data.monto;
-            detail.Commentario = _gasto.comentario;
+            detail.Comentario = data.comentario;
               //console.log("detail", detail);
               this.gastoDetalles.push(detail);
             });
           }
     }
 
+
+    async calOther(_gastosDetalle: any) {
+      const actionSheet = await this.actionSheet.create({
+        header: '¿Desea agregar otro gasto ?',
+        buttons: [
+          {
+            text: 'Otro gasto',
+            icon: 'add-outline',
+            role: 'other',
+            handler: () => {
+              this.gastosConfirm.push(..._gastosDetalle);
+              this.fields.reset();
+              const formattedDate = this.today.toJSON().split('T')[0];
+              this.fields.patchValue({ fecha: formattedDate });
+            },
+          },
+          {
+            text: 'Salir',
+            icon: 'checkmark',
+            role: 'confirm',
+            handler: () => {
+              this.gastosConfirm.push(..._gastosDetalle);
+              this.confirm(this.gastosConfirm);
+            },
+          },
+        ],
+      });
+      await actionSheet.present();
+    }
+
     removeInputField(i: number): void {
       const control = <FormArray>this.fields.controls['conceptos'];
       control.removeAt(i);
     }
-  
+
     addNewInputField(): void {
       const control = <FormArray>this.fields.controls['conceptos'];
-      let lastMonto: number = 0;
+      let sumMonto: number = 0;
       control.controls.forEach((data: any) => {
-        lastMonto += data.value.monto;
+        sumMonto += data.value.monto;
       });
       control.push(this.frmConceptos());
-      this.updateConcepto(lastMonto);
+      this.updateMountConcepto(sumMonto);
     }
 
-    updateConcepto(_monto: number = 0) {
+    updateMountConcepto(_monto: number = 0) {
       const monto = this.fields.value.monto;
       const newMonto = monto - _monto;
       const control = <FormArray>this.fields.controls['conceptos'];
+      const formattedDate = this.today.toJSON().split('T')[0];
       control.at(control.length -1 ).patchValue({
-        mes: this.getFirstDayOfMonth(),
+        mes: formattedDate,
         monto: newMonto
       });
     }
 
-    
+
   meesageToast(_message: string) {
     this.toastCtrl.presentToast(_message, 'top');
   }
 
-  dismiss() {
-    this.modalCtrl.dismiss();
+  close() {
+    this.modalCtrl.dismiss(null, 'cancel');
+  }
+  confirm(gasto : any) {
+    this.modalCtrl.dismiss(gasto, 'confirm');
   }
 }

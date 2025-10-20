@@ -1,19 +1,26 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BodyTables } from '../interface/tables';
 import { CategoriaDef, Gastos, GastosDetalle } from '../interface/gastos';
 import { BaseService } from './base.service';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
+import { catchError, delay } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { MOCK_GASTOS, MOCK_GASTOS_DETALLE, MOCK_CATEGORIAS } from '../mocks/mock-gastos';
 
 @Injectable()
 export class GastosService {
   SPREAD_SHEET_ID: string | undefined;
 
-  constructor(private base: BaseService) {
-  }
-  
+  public gastosDetalle$ = new BehaviorSubject<GastosDetalle[]>([]);
+  public gastos$ = new BehaviorSubject<Gastos[]>([]);
+  public categorias$ = new BehaviorSubject<CategoriaDef[]>([]);
+
+  base = inject(BaseService);
+  // constructor(private base: BaseService) {}
+
   async getSpreadSheetId() {
     this.SPREAD_SHEET_ID = await this.base.loadConfig('GASTOS_SPREAD_SHEET_ID');
-      console.log('GastosService: SPREAD_SHEET_ID loaded : {}', this.SPREAD_SHEET_ID);
+      // console.log('GastosService: SPREAD_SHEET_ID loaded : {}', this.SPREAD_SHEET_ID);
     return this.SPREAD_SHEET_ID;
   }
 
@@ -28,22 +35,53 @@ export class GastosService {
   }
 
   getCategoriaDef(): Observable<CategoriaDef[]> {
-    return this.base.getEntitiesByRange('Catalogos','A1:C18').pipe(
+    if (this.categorias$.getValue().length > 0) {
+      // Si ya hay datos en categorias$, retorna el observable actual con delay
+      return this.categorias$.asObservable().pipe(delay(100));
+    }
+
+    if (environment.name === 'local') {
+      const mock = MOCK_CATEGORIAS;
+      this.categorias$.next(mock);
+      return of(mock).pipe(delay(500));
+    }
+    return this.base.getEntitiesByRange('Catalogos','A1:C50').pipe(
       map((data: any) => {
+        data = data.filter((item: any) => item.Nombre);
+        this.categorias$.next(data as CategoriaDef[]);
         return data as CategoriaDef[];
-      })
+      }),
+      catchError(this.base.handleError)
     );
   }
 
   getFullDataDetail(): Observable<GastosDetalle[]> {
+    if (this.gastosDetalle$.getValue().length > 0) {
+      // Si ya hay datos en gastosDetalle$, retorna el observable actual
+      return this.gastosDetalle$.asObservable().pipe(delay(100));
+    }
+    if (environment.name === 'local') {
+      const mock = MOCK_GASTOS_DETALLE;
+      this.gastosDetalle$.next(mock);
+      return of(mock).pipe(delay(500));
+    }
     return this.base.getEntities('GastosDetalle').pipe(
       map((data: any) => {
+        this.gastosDetalle$.next(data as GastosDetalle[]);
         return data as GastosDetalle[];
-      })
+      }),
+      catchError(this.base.handleError)
     );
   }
 
   save(_entity: Gastos, _entities: GastosDetalle[]) {
+    if (environment.name === 'local') {
+      MOCK_GASTOS.push(_entity);
+      if (Array.isArray(_entities)) {
+        _entities.forEach(e => MOCK_GASTOS_DETALLE.push(e));
+      }
+      return of({ message: 'Guardado en mock local (desarrollo)' }).pipe(delay(500));
+    }
     let gastoBodies: BodyTables[] = [];
     let gastoBody: BodyTables = {};
     //header
@@ -90,5 +128,5 @@ export class GastosService {
     //console.log("_entities Detail return ", bodiesDetail);
     return bodiesDetail;
   }
-  
+
 }

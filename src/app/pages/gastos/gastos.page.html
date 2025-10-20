@@ -1,24 +1,24 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
       Gastos
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content class="ion-padding">
 	<!-- Botton Add -->
-	<ion-fab slot="fixed" vertical="bottom" horizontal="end">  
-		<ion-fab-button (click)="openModal({new: 'Add'})">  
+	<ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="role != 'reader'">
+		<ion-fab-button (click)="openModal({new: 'Add'})">
 		  <ion-icon name="add"></ion-icon>
 		</ion-fab-button>
 	  </ion-fab>
 	<ion-list-header>
 		<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 	</ion-list-header>
-	<!-- <ion-refresher (ionRefresh)="doRefresh($event)">
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
 		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
 			refreshingText="Refrescando..."></ion-refresher-content>
-	</ion-refresher> -->
+	</ion-refresher>
 	<ion-item-group *ngFor="let item of items | groupBy:'Fecha':'reverse'">
 		<ion-item-divider color="light">
 			{{  item.header | date: 'MMM.dd.yy' }}
@@ -26,7 +26,7 @@
 		<ion-item *ngFor="let detail of item.details">
 			<ion-label>
 				<div ion-text color="primary">
-					<h3>{{ detail.Nombre }}</h3>
+					<h3>{{ detail.Nombre }} {{ detail.Comentario ? ' (' + detail.Comentario + ') ' : ''}}</h3>
 				</div>
 				<p>{{ detail.Categoria }} -- {{ detail.Monto | currency }} </p>
 			</ion-label>

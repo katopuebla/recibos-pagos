@@ -10,9 +10,6 @@ import { ParametersComponent } from 'src/app/components/parameters/parameters.co
 })
 export class AdminPage implements OnInit {
 
-  sheetIdRecibos = '5555255'
-  sheetIdGastos = 'Hoja1'
-
   constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() {
@@ -21,7 +18,7 @@ export class AdminPage implements OnInit {
   async openParameter() {
     const modalParameter = await this.modalCtrl.create({
       component: ParametersComponent,
-      componentProps: { sheetIdRecibos: this.sheetIdRecibos, sheetIdGastos: this.sheetIdGastos}
+      // componentProps: { sheetIdRecibos: this.sheetIdRecibos, sheetIdGastos: this.sheetIdGastos}
     });
     modalParameter.present();
 

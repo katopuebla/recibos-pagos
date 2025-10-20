@@ -1,18 +1,26 @@
-export interface User {
-  id?: number;
-  uername?: string;
-  email?: string;
+export interface Usuario {
+  ID?: string;
+  PASSWORD?: string;
+  NOMBRE?: string;
+  EMAIL?: string;
+  TELEFONO?: string;
+  ROLE?: string;
 }
 
 export interface Recibo {
-  FOLIO?: number;
-  CASA?: string;
-  NOMBRE?: string;
-  CANTIDAD?: string;
-  CONCEPTO?: string;
-  FECHA?: string;
-  CORREO?: string;
-  INPUT_TIMESTAMP?: string;
+  FOLIO: number;  // Remove optional if this is always required
+  CASA: string;   // Remove optional if this is always required
+  NOMBRE: string;
+  CANTIDAD: string;
+  CONCEPTO: string;
+  FECHA: string;
+  CORREO: string;
+  INPUT_TIMESTAMP: string;
+  PREFIX: string;
+}
+
+export interface ReciboMaxFolio {
+  FOLIO: number;
 }
 
 export interface ReciboDetalle {
@@ -23,6 +31,7 @@ export interface ReciboDetalle {
   MES?: string;
   MONTO?: string;
   INPUT_TIMESTAMP?: string;
+  PREFIX?: string;
 }
 
 export interface Concepto {
@@ -40,4 +49,10 @@ export interface Casa {
 
 export interface ConceptoDef {
   NOMBRE?: string;
+}
+
+export interface PrefijoDef {
+  PREFIX?: string;
+  NOMBRE?: string;
+  FOLIO: number;
 }

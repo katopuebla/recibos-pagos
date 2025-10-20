@@ -3,7 +3,7 @@
 	<ion-item-divider color="light">
 		{{  item.header }}
 	</ion-item-divider>
-	<!-- <ion-item *ngFor="let detail of item.details">
+	<ion-item *ngFor="let detail of item.details">
 		<ion-grid>
 			<ion-row>
 				<ion-col>
@@ -13,9 +13,9 @@
 					<ion-note color="primary">{{ detail.CONCEPTO }}</ion-note>
 				</ion-col>
 				<ion-col>
-					<ion-note color="primary">{{ detail.MONTO | currency }}</ion.note>
+					<ion-note color="primary">{{ detail.MONTO | currency }}</ion-note>
 				</ion-col>
 			</ion-row>
 		</ion-grid>
-	</ion-item> -->
+	</ion-item>
 </ion-item-group>

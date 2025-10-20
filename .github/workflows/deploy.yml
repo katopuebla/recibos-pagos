@@ -1,0 +1,58 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - snapshot
+  # pull_request:
+  #   branches:
+  #     - main
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install and Build (Prod)
+        run: |
+          npm ci
+          npm run build --prod -- --base-href=/recibos-pagos/
+          cp www/index.html www/404.html
+
+      - name: Add .nojekyll file
+        run: touch www/.nojekyll
+
+      - name: Deploy 🚀 (Prod)
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: www
+
+  build-dev:
+    if: github.ref == 'refs/heads/snapshot'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Clean output folder
+        run: rm -rf www/dev
+
+      - name: Install and Build (Dev)
+        run: |
+          npm ci
+          npm run build -- --configuration=snapshot --base-href=/recibos-pagos/dev/
+          cp www/dev/index.html www/dev/404.html
+
+      - name: Add .nojekyll file
+        run: touch www/dev/.nojekyll
+
+      - name: Deploy 🚀 (Dev)
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: www/dev
+          target-folder: dev

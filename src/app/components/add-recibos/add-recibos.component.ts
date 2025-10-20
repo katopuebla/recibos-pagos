@@ -6,6 +6,7 @@ import {
   Validators
 } from '@angular/forms';
 import {
+  ActionSheetController,
   LoadingController,
   ModalController
 } from '@ionic/angular';
@@ -14,11 +15,15 @@ import {
   Concepto,
   ConceptoDef,
   Recibo,
-  ReciboDetalle
+  ReciboDetalle,
+  ReciboMaxFolio,
+  Usuario
 } from '../../interface/recibos';
 import { RecibosService } from '../../service/recibos.service';
 import { LoadingUtil } from '../../utils/loadingUtil';
 import { ToastUtil } from '../../utils/toastUtil';
+import { AlertUtil } from 'src/app/utils/alertUtil';
+import { PrefijoDef } from '../../interface/recibos';
 
 @Component({
   selector: 'app-add-recibos',
@@ -26,12 +31,26 @@ import { ToastUtil } from '../../utils/toastUtil';
   styleUrls: ['./add-recibos.component.css'],
   standalone: false,
 })
-export class AddRecibosComponent extends LoadingUtil implements OnInit {
-  item: Recibo = {};
+// export class AddRecibosComponent extends LoadingUtil implements OnInit {
+export class AddRecibosComponent implements OnInit {
+  user: Usuario | null = null;
+  item: Recibo = {
+    FOLIO: 0,
+    CASA: '',
+    NOMBRE: '',
+    CANTIDAD: '',
+    CONCEPTO: '',
+    FECHA: '',
+    CORREO: '',
+    INPUT_TIMESTAMP: '',
+    PREFIX: '',
+  };
   itemDetail: ReciboDetalle[] = [];
+  itemDetailConfirms : ReciboDetalle[] = [];
   casas: Casa[] = [];
   casa: Casa | any;
   conceptos: ConceptoDef[] = [];
+  prefijos: PrefijoDef[] = [];
   data: boolean = false;
   sendEmail: boolean = false;
 
@@ -43,13 +62,17 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
+    private actionSheetCtrl: ActionSheetController,
     private formBuilder: FormBuilder,
     private service: RecibosService,
-    loadingCtrl: LoadingController,
-    private toastUtil: ToastUtil
+    // loadingCtrl: LoadingController,
+    private loadingUtil: LoadingUtil,
+    private toastUtil: ToastUtil,
+    private alertUtil: AlertUtil
   ) {
-    super(loadingCtrl);
+    // super(loadingCtrl);
     this.fields = this.formBuilder.group({
+      prefijo: ['', Validators.required],
       folio: ['', Validators.required],
       casa: ['', Validators.required],
       nombre: ['', Validators.required],
@@ -63,9 +86,9 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
 
   frmConceptos(): FormGroup {
     return this.formBuilder.group({
-      concepto: ['', Validators.required],
-      mes: ['', Validators.required],
-      monto: ['', Validators.required]
+      concepto: ['', [Validators.required, Validators.minLength(3)]],
+      mes: ['', [Validators.required]],
+      monto: ['', [Validators.required, Validators.min(0), Validators.pattern(/^\d+(\.\d{1,2})?$/)]]
     });
   }
 
@@ -79,39 +102,54 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
       const formattedDate = this.today.toJSON().split('T')[0];
       this.fields.patchValue({ fecha: formattedDate });
       this.inittial();
-      // this.loadingDismiss();
+      // this.dismiss();
     });
-    this.showLoading();
+    this.loadingUtil.showing();
   }
 
+  /**
+   * @deprecated Use getMaxFolio with subscription instead
+   */
   getMaxFolio() {
-    this.service.getRecibos().subscribe(
+    this.service.getFullDataDetail().subscribe(
       {
-        next: (resp: Recibo[] | any) => {
+         next: (resp: ReciboDetalle[] | any) => {
           const FOLIO = Math.max(...resp.map((row: { FOLIO: any; }) => row.FOLIO)) + 1;
           this.fields.patchValue({ folio: FOLIO });
-          this.loadingDismiss();
+          this.loadingUtil.dismiss();
         }, error: err => {
           const FOLIO = 1;
           this.fields.patchValue({ folio: FOLIO });
-          this.loadingDismiss();
+          this.loadingUtil.dismiss();
+          this.alertUtil.showError('No se pudo obtener el folio: ' + err.message);
         }
       });
-      // this.showLoading();
   }
 
   inittial() {
-    this.service.getFullData().subscribe((resp: Casa[] | any) => {
+    const userStr = localStorage.getItem('user');
+    this.user = userStr ? JSON.parse(userStr) : null;
+    this.service.getFullData().subscribe({
+      next: (resp: Casa[] | any) => {
       this.casas = resp || [];
-      // this.loadingDismiss();
+      // this.dismiss();
       this.service.getConceptos().subscribe((resp: ConceptoDef[] | any) => {
         this.conceptos = resp || [];
         // console.log(this.conceptos);
-        this.getMaxFolio();
-        // this.loadingDismiss();
+        // this.getMaxFolio();
         });
+      this.service.getPrefijos().subscribe((resp: PrefijoDef[] | any) => {
+        this.prefijos = resp || [];
+        this.calPrefijoUser();
+        this.loadingUtil.dismiss();
+        });
+      },
+      error: async (err) => {
+        console.error('Error al cargar datos:', err);
+        this.loadingUtil.dismiss();
+        this.alertUtil.showError('No se pudieron cargar los datos: ' + err.message);
+      }
     });
-      // this.showLoading();
   }
 
   onChangeCasa(event: CustomEvent) {
@@ -132,15 +170,34 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     }
   }
 
+  onChangePrefijo(event: CustomEvent) {
+    const _prefijo: PrefijoDef = event.detail.value;
+    if (!_prefijo) return;
+    let prefijo = this.prefijos.find((data: PrefijoDef) => data.NOMBRE === _prefijo.NOMBRE);
+    this.fields.patchValue({
+        folio: (prefijo?.FOLIO ?? 0) + 1
+      });
+  }
+
   onChangeConcepto(event: CustomEvent, i: number) {
     const _concepto: ConceptoDef = event.detail.value;
     if (_concepto) {
       const control = <FormArray>this.fields.controls['conceptos'];
+      let _monto = this.calMontoConcepto();
       control.at(i).patchValue({
         mes: this.getFirstDayOfMonth(),
-        monto: this.fields.value.cantidad
+        monto: _monto
       });
     }
+  }
+
+  calMontoConcepto() {
+    const control = <FormArray>this.fields.controls['conceptos'];
+    let sumMonto: number = 0;
+      control.controls.forEach((data: any) => {
+        sumMonto += data.value.monto;
+      });
+      return this.fields.value.cantidad - sumMonto;
   }
 
   getFirstDayOfMonth() {
@@ -148,9 +205,33 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     return firstDayOfMonth;
   }
 
-  onSave(_recibo: any) {
+  async onSave(_recibo: any) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: '¿Desea guardar el recibo?',
+      buttons: [
+        {
+          text: 'Guardar',
+          role: 'confirm',
+          icon: 'checkmark',
+          handler: () => {
+            this.save(_recibo);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          icon: 'close',
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  save(_recibo: any) {
     let _casa = _recibo.casa;
     _recibo.casa = _casa.ID;
+    let _folio = _recibo.folio;
+    let _prefijo = _recibo.prefijo?.PREFIX ?? '';
     this.fillEvent(_recibo);
     this.service.save(this.item, this.itemDetail).subscribe( {
       next: resp => {
@@ -174,17 +255,83 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
           });
         }
         this.meesageToast('Se guardo exitosamente');
-        this.loadingDismiss();
-        this.dismiss();
+        this.loadingUtil.dismiss();
+        this.itemDetail = this.convertMonth(this.itemDetail);
+        this.calSavePrefijos(_folio, _prefijo)
+        // this.confirm(this.itemDetail);
+        this.otherSave(this.itemDetail);
       },
       error: err => {
         //console.log("Error Detail: ", err);
         this.meesageToast('No se pudo guardar el dato');
-        this.loadingDismiss();
+        this.loadingUtil.dismiss();
       }
   });
-    this.showLoading();
+    this.loadingUtil.showing();
     _recibo.sendEmail = true;
+  }
+
+  async otherSave(_itemDetail: any) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: '¿Desea agregar otro recibo ?',
+      buttons: [
+        {
+          text: 'Otro recibo',
+          role: 'other',
+          icon: 'add',
+          handler: () => {
+            this.fields.reset();
+            const formattedDate = this.today.toJSON().split('T')[0];
+            this.fields.patchValue({ fecha: formattedDate });
+            this.calPrefijoUser();
+            this.itemDetailConfirms.push(..._itemDetail);
+          }
+        },
+        {
+          text: 'Salir',
+          role: 'confirm',
+          icon: 'checkmark',
+          handler: () => {
+          this.itemDetailConfirms.push(..._itemDetail);
+           console.log(this.itemDetailConfirms);
+            this.confirm(this.itemDetailConfirms);
+          }
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+convertMonth(itemDetail: ReciboDetalle[]) {
+    return itemDetail.map(item => {
+      // 1. Toma el string y separa
+      const [yyyy, mm, dd] = item.MES?.split('-') || [];
+      // 3. Crea fecha ISO agregando hora
+      const isoString = `${yyyy}-${mm}-${dd}T06:00:00.000Z`;
+      // 4. Devuelve el nuevo objeto con MES modificado
+      return { ...item, MES: isoString };
+    });
+  }
+
+  calPrefijoUser(){
+    let prefijo = this.prefijos.find((data: PrefijoDef) =>
+      data.NOMBRE?.toUpperCase() === this.user?.ID?.toUpperCase() && this.user?.ROLE === 'user'
+    );
+    if (prefijo) {
+      this.fields.patchValue({
+        prefijo: prefijo.NOMBRE,
+        folio: prefijo?.FOLIO + 1
+      });
+    }
+  }
+
+  calSavePrefijos(_folio: number, _prefijo: string) {
+    if (!_prefijo) return;
+    let prefijoToUpdate = this.prefijos.find(p => p.PREFIX === _prefijo);
+    if (prefijoToUpdate) {
+      prefijoToUpdate.FOLIO = _folio;
+    }
+
   }
 
   fillEvent(_recibo: any) {
@@ -196,6 +343,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.item.NOMBRE = _recibo.nombre;
     this.item.CORREO = _recibo.email;
     this.item.CANTIDAD = _recibo.cantidad;
+    this.item.PREFIX = _recibo.prefijo?.PREFIX ?? '';
     // console.log("this.item", this.item);
     var conceptos = _recibo.conceptos;
     this.itemDetail = [];
@@ -210,6 +358,7 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
         detail.CONCEPTO = data.concepto;
         detail.MES = data.mes;
         detail.MONTO = data.monto;
+        detail.PREFIX = _recibo.prefijo?.PREFIX ?? '';
         //console.log("detail", detail);
         this.itemDetail.push(detail);
       });
@@ -241,7 +390,11 @@ export class AddRecibosComponent extends LoadingUtil implements OnInit {
     this.toastUtil.presentToast(_message, "top");
   }
 
-  dismiss() {
-    this.modalCtrl.dismiss();
+  confirm(reciboDetalles: any) {
+      this.modalCtrl.dismiss(reciboDetalles, 'confirm');
+  }
+
+  close() {
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 }

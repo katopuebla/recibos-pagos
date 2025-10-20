@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { ActionSheetController, ModalController, NavController } from '@ionic/angular';
 import { AddRecibosComponent } from '../../components/add-recibos/add-recibos.component';
+import { ParametersComponent } from 'src/app/components/parameters/parameters.component';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -8,21 +11,64 @@ import { AddRecibosComponent } from '../../components/add-recibos/add-recibos.co
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  constructor( private navCtrl: NavController, private modalCtrl: ModalController) {}
+  role: string = '';
+
+  constructor( private router: Router, private modalCtrl: ModalController,
+    private actionSheet: ActionSheetController) {}
+
+  ngOnInit() {
+    const user = localStorage.getItem('user');
+    this.role = user ? JSON.parse(user).ROLE : '';
+    console.log('ENVIRONMENT:',environment)
+  }
 
   async openModal() {
     const modal = await this.modalCtrl.create({
-      component: AddRecibosComponent, 
+      component: AddRecibosComponent,
     });
     modal.present();
 
     const { data, role } = await modal.onWillDismiss();
+    if ( role === 'confirm') {
+      // window.location.reload();
+      this.router.navigate(['/tabs/recibos']);
+    }
   }
 
-  navegationAbout() {
-    this.navCtrl.navigateForward('/tabs/about');
+  async openParameter() {
+    const modalParameter = await this.modalCtrl.create({
+      component: ParametersComponent,
+      // componentProps: { sheetIdRecibos: this.sheetIdRecibos, sheetIdGastos: this.sheetIdGastos}
+    });
+    modalParameter.present();
+
+    const { data, role } = await modalParameter.onWillDismiss();
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheet.create({
+      header: 'Opciones',
+      cssClass: 'my-custom-class',
+      buttons: [{
+        text: 'Cerrar sesión',
+        role: 'destructive',
+        icon: 'log-out',
+        handler: () => {
+          localStorage.removeItem('user');
+          this.router.navigate(['/login']);
+        }
+      }, {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
 }

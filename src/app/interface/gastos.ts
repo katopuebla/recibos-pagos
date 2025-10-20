@@ -3,7 +3,7 @@ export interface Gastos {
   Nombre?: string;
   Fecha?: string;
   Monto?: string;
-  Commentario?: string;
+  Comentario?: string;
 }
 
 export interface GastosDetalle {
@@ -11,7 +11,7 @@ export interface GastosDetalle {
   Nombre?: string;
   Fecha?: string;
   Monto?: string;
-  Commentario?: string;
+  Comentario?: string;
 }
 
 export interface CategoriaDef {
@@ -24,4 +24,5 @@ export interface Concepto {
   concepto?: string;
   mes?: string;
   monto?: string;
+  comentario?: string;
 }

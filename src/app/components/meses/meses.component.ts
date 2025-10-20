@@ -1,12 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import {
-  LoadingController,
-  ModalController,
-  NavParams
+  ModalController
 } from "@ionic/angular";
 import { ReciboDetalle } from "../../interface/recibos";
 import { RecibosService } from "../../service/recibos.service";
 import { Funtions } from "../../utils/funtions";
+import { LoadingUtil } from '../../utils/loadingUtil';
 
 @Component({
   selector: "app-meses",
@@ -20,9 +19,9 @@ export class MesesComponent extends Funtions implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     private service: RecibosService,
-    loadingCtrl: LoadingController
+    private loadingUtil: LoadingUtil
   ) {
-    super(loadingCtrl);
+    super();
   }
 
   async ngOnInit() {
@@ -31,24 +30,24 @@ export class MesesComponent extends Funtions implements OnInit {
 
   doRefresh(refresher: { complete: () => void }) {
     this.service.getFullDataDetail().subscribe((data: any[]) => {
-      this.items = data;
+      this.items = [...data];
       refresher.complete();
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
     });
   }
 
   getdata() {
-    this.service.getFullDataDetail().subscribe(async (data: any[]) => {
-      this.items = data;
-      this.loadingDismiss();
+    // this.loadingUtil.showing();
+    this.service.recibosDetalle$.subscribe(async (data: any[]) => {
+      this.items = [...data];
+      // this.loadingUtil.dismiss();
       this.items.sort((a, b) => (a.MES && b.MES && a.MES > b.MES ? -1 : 1));
     });
-    this.showLoading();
   }
 
   async openModal(detail: any) {
     const modal = await this.modalCtrl.create({
-      component : MesesDetailComponent, 
+      component : MesesDetailComponent,
       componentProps: { detail : detail.detail }
       });
     await modal.present();
@@ -62,20 +61,19 @@ export class MesesComponent extends Funtions implements OnInit {
   standalone: false
 })
 export class MesesDetailComponent extends Funtions {
+  @Input() detail: ReciboDetalle[] = [];
   items: ReciboDetalle[] = [];
   itemsBackup: ReciboDetalle[] = [];
   title: string | any;
 
   constructor(
-    public params: NavParams,
-    public modalCtrl: ModalController,
-    loadingCtrl: LoadingController
+    public modalCtrl: ModalController
   ) {
-    super(loadingCtrl);
+    super();
   }
 
   ngOnInit() {
-    this.items = this.params.get("detail");
+    this.items = this.detail;
     this.itemsBackup = this.items ? this.items.slice() : [];
 
     this.title = this.items ? this.items[0].MES : '';

@@ -66,6 +66,22 @@
             },
             "ci": {
               "progress": false
+            },
+            "snapshot": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.snapshot.ts"
+                }
+              ],
+              "baseHref": "/recibos-pagos/dev/",
+              "outputPath": "www/dev",
+              "outputHashing": "all",
+              "optimization": true,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false
             }
           },
           "defaultConfiguration": "production"

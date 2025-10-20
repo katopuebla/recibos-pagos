@@ -42,15 +42,15 @@ export class FolioComponent extends LoadingUtil implements OnInit {
     this.service.getFullDataDetail().subscribe(async (data: any[]) => {
       this.items = data;
       this.itemsBackup = this.items.slice();
-      this.loadingDismiss();
+      // this.dismiss();
     });
-    this.showLoading();
+    // this.showing();
   }
 
   getItems(ev: any) {
     // Reset items back to all of the items
     this.items = this.itemsBackup.slice();
-    console.log("this.items", this.items);
+    // console.log("this.items", this.items);
     // set val to the value of the searchbar
     const val = ev.target.value;
     // if the value is an empty string don't filter the items
