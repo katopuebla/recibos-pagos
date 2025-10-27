@@ -7,10 +7,19 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "snapshot": "ng build --watch --configuration=snapshot",
-    "watch": "ng build --watch --configuration development",
+    "build:develop": "ng build --configuration=development",
+    "build:staging": "ng build --configuration=staging",
+    "build:production": "ng build --configuration=production",
+
+    "serve:develop": "ng serve --configuration=development",
+    "serve:staging": "ng serve --configuration=staging",
+
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+
+    "deploy:develop": "gh-pages -d dist/recibos-pagos/dev",
+    "deploy:staging": "gh-pages -d dist/recibos-pagos/staging",
+    "deploy:production": "gh-pages -d dist/recibos-pagos/production"
   },
   "private": true,
   "dependencies": {
