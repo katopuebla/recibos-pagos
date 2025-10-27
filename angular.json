@@ -56,7 +56,32 @@
               ],
               "outputHashing": "all"
             },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ],
+              "baseHref": "/recibos-pagos/staging/",
+              "outputPath": "www/staging",
+              "outputHashing": "all",
+              "optimization": true,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false
+            },
             "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ],
+              "baseHref": "/recibos-pagos/dev/",
+              "outputPath": "www/dev",
+              "outputHashing": "all",
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -66,22 +91,6 @@
             },
             "ci": {
               "progress": false
-            },
-            "snapshot": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.snapshot.ts"
-                }
-              ],
-              "baseHref": "/recibos-pagos/dev/",
-              "outputPath": "www/dev",
-              "outputHashing": "all",
-              "optimization": true,
-              "sourceMap": true,
-              "extractLicenses": false,
-              "vendorChunk": true,
-              "buildOptimizer": false
             }
           },
           "defaultConfiguration": "production"
@@ -94,6 +103,9 @@
             },
             "development": {
               "buildTarget": "app:build:development"
+            },
+            "staging": {
+              "buildTarget": "app:build:staging"
             },
             "ci": {
               "progress": false
@@ -164,3 +176,5 @@
     }
   }
 }
+
+

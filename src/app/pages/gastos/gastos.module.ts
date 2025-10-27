@@ -6,6 +6,7 @@ import { GastosPage } from './gastos.page';
 
 import { GastosPageRoutingModule } from './gastos-routing.module';
 import { GroupByPipe } from 'src/app/pipes/group-by.pipe';
+import { UserAvatarComponent } from 'src/app/components/user-avatar/user-avatar.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { GroupByPipe } from 'src/app/pipes/group-by.pipe';
     CommonModule,
     FormsModule,
     GastosPageRoutingModule,
-    GroupByPipe
+    GroupByPipe,
+    UserAvatarComponent
   ],
   declarations: [GastosPage]
 })
