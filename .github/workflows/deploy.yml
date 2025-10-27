@@ -3,8 +3,9 @@ name: Build and Deploy
 on:
   # push:
   #   branches:
-  #     - main
-  #     - snapshot
+      # - main
+      # - staging
+      # - develop
   pull_request:
     branches:
       - main
