@@ -1,14 +1,16 @@
 name: Build and Deploy
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #     - snapshot
+  push:
+    branches:
+      - main
+      - staging
+      - develop
   pull_request:
     branches:
       - main
-      - snapshot
+      - staging
+      - develop
 jobs:
   build:
     if: github.ref == 'refs/heads/main'
@@ -32,8 +34,34 @@ jobs:
           branch: gh-pages
           folder: www
 
+  build-staging:
+    if: github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Clean output folder
+        run: rm -rf www/staging
+
+      - name: Install and Build (staging)
+        run: |
+          npm ci
+          npm run build -- --configuration=staging --base-href=/recibos-pagos/staging/
+          cp www/staging/index.html www/staging/404.html
+
+      - name: Add .nojekyll file
+        run: touch www/staging/.nojekyll
+
+      - name: Deploy 🚀 (staging)
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: www/staging
+          target-folder: staging
+
   build-dev:
-    if: github.ref == 'refs/heads/snapshot'
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -45,7 +73,7 @@ jobs:
       - name: Install and Build (Dev)
         run: |
           npm ci
-          npm run build -- --configuration=snapshot --base-href=/recibos-pagos/dev/
+          npm run build -- --configuration=development --base-href=/recibos-pagos/dev/
           cp www/dev/index.html www/dev/404.html
 
       - name: Add .nojekyll file

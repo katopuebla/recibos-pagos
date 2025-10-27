@@ -9,6 +9,7 @@ import { AddRecibosComponentModule } from '../../components/add-recibos/add-reci
 import { HomePageRoutingModule } from './home-routing.module';
 import { AddGastosComponentModule } from 'src/app/components/add-gastos/add-gastos.module';
 import { ParametersComponent } from 'src/app/components/parameters/parameters.component';
+import { UserAvatarComponent } from 'src/app/components/user-avatar/user-avatar.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { ParametersComponent } from 'src/app/components/parameters/parameters.co
     ReactiveFormsModule,
     AddRecibosComponentModule,
     AddGastosComponentModule,
+    UserAvatarComponent,
     HomePageRoutingModule
   ],
   declarations: [HomePage, ParametersComponent]

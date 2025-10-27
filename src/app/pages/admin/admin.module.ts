@@ -9,6 +9,7 @@ import { AdminPageRoutingModule } from './admin-routing.module';
 import { AdminPage } from './admin.page';
 // import { ParametersComponentModule } from 'src/app/components/parameters/parameters.module';
 import { ParametersComponent } from '../../components/parameters/parameters.component';
+import { UserAvatarComponent } from 'src/app/components/user-avatar/user-avatar.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { ParametersComponent } from '../../components/parameters/parameters.comp
     ReactiveFormsModule,
     IonicModule,
     AdminPageRoutingModule,
+    UserAvatarComponent
     // ParametersComponentModule
   ],
   declarations: [AdminPage, ParametersComponent]

@@ -319,7 +319,7 @@ convertMonth(itemDetail: ReciboDetalle[]) {
     );
     if (prefijo) {
       this.fields.patchValue({
-        prefijo: prefijo.NOMBRE,
+        prefijo: prefijo,
         folio: prefijo?.FOLIO + 1
       });
     }

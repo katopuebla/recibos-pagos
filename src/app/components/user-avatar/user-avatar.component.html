@@ -1,0 +1,8 @@
+<div class="user-avatar-container" [title]="userName" [id]="'user-avatar-' + size">
+  <div class="user-avatar" [ngClass]="getSizeClass()">
+    <span class="initials">{{ initials }}</span>
+  </div>
+  <div class="user-tooltip" *ngIf="userName">
+    {{ userName }}
+  </div>
+</div>

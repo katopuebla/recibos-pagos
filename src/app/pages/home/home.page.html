@@ -6,35 +6,43 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- <ion-content [fullscreen]="true"> -->
 <ion-content class="ion-padding">
-  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true">
-    <ion-fab-button>
-      <ion-icon name="chevron-down-circle"></ion-icon>
+  <!-- FAB del usuario ahora en la esquina superior derecha -->
+  <ion-fab slot="fixed"
+          horizontal="end"
+          vertical="top"
+          [edge]="true">
+  <ion-fab-button id="user-menu-fab-button">
+    <app-user-avatar size="small"></app-user-avatar>
+  </ion-fab-button>
+
+  <ion-fab-list side="bottom">
+      <ion-fab-button id="config-fab-button"
+                      (click)="openParameter()"
+                      *ngIf="role === 'admin'">
+      <ion-icon name="cog"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="bottom">
-      <ion-fab-button (click)="openParameter()" *ngIf="role === 'admin'">
-        <ion-icon name="cog"></ion-icon>
-        <!-- <ion-label>Configuración</ion-label> -->
-      </ion-fab-button>
-      <ion-fab-button (click)="presentActionSheet()">
-        <ion-icon name="log-out"></ion-icon>
-        <!-- <ion-label>Salir</ion-label> -->
-      </ion-fab-button>
-    </ion-fab-list>
+      <ion-fab-button id="logout-fab-button"
+                      (click)="presentActionSheet()">
+      <ion-icon name="log-out"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
   </ion-fab>
-  <ion-fab slot="fixed" horizontal="end" vertical="bottom" *ngIf="role != 'reader'">
-    <ion-fab-button ion-fab (click)="openModal()">
+  <!-- FAB para añadir recibos (permanece en la esquina inferior derecha) -->
+  <ion-fab slot="fixed"
+          horizontal="end"
+          vertical="bottom"
+          *ngIf="role != 'reader'">
+    <ion-fab-button id="add-recibo-fab-button"
+                    ion-fab
+                    (click)="openModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
-  <!-- <ion-button clear block (click)="openModal()">Add</ion-button> -->
-  <!-- <ion-button clear block (click)="navegationAbout()">About</ion-button> -->
 
   <h2>Recibos de Pagos y Gastos Garita 14a</h2>
   <p>
     Manejo de recibos de pagos y gastos generales
   </p>
-
 </ion-content>
+

@@ -3,17 +3,20 @@
     <ion-title>
       Gastos
     </ion-title>
+    <ion-buttons slot="end">
+      <app-user-avatar id="user-avatar" size="medium"></app-user-avatar>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
 	<!-- Botton Add -->
 	<ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="role != 'reader'">
-		<ion-fab-button (click)="openModal({new: 'Add'})">
+		<ion-fab-button id="add-gasto-fab-button" (click)="openModal({new: 'Add'})">
 		  <ion-icon name="add"></ion-icon>
 		</ion-fab-button>
 	  </ion-fab>
 	<ion-list-header>
-		<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+		<ion-searchbar id="gastos-searchbar" (ionInput)="getItems($event)"></ion-searchbar>
 	</ion-list-header>
 	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
 		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
