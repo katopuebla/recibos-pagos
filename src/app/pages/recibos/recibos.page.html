@@ -14,12 +14,15 @@
         Folio
       </ion-segment-button>
     </ion-segment>
+    <ion-buttons slot="end">
+      <app-user-avatar id="user-avatar" size="medium"></app-user-avatar>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="role != 'reader'">
-    <ion-fab-button (click)="openModal({new: 'Add'})">
+    <ion-fab-button id="add-recibo-fab-button" (click)="openModal({new: 'Add'})">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

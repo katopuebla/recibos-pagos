@@ -1,0 +1,67 @@
+/* Estilos para ajustar la posición del FAB y evitar que tape el avatar */
+ion-fab[slot="fixed"][vertical="top"][horizontal="end"] {
+  top: -30px !important;
+  z-index: 1000;
+}
+
+/* Estilos específicos para el FAB con avatar de usuario */
+#user-menu-fab-button {
+  --background: transparent;
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --border-radius: 50%;
+  padding: 0;
+  overflow: visible;
+}
+
+/* Ajustar el avatar dentro del FAB */
+#user-menu-fab-button app-user-avatar {
+  display: block;
+  transform: scale(1.2);
+}
+
+/* Remover el padding interno del FAB para el avatar */
+#user-menu-fab-button .user-avatar-container {
+  margin: 0;
+  padding: 0;
+}
+
+/* Asegurar que el avatar tenga suficiente espacio */
+ion-buttons[slot="end"] {
+  margin-right: 8px;
+}
+
+/* Mejorar el espaciado del avatar en el header */
+ion-toolbar ion-buttons[slot="end"] {
+  padding-right: 8px;
+}
+
+/* Estilos específicos para el avatar de usuario */
+#user-avatar {
+  margin-left: 8px;
+}
+
+/* Ajustes responsivos para móviles */
+@media (max-width: 768px) {
+  ion-fab[slot="fixed"][vertical="top"][horizontal="end"] {
+    top: 70px !important;
+  }
+
+  ion-buttons[slot="end"] {
+    margin-right: 4px;
+  }
+
+  #user-menu-fab-button app-user-avatar {
+    transform: scale(1.1);
+  }
+}
+
+/* Asegurar que el FAB no interfiera con el avatar */
+ion-fab-button {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Mejorar la visibilidad del avatar */
+.user-avatar-container {
+  position: relative;
+  z-index: 1001;
+}

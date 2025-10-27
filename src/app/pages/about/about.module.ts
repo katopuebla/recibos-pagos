@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { AboutPage } from './about.page';
 
 import { AboutPageRoutingModule } from './about-routing.module';
+import { UserAvatarComponent } from 'src/app/components/user-avatar/user-avatar.component';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    AboutPageRoutingModule
+    AboutPageRoutingModule,
+    UserAvatarComponent
   ],
   declarations: [AboutPage]
 })

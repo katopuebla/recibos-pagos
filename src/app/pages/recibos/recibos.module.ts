@@ -8,6 +8,7 @@ import { MesComponentModule } from '../../components/mes/mes.module';
 import { MesesComponentModule } from '../../components/meses/meses.module';
 import { FolioComponentModule } from '../../components/folio/folio.module';
 import { CasasComponentModule } from '../../components/casas/casas.module';
+import { UserAvatarComponent } from 'src/app/components/user-avatar/user-avatar.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { CasasComponentModule } from '../../components/casas/casas.module';
     MesComponentModule,
     MesesComponentModule,
     FolioComponentModule,
-    CasasComponentModule
+    CasasComponentModule,
+    UserAvatarComponent
   ],
   declarations: [RecibosPage]
 })
